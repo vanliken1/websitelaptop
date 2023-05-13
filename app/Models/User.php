@@ -16,11 +16,22 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
+     * 
      */
+    protected $table ='nguoidung';
+    protected $primaryKey ='idnguoidung';
+    protected $keyType ='string';
+    public $incrementing = false;
+    public $timestamps = false;
+
+ 
     protected $fillable = [
-        'name',
+        'idnguoidung',
+        'tennguoidung',
         'email',
         'password',
+        'sdt',
+        'trangthai'
     ];
 
     /**
@@ -41,4 +52,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function orders(){
+        return $this->hasMany(Donhang::class,'idnguoidung','idnguoidung');
+    }
 }
