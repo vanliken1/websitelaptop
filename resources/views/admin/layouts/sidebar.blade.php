@@ -18,7 +18,14 @@
 
                     <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Users</a>
 
-                    <a href="/admin/product" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Product</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quan ly danh muc</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="button.html" class="dropdown-item">CPU</a>
+                            <a href="typography.html" class="dropdown-item">Luu tru</a>
+                            <a href="element.html" class="dropdown-item">Other Elements</a>
+                        </div>
+                    </div>
 
                     <a href="/admin/category" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Category</a>
                     
