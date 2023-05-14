@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ThuonghieuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,11 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 route::prefix('admin')->group(function () {
     route::get('/', function () {
         return view('admin.index');
     });
+    route::prefix('brand')->group(function () {
+        route::get('/', [ThuonghieuController::class, 'index']); 
+        route::get('create', [ThuonghieuController::class, 'create']);
+        route::post('store', [ThuonghieuController::class, 'store']);
+        route::delete('destroy/{id}', [ThuonghieuController::class, 'destroy']);
+        route::get('edit/{id}', [ThuonghieuController::class, 'edit']);
+        route::post('update', [ThuonghieuController::class, 'update']);
+    }); 
 });
