@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoaiSPController;
+use App\Http\Controllers\RamController;
 use App\Http\Controllers\ThuonghieuController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,5 +36,13 @@ route::prefix('admin')->group(function () {
         route::delete('destroy/{id}', [LoaiSPController::class, 'destroy']);
         route::get('edit/{id}', [LoaiSPController::class, 'edit']);
         route::post('update', [LoaiSPController::class, 'update']);
+    }); 
+    route::prefix('ram')->group(function () {
+        route::get('/', [RamController::class, 'index']); 
+        route::get('create', [RamController::class, 'create']);
+        route::post('store', [RamController::class, 'store']);
+        route::delete('destroy/{id}', [RamController::class, 'destroy']);
+        route::get('edit/{id}', [RamController::class, 'edit']);
+        route::post('update', [RamController::class, 'update']);
     }); 
 });

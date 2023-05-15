@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý thương hiệu</h6>
-                <p><button class='addBrand btn btn-primary'>Thêm</button></p>
+                <p><button class='addram btn btn-primary'>Thêm</button></p>
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
                     {{session('mess')}}
@@ -23,11 +23,11 @@
                                 <th>✏️</th>
                             </tr>
                         </thead>
-                        @foreach($thuonghieu as $item)
+                        @foreach($ram as $item)
                         <tbody>
                             <tr>
-                                <td>{{$item->idthuonghieu}}</td>
-                                <td>{{$item->tenthuonghieu}}</td>
+                                <td>{{$item->idram}}</td>
+                                <td>{{$item->tenram}}</td>
                                 <td>
                                     @if($item->trangthai==0)
                                     {{'Ẩn'}}
@@ -36,19 +36,20 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <form action="/admin/brand/destroy/{{$item->idthuonghieu}}" method="POST">
+                                    <form action="/admin/ram/destroy/{{$item->idram}}" method="POST">
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">
                                         <input type="submit" value="xóa" class="btn btn-danger">
                                     </form>
                                 </td>
                                 <td>
-                                    <button class='editBrand btn btn-success' data-id='{{$item->idthuonghieu}}'>Sửa</button>
+                                    <button class='editram btn btn-success' data-id='{{$item->idram}}'>Sửa</button>
                                 </td>
 
                             </tr>
                         </tbody>
                         @endforeach
+
                     </table>
                 </div>
             </div>
@@ -60,7 +61,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Thêm Thương hiệu</h5>
+                <h5 class="modal-title">Thêm </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -70,27 +71,27 @@
                     <form method="POST">
                         @csrf
                         <div class="form-floating mb-3">
-                            <input type="hidden" class="form-control" id="idthuonghieu" name="idthuonghieu">
-                            <span class="text-danger error-text idthuonghieu_err"></span>
+                            <input type="hidden" class="form-control" id="idram" name="idram">
+                            <span class="text-danger error-text idram_err"></span>
 
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='tenthuonghieu' class='form-control mt-3'>
-                            <label for="floatingInput">Tên thương hiệu</label>
-                            <span class="text-danger error-text tenthuonghieu_err"></span>
+                            <input type="text" name='tenram' id="tenram" class='form-control mt-3'>
+                            <label for="floatingInput">Tên </label>
+                            <span class="text-danger error-text tenram_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='slug_thuonghieu' class='form-control mt-3'>
+                            <input type="text" name='slug_ram' id="slug_ram" class='form-control mt-3'>
                             <label for="floatingInput">Slug</label>
-                            <span class="text-danger error-text slug_thuonghieu_err"></span>
+                            <span class="text-danger error-text slug_ram_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
-                            <textarea style="height: 150px;" name="motathuonghieu" id="motathuonghieu" class='form-control'></textarea>
+                            <textarea style="height: 150px;" name="motaram" id="motaram" class='form-control'></textarea>
                             <label for="floatingInput">Mô tả</label>
-                            <span class="text-danger error-text motathuonghieu_err"></span>
+                            <span class="text-danger error-text motaram_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
@@ -105,8 +106,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="/admin/brand" class="btn btn-secondary">Thoát</a>
-                <button type="button" class="btn btn-primary storeBrand">Save..</button>
+                <a href="/admin/ram" class="btn btn-secondary">Thoát</a>
+                <button type="button" class="btn btn-primary storeram">Save..</button>
             </div>
 
 
@@ -128,28 +129,28 @@
                     <form method="post">
                         @csrf
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="idthuonghieu" name="idthuonghieu" readonly>
+                            <input type="text" class="form-control" id="idram" name="idram" readonly>
                             <label for="floatingInput">ID</label>
-                            <span class="text-danger error-text idthuonghieu_err"></span>
+                            <span class="text-danger error-text idram_err"></span>
 
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='tenthuonghieu' id="tenthuonghieu" class='form-control mt-3'>
+                            <input type="text" name='tenram' id="tenram" class='form-control mt-3'>
                             <label for="floatingInput">Tên thương hiệu</label>
-                            <span class="text-danger error-text tenthuonghieu_err"></span>
+                            <span class="text-danger error-text tenram_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='slug_thuonghieu' id="slug_thuonghieu" class='form-control mt-3'>
+                            <input type="text" name='slug_ram' id="slug_ram" class='form-control mt-3'>
                             <label for="floatingInput">Slug</label>
-                            <span class="text-danger error-text slug_thuonghieu_err"></span>
+                            <span class="text-danger error-text slug_ram_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
-                            <textarea style="height: 150px;" name="motathuonghieu" id="motathuonghieu" class='form-control'></textarea>
+                            <textarea style="height: 150px;" name="motaram" id="motaram" class='form-control'></textarea>
                             <label for="floatingInput">Mô tả</label>
-                            <span class="text-danger error-text motathuonghieu_err"></span>
+                            <span class="text-danger error-text motaram_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
@@ -164,9 +165,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="/admin/brand" class="btn btn-secondary">Thoat</a>
+                <a href="/admin/ram" class="btn btn-secondary">Thoat</a>
 
-                <button type="button" class="btn btn-primary updateBrand">Save..</button>
+                <button type="button" class="btn btn-primary updateram">Save..</button>
             </div>
 
 
@@ -189,13 +190,13 @@
     $(document).ready(
         function() {
 
-            $('button.addBrand').click(
+            $('button.addram').click(
                 function() {
                     $('#modelId').modal('show');
                 }
             );
 
-            $('button.storeBrand').click(function() {
+            $('button.storeram').click(function() {
 
                 let data = new FormData($('#modelId form')[0]); // you can consider this as 'data bag'
                 //  files.append('fileName', $('#img')[0].files[0]);
@@ -205,7 +206,7 @@
                 // e.preventDefault();
                 //var ten = $("#ten").val();
                 $.ajax({
-                    url: '/admin/brand/store',
+                    url: '/admin/ram/store',
                     type: 'POST',
                     //  data: $('#modelId form').serializeArray(),files,
                     data: data,
@@ -247,13 +248,13 @@
     );
     $(document).ready(
         function() {
-            $('button.editBrand').click(
+            $('button.editram').click(
                 function() {
                     //let data = new FormData( $('#modelId form')[0] );
 
                     $('#modelId1').modal('show');
                     $.ajax({
-                        url: '/admin/brand/edit/' + $(this).data('id'),
+                        url: '/admin/ram/edit/' + $(this).data('id'),
                         type: 'get',
                         data: {
                             id: 1
@@ -261,10 +262,10 @@
                         dataType: 'json',
                         success: function(data2) {
                             console.log(data2);
-                            $('#modelId1 form #tenthuonghieu').val(data2.tenthuonghieu);
-                            $('#modelId1 form #idthuonghieu').val(data2.idthuonghieu);
-                            $('#modelId1 form #motathuonghieu').val(data2.motathuonghieu);
-                            $('#modelId1 form #slug_thuonghieu').val(data2.slug_thuonghieu);
+                            $('#modelId1 form #tenram').val(data2.tenram);
+                            $('#modelId1 form #idram').val(data2.idram);
+                            $('#modelId1 form #motaram').val(data2.motaram);
+                            $('#modelId1 form #slug_ram').val(data2.slug_ram);
 
                             $('#modelId1 form #trangthai').val(data2.trangthai);
 
@@ -272,14 +273,14 @@
                     })
                 }
             );
-            $('button.updateBrand').click(function() {
+            $('button.updateram').click(function() {
                 // alert('update');
                 //     let data = {_token: $('input[name="_token"]:eq(0)').val() };//new FormData( $('#modelId1 form')[0] );
                 //  console.log(data);
                 // return;
                 let data = new FormData($('#modelId1 form')[0])
                 $.ajax({
-                    url: '/admin/brand/update',
+                    url: '/admin/ram/update',
                     type: 'POST',
                     data: data,
                     dataType: 'json',

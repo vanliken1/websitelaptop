@@ -20,8 +20,6 @@ class ThuonghieuController extends Controller
             [
                 'tenthuonghieu' => 'required',
       
-
-
             ],
             [
                 
@@ -56,13 +54,11 @@ class ThuonghieuController extends Controller
             [
                 
                 'tenthuonghieu' => 'required',
-                
-
-
+        
             ],
             [
                 
-                
+
                 'tenthuonghieu.required' => 'Chưa nhập tên',
                 
             ]
