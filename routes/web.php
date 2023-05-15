@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoaiSPController;
 use App\Http\Controllers\ThuonghieuController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,13 @@ route::prefix('admin')->group(function () {
         route::delete('destroy/{id}', [ThuonghieuController::class, 'destroy']);
         route::get('edit/{id}', [ThuonghieuController::class, 'edit']);
         route::post('update', [ThuonghieuController::class, 'update']);
+    }); 
+    route::prefix('category')->group(function () {
+        route::get('/', [LoaiSPController::class, 'index']); 
+        route::get('create', [LoaiSPController::class, 'create']);
+        route::post('store', [LoaiSPController::class, 'store']);
+        route::delete('destroy/{id}', [LoaiSPController::class, 'destroy']);
+        route::get('edit/{id}', [LoaiSPController::class, 'edit']);
+        route::post('update', [LoaiSPController::class, 'update']);
     }); 
 });
