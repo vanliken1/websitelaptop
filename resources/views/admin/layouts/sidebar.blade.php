@@ -23,7 +23,7 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="/admin/brand" class="dropdown-item">Thương hiệu</a>
                             <a href="/admin/category" class="dropdown-item">Loại sản phẩm theo nhu cầu</a>
-                            <a href="/admin/ram" class="dropdown-item">Danh muc ram</a>
+                            <a href="/admin/ram" class="dropdown-item">RAM</a>
                             <a href="element.html" class="dropdown-item">Other Elements</a>
                         </div>
                     </div>

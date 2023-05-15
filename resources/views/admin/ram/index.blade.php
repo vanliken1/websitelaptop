@@ -5,7 +5,7 @@
     <div class="row g-4">
         <div class="col-md-12">
             <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Quản lý thương hiệu</h6>
+                <h6 class="mb-4">Quản lý RAM</h6>
                 <p><button class='addram btn btn-primary'>Thêm</button></p>
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
@@ -17,7 +17,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Tên thương hiệu</th>
+                                <th scope="col">Tên RAM</th>
                                 <th>Trạng thái</th>
                                 <th>🗑️</th>
                                 <th>✏️</th>
