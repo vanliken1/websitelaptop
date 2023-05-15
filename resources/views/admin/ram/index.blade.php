@@ -78,7 +78,7 @@
                         <div class="form-floating mb-3">
 
                             <input type="text" name='tenram' id="tenram" class='form-control mt-3'>
-                            <label for="floatingInput">Tên </label>
+                            <label for="floatingInput">Tên RAM</label>
                             <span class="text-danger error-text tenram_err"></span>
                         </div>
                         <div class="form-floating mb-3">
@@ -137,7 +137,7 @@
                         <div class="form-floating mb-3">
 
                             <input type="text" name='tenram' id="tenram" class='form-control mt-3'>
-                            <label for="floatingInput">Tên thương hiệu</label>
+                            <label for="floatingInput">Tên RAM</label>
                             <span class="text-danger error-text tenram_err"></span>
                         </div>
                         <div class="form-floating mb-3">
