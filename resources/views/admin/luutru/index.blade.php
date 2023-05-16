@@ -17,7 +17,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Tên </th>
+                                <th scope="col">Tên ổ cứng</th>
                                 <th>Trạng thái</th>
                                 <th>🗑️</th>
                                 <th>✏️</th>
@@ -78,7 +78,7 @@
                         <div class="form-floating mb-3">
 
                             <input type="text" name='tenluutru' id="tenluutru" class='form-control mt-3'>
-                            <label for="floatingInput">Tên luutru</label>
+                            <label for="floatingInput">Tên luu trữ</label>
                             <span class="text-danger error-text tenluutru_err"></span>
                         </div>
                         <div class="form-floating mb-3">
@@ -137,7 +137,7 @@
                         <div class="form-floating mb-3">
 
                             <input type="text" name='tenluutru' id="tenluutru" class='form-control mt-3'>
-                            <label for="floatingInput">Tên luutru</label>
+                            <label for="floatingInput">Tên lưu trữ</label>
                             <span class="text-danger error-text tenluutru_err"></span>
                         </div>
                         <div class="form-floating mb-3">

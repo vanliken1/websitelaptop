@@ -17,7 +17,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Tên </th>
+                                <th scope="col">Tên kích thước</th>
                                 <th>Trạng thái</th>
                                 <th>🗑️</th>
                                 <th>✏️</th>
@@ -78,7 +78,7 @@
                         <div class="form-floating mb-3">
 
                             <input type="text" name='tenmanhinh' id="tenmanhinh" class='form-control mt-3'>
-                            <label for="floatingInput">Tên </label>
+                            <label for="floatingInput">Tên kích thước</label>
                             <span class="text-danger error-text tenmanhinh_err"></span>
                         </div>
                         <div class="form-floating mb-3">
@@ -137,7 +137,7 @@
                         <div class="form-floating mb-3">
 
                             <input type="text" name='tenmanhinh' id="tenmanhinh" class='form-control mt-3'>
-                            <label for="floatingInput">Tên</label>
+                            <label for="floatingInput">Tên kích thước</label>
                             <span class="text-danger error-text tenmanhinh_err"></span>
                         </div>
                         <div class="form-floating mb-3">
