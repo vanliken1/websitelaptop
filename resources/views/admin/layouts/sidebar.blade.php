@@ -24,7 +24,10 @@
                             <a href="/admin/brand" class="dropdown-item">Thương hiệu</a>
                             <a href="/admin/category" class="dropdown-item">Loại sản phẩm theo nhu cầu</a>
                             <a href="/admin/ram" class="dropdown-item">RAM</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
+                            <a href="/admin/dohoa" class="dropdown-item">Card đồ họa</a>
+                            <a href="/admin/luutru" class="dropdown-item">Ổ cứng</a>
+                            <a href="/admin/cpu" class="dropdown-item">CPU</a>
+                            <a href="/admin/manhinh" class="dropdown-item">Màn hình</a>
                         </div>
                     </div>
 

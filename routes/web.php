@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\CpuController;
+use App\Http\Controllers\DohoaController;
 use App\Http\Controllers\LoaiSPController;
+use App\Http\Controllers\LuutruController;
+use App\Http\Controllers\ManhinhController;
 use App\Http\Controllers\RamController;
 use App\Http\Controllers\ThuonghieuController;
 use Illuminate\Support\Facades\Route;
@@ -45,4 +49,32 @@ route::prefix('admin')->group(function () {
         route::get('edit/{id}', [RamController::class, 'edit']);
         route::post('update', [RamController::class, 'update']);
     }); 
+    route::prefix('cpu')->group(function () {
+        route::get('/', [CpuController::class, 'index']); 
+        route::post('store', [CpuController::class, 'store']);
+        route::delete('destroy/{id}', [CpuController::class, 'destroy']);
+        route::get('edit/{id}', [CpuController::class, 'edit']);
+        route::post('update', [CpuController::class, 'update']);
+    });
+    route::prefix('manhinh')->group(function () {
+        route::get('/', [ManhinhController::class, 'index']); 
+        route::post('store', [ManhinhController::class, 'store']);
+        route::delete('destroy/{id}', [ManhinhController::class, 'destroy']);
+        route::get('edit/{id}', [ManhinhController::class, 'edit']);
+        route::post('update', [ManhinhController::class, 'update']);
+    });
+    route::prefix('luutru')->group(function () {
+        route::get('/', [LuutruController::class, 'index']); 
+        route::post('store', [LuutruController::class, 'store']);
+        route::delete('destroy/{id}', [LuutruController::class, 'destroy']);
+        route::get('edit/{id}', [LuutruController::class, 'edit']);
+        route::post('update', [LuutruController::class, 'update']);
+    });
+    route::prefix('dohoa')->group(function () {
+        route::get('/', [DohoaController::class, 'index']); 
+        route::post('store', [DohoaController::class, 'store']);
+        route::delete('destroy/{id}', [DohoaController::class, 'destroy']);
+        route::get('edit/{id}', [DohoaController::class, 'edit']);
+        route::post('update', [DohoaController::class, 'update']);
+    });
 });
