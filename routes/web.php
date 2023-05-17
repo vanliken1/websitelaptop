@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CpuController;
 use App\Http\Controllers\DohoaController;
 use App\Http\Controllers\LoaiSPController;
 use App\Http\Controllers\LuutruController;
 use App\Http\Controllers\ManhinhController;
 use App\Http\Controllers\RamController;
+use App\Http\Controllers\SanphamController;
 use App\Http\Controllers\ThuonghieuController;
 use Illuminate\Support\Facades\Route;
 
@@ -76,5 +78,19 @@ route::prefix('admin')->group(function () {
         route::delete('destroy/{id}', [DohoaController::class, 'destroy']);
         route::get('edit/{id}', [DohoaController::class, 'edit']);
         route::post('update', [DohoaController::class, 'update']);
+    });
+    route::prefix('banner')->group(function () {
+        route::get('/', [BannerController::class, 'index']); 
+        route::post('store', [BannerController::class, 'store']);
+        route::delete('destroy/{id}', [BannerController::class, 'destroy']);
+        route::get('edit/{id}', [BannerController::class, 'edit']);
+        route::post('update', [BannerController::class, 'update']);
+    });
+    route::prefix('product')->group(function () {
+        route::get('/', [SanphamController::class, 'index']); 
+        route::post('store', [SanphamController::class, 'store']);
+        route::delete('destroy/{id}', [SanphamController::class, 'destroy']);
+        route::get('edit/{id}', [SanphamController::class, 'edit']);
+        route::post('update', [SanphamController::class, 'update']);
     });
 });

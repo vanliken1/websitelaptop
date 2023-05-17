@@ -29,7 +29,12 @@
                             <a href="/admin/cpu" class="dropdown-item">CPU</a>
                             <a href="/admin/manhinh" class="dropdown-item">Màn hình</a>
                         </div>
+
                     </div>
+                    <a href="/admin/product" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Sản phẩm</a>
+
+                    <a href="/admin/banner" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Banner</a>
+
 
                     
 
