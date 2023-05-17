@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CpuController;
 use App\Http\Controllers\DohoaController;
+use App\Http\Controllers\KhuyenmaiController;
 use App\Http\Controllers\LoaiSPController;
 use App\Http\Controllers\LuutruController;
 use App\Http\Controllers\ManhinhController;
@@ -76,5 +77,16 @@ route::prefix('admin')->group(function () {
         route::delete('destroy/{id}', [DohoaController::class, 'destroy']);
         route::get('edit/{id}', [DohoaController::class, 'edit']);
         route::post('update', [DohoaController::class, 'update']);
+    });
+    route::prefix('khuyenmai')->group(function () {
+        route::get('/', [KhuyenmaiController::class, 'index']); 
+        route::get('chitiet/{id}', [KhuyenmaiController::class, 'chitiet']);
+        route::post('storekm', [KhuyenmaiController::class, 'storekm']);
+        route::get('editkm/{id}', [KhuyenmaiController::class, 'editkm']);
+        route::post('updatekm', [KhuyenmaiController::class, 'updatekm']);
+        route::post('store', [KhuyenmaiController::class, 'store']);
+        route::delete('destroy/{id}', [KhuyenmaiController::class, 'destroy']);
+        route::get('edit/{id}', [KhuyenmaiController::class, 'edit']);
+        route::post('update', [KhuyenmaiController::class, 'update']);
     });
 });
