@@ -3,6 +3,7 @@
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CpuController;
 use App\Http\Controllers\DohoaController;
+use App\Http\Controllers\KhuyenmaiController;
 use App\Http\Controllers\LoaiSPController;
 use App\Http\Controllers\LuutruController;
 use App\Http\Controllers\ManhinhController;

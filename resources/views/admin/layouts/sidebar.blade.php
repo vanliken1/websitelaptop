@@ -16,10 +16,11 @@
                 <div class="navbar-nav w-100">
                     <a href="/admin" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
-                    <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Users</a>
+                    <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-table"></i>Quản lý Users</a>
+                    <a href="/admin/khuyenmai" class="nav-item nav-link"><i class="fa fa-table"></i>Quản lý khuyến mãi</a>
 
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý danh mục</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop"></i>Quản lý danh mục</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="/admin/brand" class="dropdown-item">Thương hiệu</a>
                             <a href="/admin/category" class="dropdown-item">Loại sản phẩm theo nhu cầu</a>
