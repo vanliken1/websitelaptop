@@ -57,6 +57,15 @@ class Sanpham extends Model
     public function orders(){
         return $this->belongsToMany(Donhang::class,'chitietdonhang','idsanpham','iddonhang');
     }
+    public function khuyenmai(){
+        return $this->belongsToMany(Khuyenmai::class,'chitietkhuyenmai','idsanpham','idkhuyenmai');
+    }
+    public function orderdetails(){
+        return $this->hasMany(Chitietdonhang::class,'idsanpham','idsanpham');
+    }
+    public function chitietkm(){
+        return $this->hasMany(Chitietkm::class,'idsanpham','idsanpham');
+    }
 
 
 }

@@ -98,13 +98,19 @@ route::prefix('admin')->group(function () {
  
     route::prefix('khuyenmai')->group(function () {
         route::get('/', [KhuyenmaiController::class, 'index']); 
+        
         route::get('chitiet/{id}', [KhuyenmaiController::class, 'chitiet']);
         route::post('storekm', [KhuyenmaiController::class, 'storekm']);
         route::get('editkm/{id}', [KhuyenmaiController::class, 'editkm']);
         route::post('updatekm', [KhuyenmaiController::class, 'updatekm']);
+        
         route::post('store', [KhuyenmaiController::class, 'store']);
         route::delete('destroy/{id}', [KhuyenmaiController::class, 'destroy']);
         route::get('edit/{id}', [KhuyenmaiController::class, 'edit']);
         route::post('update', [KhuyenmaiController::class, 'update']);
     });
+});
+
+route::get('/', function () {
+    return view('clients.index');
 });

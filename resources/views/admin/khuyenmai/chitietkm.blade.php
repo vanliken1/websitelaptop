@@ -17,7 +17,8 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Tên Khuyến Mãi</th>
+                                <th scope="col">Tên khuyến mãi</th>
+                                <th scope="col">Mã sản phẩm</th>
                                 <th>%</th>
                                 <th>Trạng thái</th>
                                 <th>🗑️</th>
@@ -27,7 +28,8 @@
                         @foreach($data as $item)
                         <tbody>
                             <tr>
-                                <td>{{$item->idkhuyenmai}}</td>
+                                <td>{{$item->idkhuyenmaict}}</td>
+                                <td>{{$item->khuyenmai->tenkhuyenmai}}</td>
                                 <td>{{$item->idsanpham}}</td>
                                 <td>{{$item->phantramkhuyenmai}}</td>
                                 <td>
@@ -38,11 +40,11 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <!-- <form action="/admin/khuyenmai/destroy/{{$item->idkhuyenmai}}" method="POST">
+                                    <form action="/admin/khuyenmai/destroy/{{$item->idkhuyenmai}}" method="POST">
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">
                                         <input type="submit" value="xóa" class="btn btn-danger">
-                                    </form> -->
+                                    </form>
                                 </td>
                                 <td>
                                     <button class='editkm btn btn-success' data-id='{{$item->idkhuyenmai}}'>Sửa</button>
@@ -73,9 +75,18 @@
                     <form action="/admin/khuyenmai/storekm" method="POST">
                         @csrf
                         <div class="form-floating mb-3">
-                            <input type="hidden" class="form-control" id="idkhuyenmai" name="idkhuyenmai" value="{{$id}}">
+                            <input type="hidden" class="form-control" id="idkhuyenmaict" name="idkhuyenmaict" >
                             <span class="text-danger error-text idkhuyenmai_err"></span>
 
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select name='idkhuyenmai' id="idkhuyenmai" class='form-select mt-3'>
+                                @foreach($arrKM as $item)
+                                <option value="{{$item->idkhuyenmai}}">{{$item->tenkhuyenmai}}</option>
+                                @endforeach
+                            </select>
+                            <label for="floatingInput">Tên khuyến mãi </label>
+                            <span class="text-danger error-text idsanpham_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
@@ -101,7 +112,7 @@
                             <label for="floatingInput">Trạng thái</label>
                             <span class="text-danger error-text trangthai_err"></span>
                         </div>
-                        <input type="submit" class="btn btn-secondary"></input>
+                       
                     </form>
                 </div>
             </div>
@@ -130,22 +141,38 @@
                     <form method="post">
                         @csrf
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="idkhuyenmai" name="idkhuyenmai" readonly>
+                            <input type="text" class="form-control" id="idkhuyenmaict" name="idkhuyenmaict" readonly>
                             <label for="floatingInput">ID</label>
                             <span class="text-danger error-text idkhuyenmai_err"></span>
+
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" name='idsanpham' id="idsanpham" class='form-control mt-3' readonly>
-                            <label for="floatingInput">Tên CPU</label>
+                            <select name='idkhuyenmai' id="idkhuyenmai" class='form-select mt-3'>
+                                @foreach($arrKM as $item)
+                                <option value="{{$item->idkhuyenmai}}">{{$item->tenkhuyenmai}}</option>
+                                @endforeach
+                            </select>
+                            <label for="floatingInput">Tên khuyến mãi </label>
                             <span class="text-danger error-text idsanpham_err"></span>
                         </div>
                         <div class="form-floating mb-3">
+
                             <input type="text" name='phantramkhuyenmai' id="phantramkhuyenmai" class='form-control mt-3'>
-                            <label for="floatingInput">Slug</label>
+                            <label for="floatingInput">Phần trăm khuyến mãi</label>
                             <span class="text-danger error-text phantramkhuyenmai_err"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <select type="number" name='trangthai' id="trangthai" class='form-select mt-3'>
+                            <select name='idsanpham' id="idsanpham" class='form-select mt-3'>
+                                @foreach($arrSP as $item)
+                                <option value="{{$item->idsanpham}}">{{$item->idsanpham}}</option>
+                                @endforeach
+                            </select>
+                            <label for="floatingInput">Mã sp </label>
+                            <span class="text-danger error-text idsanpham_err"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+
+                            <select type="number" name='trangthai' class='form-select mt-3'>
                                 <option value="0">Ẩn</option>
                                 <option value="1">Hiện</option>
                             </select>
@@ -211,7 +238,7 @@
                         console.log(s);
                         if ($.isEmptyObject(s.error)) {
                             alert("Thêm thành công");
-                            //location.reload();
+                            location.reload();
                             $('#modelId').modal('hide');
                         } else {
                             printErrorMsg(s.error);
@@ -242,6 +269,7 @@
             $('button.editkm').click(
                 function() {
                     //let data = new FormData( $('#modelId form')[0] );
+               // Lấy giá trị ID từ thuộc tính "data-id" của nút
 
                     $('#modelId1').modal('show');
                     $.ajax({
@@ -254,6 +282,7 @@
                         success: function(data2) {
                             console.log(data2);
                             $('#modelId1 form #idkhuyenmai').val(data2.idkhuyenmai);
+                            $('#modelId1 form #idkhuyenmaict').val(data2.idkhuyenmaict);
                             $('#modelId1 form #idsanpham').val(data2.idsanpham);
                             $('#modelId1 form #phantramkhuyenmai').val(data2.phantramkhuyenmai);
                             $('#modelId1 form #trangthai').val(data2.trangthai);

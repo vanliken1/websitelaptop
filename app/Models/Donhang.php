@@ -32,4 +32,8 @@ class Donhang extends Model
     public function products(){
         return $this->belongsToMany(Sanpham::class,'chitietdonhang','iddonhang','idsanpham');
     }
+    public function orderdetails(){
+        return $this->hasMany(Chitietdonhang::class,'iddonhang','iddonhang');
+    }
+ 
 }

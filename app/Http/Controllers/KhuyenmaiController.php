@@ -15,13 +15,6 @@ class KhuyenmaiController extends Controller
         $khuyenmai = Khuyenmai::all();
         return view('admin.khuyenmai.index', ['khuyenmai' => $khuyenmai]);
     }
-    public function chitiet($id)
-    {
-        //dd($id);
-        $data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
-        //dd($data);
-        return view('admin.khuyenmai.chitietkm', ['data' => $data, 'id' => $id]);
-    }
     public function storekm(Request $r)
     {
         // $data = $r->all();
@@ -53,16 +46,38 @@ class KhuyenmaiController extends Controller
 
         return response()->json(['error' => $validator->errors()]);
     }
-    public function destroy($id)
+    public function update(Request $request)
     {
-        if(count(Chitietkhuyenmai::find($id)->khuyenmais)==0){
-            Chitietkhuyenmai::destroy($id);
-            session()->flash('mess', 'đã xóa');
-        }else{
-            session()->flash('mess', 'không thể xóa vì có sản phẩm');
+        $validator = Validator::make(
+            $request->all(),
+            [
+
+                'tenkhuyenmai' => 'required',
+
+            ],
+            [
+
+
+                'tenkhuyenmai.required' => 'Chưa nhập tên',
+
+            ]
+        );
+        // return print_r($request->all() ); exit;
+        // response()->json($request->all());
+        if ($validator->passes()) {
+            $c = Khuyenmai::findorfail($request->idkhuyenmai);
+            $c->tenkhuyenmai = $request->tenkhuyenmai;
+            $c->ngaybatdau = $request->ngaybatdau;
+            $c->ngayketthuc = $request->ngayketthuc;
+            $c->trangthai = $request->trangthai;
+
+            $c->save();
+            //dd($c);
+            return response()->json($c);
         }
-        return redirect('/admin/khuyenmai/chitiet');
+        return response()->json(['error' => $validator->errors()]);
     }
+
     public function store(Request $r)
     {
 
@@ -98,39 +113,25 @@ class KhuyenmaiController extends Controller
     }
     public function editkm($id)
     {
-        $data = Chitietkhuyenmai::findOrFail($id);
+
+        $data = Chitietkhuyenmai::find($id);
+
         return response()->json($data);
     }
-    public function update(Request $request)
+
+    public function chitiet($id)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-
-                'tenkhuyenmai' => 'required',
-
-            ],
-            [
-
-
-                'tenkhuyenmai.required' => 'Chưa nhập tên',
-
-            ]
-        );
-        // return print_r($request->all() ); exit;
-        // response()->json($request->all());
-        if ($validator->passes()) {
-            $c = Khuyenmai::findorfail($request->idkhuyenmai);
-            $c->tenkhuyenmai = $request->tenkhuyenmai;
-            $c->ngaybatdau = $request->ngaybatdau;
-            $c->ngayketthuc = $request->ngayketthuc;
-            $c->trangthai = $request->trangthai;
-
-            $c->save();
-            //dd($c);
-            return response()->json($c);
-        }
-        return response()->json(['error' => $validator->errors()]);
+        //dd($id);
+        $data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
+        // dd($data);
+        return view('admin.khuyenmai.chitietkm', ['data' => $data, 'id' => $id]);
     }
-    
+    public function destroy($id)
+    {
+        if (Chitietkhuyenmai::find($id)) {
+            Chitietkhuyenmai::destroy($id);
+            session()->flash('mess', 'đã xóa');
+        }
+        return redirect("/admin/khuyenmai/chitiet");
+    }
 }

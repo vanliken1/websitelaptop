@@ -30,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         
         view::share('arrSP', DB::table('sanpham')->get());
+        view::share('arrKM', DB::table('khuyenmai')->get());
     }
 }

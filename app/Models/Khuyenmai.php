@@ -21,7 +21,11 @@ class Khuyenmai extends Model
         'ngayketthuc',
         'trangthai'
     ];
+ 
     public function products(){
         return $this->belongsToMany(Sanpham::class,'chitietkhuyenmai','idkhuyenmai','idsanpham');
+    }
+    public function chitietkm(){
+        return $this->hasMany(Chitietkhuyenmai::class,'idkhuyenmai','idkhuyenmai');
     }
 }

@@ -5,7 +5,7 @@
     <div class="row g-4">
         <div class="col-md-12">
             <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Quản lý CPU</h6>
+                <h6 class="mb-4">Quản lý khuyến mãi</h6>
                 <p><button class='addkhuyenmai btn btn-primary'>Thêm</button></p>
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
@@ -17,7 +17,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Tên CPU</th>
+                                <th scope="col">Tên khuyến mãi</th>
                                 <th>Trạng thái</th>
                                 <th>🗑️</th>
                                 <th>✏️</th>
@@ -36,7 +36,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="/admin/khuyenmai/chitiet/{{$item->idkhuyenmai}}" class="btn btn-danger"> chitiet</a>
+                                    <a href="/admin/khuyenmai/chitiet/{{$item->idkhuyenmai}}" class="btn btn-danger"> Chi tiet khuyến mãi</a>
                                 </td>
                                 <td>
                                     <button class='editkhuyenmai btn btn-success' data-id='{{$item->idkhuyenmai}}'>Sửa</button>
