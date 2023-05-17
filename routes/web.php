@@ -10,6 +10,7 @@ use App\Http\Controllers\ManhinhController;
 use App\Http\Controllers\RamController;
 use App\Http\Controllers\SanphamController;
 use App\Http\Controllers\ThuonghieuController;
+use App\Models\Khuyenmai;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -93,5 +94,17 @@ route::prefix('admin')->group(function () {
         route::delete('destroy/{id}', [SanphamController::class, 'destroy']);
         route::get('edit/{id}', [SanphamController::class, 'edit']);
         route::post('update', [SanphamController::class, 'update']);
+    });
+ 
+    route::prefix('khuyenmai')->group(function () {
+        route::get('/', [KhuyenmaiController::class, 'index']); 
+        route::get('chitiet/{id}', [KhuyenmaiController::class, 'chitiet']);
+        route::post('storekm', [KhuyenmaiController::class, 'storekm']);
+        route::get('editkm/{id}', [KhuyenmaiController::class, 'editkm']);
+        route::post('updatekm', [KhuyenmaiController::class, 'updatekm']);
+        route::post('store', [KhuyenmaiController::class, 'store']);
+        route::delete('destroy/{id}', [KhuyenmaiController::class, 'destroy']);
+        route::get('edit/{id}', [KhuyenmaiController::class, 'edit']);
+        route::post('update', [KhuyenmaiController::class, 'update']);
     });
 });
