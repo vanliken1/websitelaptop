@@ -375,7 +375,7 @@
                         </div>
                         <div class="form-floating mb-3">
 
-                            <select type="number" name='trangthai' class='form-select mt-3'>
+                            <select type="number" name='trangthai' id="trangthai" class='form-select mt-3'>
                                 <option value="0">Ẩn</option>
                                 <option value="1">Hiện</option>
                             </select>
