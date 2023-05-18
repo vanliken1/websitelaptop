@@ -47,7 +47,7 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <button class='editkm btn btn-success' data-id='{{$item->idkhuyenmai}}'>Sửa</button>
+                                    <button class='editkm btn btn-success' data-id='{{$item->idkhuyenmaict}}'>Sửa</button>
                                 </td>
 
                             </tr>
@@ -270,14 +270,14 @@
                 function() {
                     //let data = new FormData( $('#modelId form')[0] );
                // Lấy giá trị ID từ thuộc tính "data-id" của nút
-
+                    
                     $('#modelId1').modal('show');
                     $.ajax({
                         url: '/admin/khuyenmai/editkm/' + $(this).data('id'),
                         type: 'get',
-                        data: {
-                            id: 1
-                        },
+                        // data: {
+                        //     // id: $(this).data('id')
+                        // },
                         dataType: 'json',
                         success: function(data2) {
                             console.log(data2);
@@ -291,14 +291,14 @@
                     })
                 }
             );
-            $('button.updatecpu').click(function() {
+            $('button.updatekm').click(function() {
                 // alert('update');
                 //     let data = {_token: $('input[name="_token"]:eq(0)').val() };//new FormData( $('#modelId1 form')[0] );
                 //  console.log(data);
                 // return;
                 let data = new FormData($('#modelId1 form')[0])
                 $.ajax({
-                    url: '/admin/cpu/update',
+                    url: '/admin/khuyenmai/updatekm',
                     type: 'POST',
                     data: data,
                     dataType: 'json',

@@ -77,6 +77,37 @@ class KhuyenmaiController extends Controller
         }
         return response()->json(['error' => $validator->errors()]);
     }
+    public function updatekm(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+
+                'idkhuyenmai' => 'required',
+
+            ],
+            [
+
+
+                'idkhuyenmai.required' => 'Chưa nhập tên',
+
+            ]
+        );
+        // return print_r($request->all() ); exit;
+        // response()->json($request->all());
+        if ($validator->passes()) {
+            $c = Chitietkhuyenmai::findorfail($request->idkhuyenmaict);
+            $c->idkhuyenmai = $request->idkhuyenmai;
+            $c->idsanpham = $request->idsanpham;
+            $c->phantramkhuyenmai = $request->phantramkhuyenmai;
+            $c->trangthai = $request->trangthai;
+
+            $c->save();
+            //dd($c);
+            return response()->json($c);
+        }
+        return response()->json(['error' => $validator->errors()]);
+    }
 
     public function store(Request $r)
     {
@@ -113,15 +144,15 @@ class KhuyenmaiController extends Controller
     }
     public function editkm($id)
     {
-
+        // dd($id);
         $data = Chitietkhuyenmai::find($id);
-
+        // $data=[$id];
         return response()->json($data);
     }
 
     public function chitiet($id)
     {
-        //dd($id);
+        // dd($id);
         $data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
         // dd($data);
         return view('admin.khuyenmai.chitietkm', ['data' => $data, 'id' => $id]);
@@ -132,6 +163,6 @@ class KhuyenmaiController extends Controller
             Chitietkhuyenmai::destroy($id);
             session()->flash('mess', 'đã xóa');
         }
-        return redirect("/admin/khuyenmai/chitiet");
+        return redirect("/admin/khuyenmai/chitiet/$id");
     }
 }
