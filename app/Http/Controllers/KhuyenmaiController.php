@@ -163,6 +163,7 @@ class KhuyenmaiController extends Controller
     {
         // dd($id);
         $data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
+        //lay danh sach gia tri cot idsanpham sau do chuyen thanh mang
         $existingValues = Chitietkhuyenmai::pluck('idsanpham')->toArray();
         $arrSP=Sanpham::all();
         // dd($data);

@@ -89,6 +89,7 @@
                             <select name='idsanpham' id="idsanpham" class='form-select mt-3'>
 
                                 @foreach($arrsp as $item)
+                                //kiem tra xem idsanpham da ton tai trong mảng exist chưa nếu chưa  thì nó sẽ tạo một lựa chọn trong một trường select
                                 @if(!in_array($item->idsanpham, $existingValues))
                                 <option value="{{$item->idsanpham}}">{{$item->idsanpham}}</option>
                                 @endif
