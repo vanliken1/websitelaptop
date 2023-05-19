@@ -5,7 +5,7 @@
     <div class="row g-4">
         <div class="col-md-12">
             <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Quản lý Khuyến Mãi</h6>
+                <h6 class="mb-4">Quản lý chi tiết Khuyến Mãi</h6>
                 <p><button class='addkm btn btn-primary'>Thêm</button></p>
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
@@ -17,7 +17,6 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Tên khuyến mãi</th>
                                 <th scope="col">Mã sản phẩm</th>
                                 <th>%</th>
                                 <th>Trạng thái</th>
@@ -28,8 +27,7 @@
                         @foreach($data as $item)
                         <tbody>
                             <tr>
-                                <td>{{$item->idkhuyenmaict}}</td>
-                                <td>{{$item->khuyenmai->tenkhuyenmai}}</td>
+                                <td>{{$item->idkhuyenmai}}</td>
                                 <td>{{$item->idsanpham}}</td>
                                 <td>{{$item->phantramkhuyenmai}}</td>
                                 <td>
@@ -40,14 +38,14 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <form action="/admin/khuyenmai/destroy/{{$item->idkhuyenmai}}" method="POST">
+                                    <form action="/admin/khuyenmai/destroy/{{$item->idsanpham}}" method="POST">
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">
                                         <input type="submit" value="xóa" class="btn btn-danger">
                                     </form>
                                 </td>
                                 <td>
-                                    <button class='editkm btn btn-success' data-id='{{$item->idkhuyenmaict}}'>Sửa</button>
+                                    <button class='editkm btn btn-success' data-id='{{$item->idsanpham}}'>Sửa</button>
                                 </td>
 
                             </tr>
@@ -75,19 +73,11 @@
                     <form action="/admin/khuyenmai/storekm" method="POST">
                         @csrf
                         <div class="form-floating mb-3">
-                            <input type="hidden" class="form-control" id="idkhuyenmaict" name="idkhuyenmaict" >
+                            <input type="hidden" class="form-control" id="idkhuyenmai" value="{{$id}}" name="idkhuyenmai">
                             <span class="text-danger error-text idkhuyenmai_err"></span>
 
                         </div>
-                        <div class="form-floating mb-3">
-                            <select name='idkhuyenmai' id="idkhuyenmai" class='form-select mt-3'>
-                                @foreach($arrKM as $item)
-                                <option value="{{$item->idkhuyenmai}}">{{$item->tenkhuyenmai}}</option>
-                                @endforeach
-                            </select>
-                            <label for="floatingInput">Tên khuyến mãi </label>
-                            <span class="text-danger error-text idsanpham_err"></span>
-                        </div>
+
                         <div class="form-floating mb-3">
 
                             <input type="text" name='phantramkhuyenmai' id="phantramkhuyenmai" class='form-control mt-3'>
@@ -95,11 +85,16 @@
                             <span class="text-danger error-text phantramkhuyenmai_err"></span>
                         </div>
                         <div class="form-floating mb-3">
+
                             <select name='idsanpham' id="idsanpham" class='form-select mt-3'>
-                                @foreach($arrSP as $item)
+
+                                @foreach($arrsp as $item)
+                                @if(!in_array($item->idsanpham, $existingValues))
                                 <option value="{{$item->idsanpham}}">{{$item->idsanpham}}</option>
+                                @endif
                                 @endforeach
                             </select>
+
                             <label for="floatingInput">Mã sp </label>
                             <span class="text-danger error-text idsanpham_err"></span>
                         </div>
@@ -112,7 +107,7 @@
                             <label for="floatingInput">Trạng thái</label>
                             <span class="text-danger error-text trangthai_err"></span>
                         </div>
-                       
+
                     </form>
                 </div>
             </div>
@@ -141,20 +136,12 @@
                     <form method="post">
                         @csrf
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="idkhuyenmaict" name="idkhuyenmaict" readonly>
+                            <input type="text" class="form-control" id="idkhuyenmai" name="idkhuyenmai" readonly>
                             <label for="floatingInput">ID</label>
                             <span class="text-danger error-text idkhuyenmai_err"></span>
 
                         </div>
-                        <div class="form-floating mb-3">
-                            <select name='idkhuyenmai' id="idkhuyenmai" class='form-select mt-3'>
-                                @foreach($arrKM as $item)
-                                <option value="{{$item->idkhuyenmai}}">{{$item->tenkhuyenmai}}</option>
-                                @endforeach
-                            </select>
-                            <label for="floatingInput">Tên khuyến mãi </label>
-                            <span class="text-danger error-text idsanpham_err"></span>
-                        </div>
+
                         <div class="form-floating mb-3">
 
                             <input type="text" name='phantramkhuyenmai' id="phantramkhuyenmai" class='form-control mt-3'>
@@ -162,17 +149,14 @@
                             <span class="text-danger error-text phantramkhuyenmai_err"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <select name='idsanpham' id="idsanpham" class='form-select mt-3'>
-                                @foreach($arrSP as $item)
-                                <option value="{{$item->idsanpham}}">{{$item->idsanpham}}</option>
-                                @endforeach
-                            </select>
+                            <input name='idsanpham' id="idsanpham" class='form-control mt-3' readonly>
+
                             <label for="floatingInput">Mã sp </label>
                             <span class="text-danger error-text idsanpham_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
-                            <select type="number" name='trangthai' class='form-select mt-3'>
+                            <select type="number" name='trangthai' id="trangthai" class='form-select mt-3'>
                                 <option value="0">Ẩn</option>
                                 <option value="1">Hiện</option>
                             </select>
@@ -269,8 +253,8 @@
             $('button.editkm').click(
                 function() {
                     //let data = new FormData( $('#modelId form')[0] );
-               // Lấy giá trị ID từ thuộc tính "data-id" của nút
-                    
+                    // Lấy giá trị ID từ thuộc tính "data-id" của nút
+
                     $('#modelId1').modal('show');
                     $.ajax({
                         url: '/admin/khuyenmai/editkm/' + $(this).data('id'),
@@ -281,11 +265,10 @@
                         dataType: 'json',
                         success: function(data2) {
                             console.log(data2);
-                            $('#modelId1 form #idkhuyenmai').val(data2.idkhuyenmai);
-                            $('#modelId1 form #idkhuyenmaict').val(data2.idkhuyenmaict);
-                            $('#modelId1 form #idsanpham').val(data2.idsanpham);
-                            $('#modelId1 form #phantramkhuyenmai').val(data2.phantramkhuyenmai);
-                            $('#modelId1 form #trangthai').val(data2.trangthai);
+                            $('#modelId1 form #idkhuyenmai').val(data2[0].idkhuyenmai);
+                            $('#modelId1 form #idsanpham').val(data2[0].idsanpham);
+                            $('#modelId1 form #phantramkhuyenmai').val(data2[0].phantramkhuyenmai);
+                            $('#modelId1 form #trangthai').val(data2[0].trangthai);
 
                         }
                     })

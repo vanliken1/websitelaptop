@@ -9,13 +9,12 @@ class Chitietkhuyenmai extends Model
 {
     use HasFactory;
     protected $table ='chitietkhuyenmai';
-    protected $primaryKey ='idkhuyenmaict';
+    protected $primaryKey =['idkhuyenmai','idsanpham'];
     protected $keyType ='string';
     public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
-        'idkhuyenmaict',
         'idkhuyenmai',
         'idsanpham',
         'phantramkhuyenmai',

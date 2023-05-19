@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Chitietkhuyenmai;
 use App\Models\Khuyenmai;
+use App\Models\Sanpham;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
@@ -22,12 +23,14 @@ class KhuyenmaiController extends Controller
         $validator = Validator::make(
             $r->all(),
             [
-                'idkhuyenmai' => 'required',
+                'phantramkhuyenmai' => 'required',
+                'idsanpham' => 'required',
 
             ],
             [
 
-                'idkhuyenmai.required' => 'Chưa nhập tên',
+                'phantramkhuyenmai.required' => 'Chưa nhập tên',
+                'idsanpham.required' => 'Không tồn tại sản phẩm',
             ]
         );
         if ($validator->passes()) {
@@ -53,6 +56,7 @@ class KhuyenmaiController extends Controller
             [
 
                 'tenkhuyenmai' => 'required',
+                
 
             ],
             [
@@ -84,25 +88,30 @@ class KhuyenmaiController extends Controller
             [
 
                 'idkhuyenmai' => 'required',
-
+                'idsanpham' => 'required',
             ],
             [
 
 
                 'idkhuyenmai.required' => 'Chưa nhập tên',
+                'idsanpham.required' => 'Không tồn tại sản phẩm',
 
             ]
         );
         // return print_r($request->all() ); exit;
         // response()->json($request->all());
         if ($validator->passes()) {
-            $c = Chitietkhuyenmai::findorfail($request->idkhuyenmaict);
-            $c->idkhuyenmai = $request->idkhuyenmai;
-            $c->idsanpham = $request->idsanpham;
-            $c->phantramkhuyenmai = $request->phantramkhuyenmai;
-            $c->trangthai = $request->trangthai;
+            Chitietkhuyenmai::where('idsanpham', $request->idsanpham)->update([
+                'phantramkhuyenmai' => $request->phantramkhuyenmai,
+                'trangthai' => $request->trangthai
+            ]);
 
-            $c->save();
+
+            // $c->phantramkhuyenmai = $request->phantramkhuyenmai;
+            // $c->trangthai = $request->trangthai;
+
+            // $c->save();
+            $c = Chitietkhuyenmai::where('idsanpham', $request->idsanpham)->get();
             //dd($c);
             return response()->json($c);
         }
@@ -145,7 +154,7 @@ class KhuyenmaiController extends Controller
     public function editkm($id)
     {
         // dd($id);
-        $data = Chitietkhuyenmai::find($id);
+        $data = Chitietkhuyenmai::where('idsanpham', $id)->get();
         // $data=[$id];
         return response()->json($data);
     }
@@ -154,15 +163,18 @@ class KhuyenmaiController extends Controller
     {
         // dd($id);
         $data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
+        $existingValues = Chitietkhuyenmai::pluck('idsanpham')->toArray();
+        $arrSP=Sanpham::all();
         // dd($data);
-        return view('admin.khuyenmai.chitietkm', ['data' => $data, 'id' => $id]);
+        return view('admin.khuyenmai.chitietkm', ['data' => $data, 'id' => $id,'existingValues'=>$existingValues,'arrsp'=>$arrSP]);
     }
     public function destroy($id)
     {
-        if (Chitietkhuyenmai::find($id)) {
-            Chitietkhuyenmai::destroy($id);
+        $cc=Chitietkhuyenmai::where('idsanpham', $id)->get();
+        $data=$cc[0]->idkhuyenmai;
+        Chitietkhuyenmai::where('idsanpham', $id)->delete();;
             session()->flash('mess', 'đã xóa');
-        }
-        return redirect("/admin/khuyenmai/chitiet/$id");
+        
+        return redirect("/admin/khuyenmai/chitiet/$data");
     }
 }
