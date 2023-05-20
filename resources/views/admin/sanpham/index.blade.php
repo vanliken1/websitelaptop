@@ -34,7 +34,7 @@
                                 <td>{{$item->tensanpham}}</td>
                                 <td><img src="{{asset('storage/img/'.$item->img)}}" style="width:250px;height:100px;" alt=""></td>
                                 <td>{{$item->soluong}}</td>
-                                <td>{{$item->gia}}</td>
+                                <td>{{number_format($item->gia,0,',','.')}}</td>
                                 <td>{{$item->noidung}}</td>
                                 <td>
                                     @if($item->trangthai==0)
@@ -59,6 +59,7 @@
                         @endforeach
 
                     </table>
+                    <div class="" style="float: right;"> {{$sanpham->links()}}</div>
                 </div>
             </div>
         </div>
@@ -204,7 +205,7 @@
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="number" min="0" value="0" name='soluong' id="soluong" class='form-control mt-3'>
+                            <input type="number" min="1" value="1" name='soluong' id="soluong" class='form-control mt-3'>
                             <label for="floatingInput">Số lượng</label>
                             <span class="text-danger error-text soluong_err"></span>
                         </div>

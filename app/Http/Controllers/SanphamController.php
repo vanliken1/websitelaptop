@@ -17,7 +17,7 @@ class SanphamController extends Controller
 {
     //
     public function index(){
-        $sanpham = Sanpham::all();
+        $sanpham = Sanpham::orderBy('idsanpham','DESC')->paginate(10);
         $thuonghieu=Thuonghieu::all();
         $loaisp=Loaisp::all();
         $cpu=CPU::all();
