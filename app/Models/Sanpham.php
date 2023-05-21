@@ -64,7 +64,7 @@ class Sanpham extends Model
         return $this->hasMany(Chitietdonhang::class,'idsanpham','idsanpham');
     }
     public function chitietkm(){
-        return $this->hasMany(Chitietkm::class,'idsanpham','idsanpham');
+        return $this->hasMany(Chitietkhuyenmai::class,'idsanpham','idsanpham');
     }
 
 
