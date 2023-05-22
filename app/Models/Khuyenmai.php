@@ -19,7 +19,6 @@ class Khuyenmai extends Model
         'tenkhuyenmai',
         'ngaybatdau',
         'ngayketthuc',
-        'trangthai'
     ];
  
     public function products(){

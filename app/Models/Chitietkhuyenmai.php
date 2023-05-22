@@ -18,7 +18,7 @@ class Chitietkhuyenmai extends Model
         'idkhuyenmai',
         'idsanpham',
         'phantramkhuyenmai',
-        'trangthai'
+        'trangthaictkm'
         
     ];
     public function products(){

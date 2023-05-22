@@ -31,14 +31,14 @@
                                 <td>{{$item->idsanpham}}</td>
                                 <td>{{$item->phantramkhuyenmai}}</td>
                                 <td>
-                                    @if($item->trangthai==0)
+                                    @if($item->trangthaictkm==0)
                                     {{'Ẩn'}}
                                     @else
                                     {{'Hiện'}}
                                     @endif
                                 </td>
                                 <td>
-                                    <form action="/admin/khuyenmai/destroy/{{$item->idsanpham}}" method="POST">
+                                    <form action="/admin/khuyenmai/destroykm/{{$item->idsanpham}}" method="POST">
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">
                                         <input type="submit" value="xóa" class="btn btn-danger">
@@ -272,7 +272,7 @@
                             $('#modelId1 form #idkhuyenmai').val(data2[0].idkhuyenmai);
                             $('#modelId1 form #idsanpham').val(data2[0].idsanpham);
                             $('#modelId1 form #phantramkhuyenmai').val(data2[0].phantramkhuyenmai);
-                            $('#modelId1 form #trangthai').val(data2[0].trangthai);
+                            $('#modelId1 form #trangthai').val(data2[0].trangthaictkm);
 
                         }
                     })

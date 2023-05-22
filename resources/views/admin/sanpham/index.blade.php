@@ -21,6 +21,7 @@
                                 <th scope="col">Hình ảnh</th>
                                 <th scope="col">Số lượng</th>
                                 <th scope="col">Gía</th>
+                                <th scope="col">Gía khuyến mãi</th>
                                 <th scope="col">Nội dung</th>
                                 <th>Trạng thái</th>
                                 <th>🗑️</th>
@@ -28,13 +29,18 @@
                             </tr>
                         </thead>
                         @foreach($sanpham as $item)
+
                         <tbody>
                             <tr>
                                 <td>{{$item->idsanpham}}</td>
                                 <td>{{$item->tensanpham}}</td>
                                 <td><img src="{{asset('storage/img/'.$item->img)}}" style="width:250px;height:100px;" alt=""></td>
                                 <td>{{$item->soluong}}</td>
+                               
                                 <td>{{number_format($item->gia,0,',','.')}}</td>
+                                
+                                <td>{{number_format($item->giakhuyenmai,0,',','.') }}</td>
+
                                 <td>{{$item->noidung}}</td>
                                 <td>
                                     @if($item->trangthai==0)
@@ -101,7 +107,7 @@
 
                             <select name='idthuonghieu' id="idthuonghieu" class='form-select mb-3' required>
                                 @foreach($thuonghieu as $item)
-                                <option value="{{$item->idthuonghieu}}" >{{$item->tenthuonghieu}}</option>
+                                <option value="{{$item->idthuonghieu}}">{{$item->tenthuonghieu}}</option>
                                 @endforeach
                             </select>
                             <label for="floatingInput">Thương hiệu(*)</label>
@@ -110,7 +116,7 @@
                         <div class="form-floating mb-3">
 
                             <select name='idCPU' id="idCPU" class='form-select mb-3'>
-                                
+
                                 @foreach($cpu as $item)
                                 <option value="{{$item->idCPU}}">{{$item->tenCPU}}</option>
                                 @endforeach
@@ -121,8 +127,8 @@
                         <div class="form-floating mb-3">
 
                             <select name='idram' id="idram" class='form-select mb-3'>
-                                
-                                
+
+
                                 @foreach($ram as $item)
                                 <option value="{{$item->idram}}">{{$item->tenram}}</option>
                                 @endforeach
@@ -133,8 +139,8 @@
                         <div class="form-floating mb-3">
 
                             <select name='iddohoa' id="iddohoa" class='form-select mb-3'>
-                               
-                               
+
+
                                 @foreach($dohoa as $item)
                                 <option value="{{$item->iddohoa}}">{{$item->tendohoa}}</option>
                                 @endforeach
@@ -145,8 +151,8 @@
                         <div class="form-floating mb-3">
 
                             <select name='idluutru' id="idluutru" class='form-select mb-3'>
-                                
-                              
+
+
                                 @foreach($luutru as $item)
                                 <option value="{{$item->idluutru}}">{{$item->tenluutru}}</option>
                                 @endforeach
@@ -157,8 +163,8 @@
                         <div class="form-floating mb-3">
 
                             <select name='idmanhinh' id="idmanhinh" class='form-select mb-3'>
-                                
-                                
+
+
                                 @foreach($manhinh as $item)
                                 <option value="{{$item->idmanhinh}}">{{$item->tenmanhinh}}</option>
                                 @endforeach
@@ -169,8 +175,8 @@
                         <div class="form-floating mb-3">
 
                             <select name='idloaisanpham' id="idloaisanpham" class='form-select mb-3'>
-                                
-                               
+
+
                                 @foreach($loaisp as $item)
                                 <option value="{{$item->idloaisanpham}}">{{$item->tenloai}}</option>
                                 @endforeach
@@ -203,6 +209,8 @@
                             <label for="floatingInput">Giá</label>
                             <span class="text-danger error-text gia_err"></span>
                         </div>
+
+
                         <div class="form-floating mb-3">
 
                             <input type="number" min="1" value="1" name='soluong' id="soluong" class='form-control mt-3'>
@@ -266,7 +274,7 @@
 
                             <select name='idthuonghieu' id="idthuonghieu" class='form-select mb-3' required>
                                 @foreach($thuonghieu as $item)
-                                <option value="{{$item->idthuonghieu}}" >{{$item->tenthuonghieu}}</option>
+                                <option value="{{$item->idthuonghieu}}">{{$item->tenthuonghieu}}</option>
                                 @endforeach
                             </select>
                             <label for="floatingInput">Thương hiệu(*)</label>
@@ -275,7 +283,7 @@
                         <div class="form-floating mb-3">
 
                             <select name='idCPU' id="idCPU" class='form-select mb-3'>
-                                
+
                                 @foreach($cpu as $item)
                                 <option value="{{$item->idCPU}}">{{$item->tenCPU}}</option>
                                 @endforeach
@@ -286,8 +294,8 @@
                         <div class="form-floating mb-3">
 
                             <select name='idram' id="idram" class='form-select mb-3'>
-                                
-                                
+
+
                                 @foreach($ram as $item)
                                 <option value="{{$item->idram}}">{{$item->tenram}}</option>
                                 @endforeach
@@ -298,8 +306,8 @@
                         <div class="form-floating mb-3">
 
                             <select name='iddohoa' id="iddohoa" class='form-select mb-3'>
-                               
-                               
+
+
                                 @foreach($dohoa as $item)
                                 <option value="{{$item->iddohoa}}">{{$item->tendohoa}}</option>
                                 @endforeach
@@ -310,8 +318,8 @@
                         <div class="form-floating mb-3">
 
                             <select name='idluutru' id="idluutru" class='form-select mb-3'>
-                                
-                              
+
+
                                 @foreach($luutru as $item)
                                 <option value="{{$item->idluutru}}">{{$item->tenluutru}}</option>
                                 @endforeach
@@ -322,8 +330,8 @@
                         <div class="form-floating mb-3">
 
                             <select name='idmanhinh' id="idmanhinh" class='form-select mb-3'>
-                                
-                                
+
+
                                 @foreach($manhinh as $item)
                                 <option value="{{$item->idmanhinh}}">{{$item->tenmanhinh}}</option>
                                 @endforeach
@@ -334,8 +342,8 @@
                         <div class="form-floating mb-3">
 
                             <select name='idloaisanpham' id="idloaisanpham" class='form-select mb-3'>
-                                
-                               
+
+
                                 @foreach($loaisp as $item)
                                 <option value="{{$item->idloaisanpham}}">{{$item->tenloai}}</option>
                                 @endforeach
@@ -346,7 +354,7 @@
                         <div class="form-floating mb-3">
 
                             <input type="file" name='img' class='form-control mt-3'>
-                            <img id="img1" style="width:200px;margin:10px"   alt="">
+                            <img id="img1" style="width:200px;margin:10px" alt="">
                             <label for="floatingInput">Hình ảnh</label>
                             <span class="text-danger error-text img_err"></span>
                         </div>

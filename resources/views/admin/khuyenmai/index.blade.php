@@ -18,7 +18,7 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Tên khuyến mãi</th>
-                                <th>Trạng thái</th>
+                                <th>📄</th>
                                 <th>🗑️</th>
                                 <th>✏️</th>
                             </tr>
@@ -29,14 +29,14 @@
                                 <td>{{$item->idkhuyenmai}}</td>
                                 <td>{{$item->tenkhuyenmai}}</td>
                                 <td>
-                                    @if($item->trangthai==0)
-                                    {{'Ẩn'}}
-                                    @else
-                                    {{'Hiện'}}
-                                    @endif
+                                    <a href="/admin/khuyenmai/chitiet/{{$item->idkhuyenmai}}" class="btn btn-danger"> Chi tiet khuyến mãi</a>
                                 </td>
                                 <td>
-                                    <a href="/admin/khuyenmai/chitiet/{{$item->idkhuyenmai}}" class="btn btn-danger"> Chi tiet khuyến mãi</a>
+                                    <form action="/admin/khuyenmai/destroy/{{$item->idkhuyenmai}}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="_method" value="delete">
+                                        <input type="submit" value="xóa" class="btn btn-danger">
+                                    </form>
                                 </td>
                                 <td>
                                     <button class='editkhuyenmai btn btn-success' data-id='{{$item->idkhuyenmai}}'>Sửa</button>
@@ -89,15 +89,7 @@
                             <label for="floatingInput">Slug</label>
                             <span class="text-danger error-text ngayketthuc_err"></span>
                         </div>
-                        <div class="form-floating mb-3">
-
-                            <select type="number" name='trangthai' class='form-select mt-3'>
-                                <option value="0">Ẩn</option>
-                                <option value="1">Hiện</option>
-                            </select>
-                            <label for="floatingInput">Trạng thái</label>
-                            <span class="text-danger error-text trangthai_err"></span>
-                        </div>
+                
                     </form>
                 </div>
             </div>
@@ -148,15 +140,7 @@
                             <label for="floatingInput">Slug</label>
                             <span class="text-danger error-text ngayketthuc_err"></span>
                         </div>
-                        <div class="form-floating mb-3">
-
-                            <select type="number" name='trangthai' id="trangthai" class='form-select mt-3'>
-                                <option value="0">Ẩn</option>
-                                <option value="1">Hiện</option>
-                            </select>
-                            <label for="floatingInput">Trạng thái</label>
-                            <span class="text-danger error-text trangthai_err"></span>
-                        </div>
+                    
                     </form>
                 </div>
             </div>
@@ -262,7 +246,7 @@
                             $('#modelId1 form #tenkhuyenmai').val(data2.tenkhuyenmai);
                             $('#modelId1 form #ngaybatdau').val(data2.ngaybatdau);
                             $('#modelId1 form #ngayketthuc').val(data2.ngayketthuc);
-                            $('#modelId1 form #trangthai').val(data2.trangthai);
+                            
 
                         }
                     })

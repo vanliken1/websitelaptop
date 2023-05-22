@@ -7,6 +7,7 @@ use App\Http\Controllers\KhuyenmaiController;
 use App\Http\Controllers\LoaiSPController;
 use App\Http\Controllers\LuutruController;
 use App\Http\Controllers\ManhinhController;
+use App\Http\Controllers\PagesController;
 use App\Http\Controllers\RamController;
 use App\Http\Controllers\SanphamController;
 use App\Http\Controllers\ThuonghieuController;
@@ -103,7 +104,7 @@ route::prefix('admin')->group(function () {
         route::post('storekm', [KhuyenmaiController::class, 'storekm']);
         route::get('editkm/{id}', [KhuyenmaiController::class, 'editkm']);
         route::post('updatekm', [KhuyenmaiController::class, 'updatekm']);
-        
+        route::delete('destroykm/{id}', [KhuyenmaiController::class, 'destroykm']);
         route::post('store', [KhuyenmaiController::class, 'store']);
         route::delete('destroy/{id}', [KhuyenmaiController::class, 'destroy']);
         route::get('edit/{id}', [KhuyenmaiController::class, 'edit']);
@@ -111,6 +112,7 @@ route::prefix('admin')->group(function () {
     });
 });
 
-route::get('/', function () {
-    return view('clients.index');
-});
+//Nguoi dung
+route::get('/', [PagesController::class, 'trangchu']); 
+//trang san pham ALL
+route::get('/laptop', [PagesController::class, 'trangsanpham']); 
