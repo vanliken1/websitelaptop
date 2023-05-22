@@ -17,6 +17,7 @@ class PagesController extends Controller
                         ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai','chitietkhuyenmai.trangthaictkm')
                         ->whereNotNull('chitietkhuyenmai.idsanpham')
                         ->orWhereNull('chitietkhuyenmai.idsanpham')
+                        ->orderBy('sanpham.idsanpham')
                         ->paginate(12);
         
         // $sanpham=Sanpham::with('chitietkm')->paginate(12);
