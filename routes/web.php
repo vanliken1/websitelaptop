@@ -116,3 +116,4 @@ route::prefix('admin')->group(function () {
 route::get('/', [PagesController::class, 'trangchu']); 
 //trang san pham ALL
 route::get('/laptop', [PagesController::class, 'trangsanpham']); 
+route::get('/laptop/{slugdanhmuc}', [PagesController::class, 'sanphamtheodanhmuc']);
