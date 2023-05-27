@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CpuController;
 use App\Http\Controllers\DohoaController;
 use App\Http\Controllers\KhuyenmaiController;
 use App\Http\Controllers\LoaiSPController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LuutruController;
 use App\Http\Controllers\ManhinhController;
 use App\Http\Controllers\PagesController;
@@ -117,3 +119,12 @@ route::get('/', [PagesController::class, 'trangchu']);
 //trang san pham ALL
 route::get('/laptop', [PagesController::class, 'trangsanpham']); 
 route::get('/laptop/{slugdanhmuc}', [PagesController::class, 'sanphamtheodanhmuc']);
+route::get('/chitiet/{slugsanpham}', [PagesController::class, 'chitiet']);
+route::get('/cart', [CartController::class, 'index']);
+route::get('/cart/add/{id}', [CartController::class, 'add']);
+route::get('/cart/remove/{id}', [CartController::class, 'remove']);
+route::post('/cart/edit', [CartController::class, 'edit']);
+route::get('/dangnhap', [LoginController::class, 'loginview']);
+route::post('/dangnhap', [LoginController::class, 'login']);
+route::post('/dangxuat', [LoginController::class, 'logoutuser']);
+route::post('/dangky', [LoginController::class, 'dangky']);

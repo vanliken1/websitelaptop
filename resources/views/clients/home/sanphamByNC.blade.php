@@ -18,116 +18,91 @@
               *** MENUS AND FILTERS ***
               _________________________________________________________
               -->
-                    <div class="card sidebar-menu mb-4">
-                        <div class="card-header">
-                            <h3 class="h4 card-title">Categories</h3>
-                        </div>
-                        <div class="card-body">
-                            <ul class="nav nav-pills flex-column category-menu">
-                                <li><a href="category.html" class="nav-link">Men <span class="badge badge-secondary">42</span></a>
-                                    <ul class="list-unstyled">
-                                        <li><a href="category.html" class="nav-link">T-shirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Shirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Pants</a></li>
-                                        <li><a href="category.html" class="nav-link">Accessories</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="category.html" class="nav-link active">Ladies <span class="badge badge-light">123</span></a>
-                                    <ul class="list-unstyled">
-                                        <li><a href="category.html" class="nav-link">T-shirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Skirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Pants</a></li>
-                                        <li><a href="category.html" class="nav-link">Accessories</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="category.html" class="nav-link">Kids <span class="badge badge-secondary">11</span></a>
-                                    <ul class="list-unstyled">
-                                        <li><a href="category.html" class="nav-link">T-shirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Skirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Pants</a></li>
-                                        <li><a href="category.html" class="nav-link">Accessories</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card sidebar-menu mb-4">
-                        <div class="card-header">
-                            <h3 class="h4 card-title">Brands <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</a></h3>
-                        </div>
-                        <div class="card-body">
-                            <form>
+                    <form action="/laptop/{{$slugdanhmuc}}" method="get">
+                        <div class="card sidebar-menu mb-4">
+                            <div class="card-header">
+                                <h3 class="h4 card-title">Thương hiệu</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    @foreach($thuonghieu as $item)
+                                    <div class="checkbox">
+
+                                        <label>
+                                            <input type="checkbox" name="brand[]" value="{{$item->slug_thuonghieu}}"> {{$item->tenthuonghieu}}
+                                        </label>
+
+                                    </div>
+                                    @endforeach
+
+                                </div>
+
+                            </div>
+                            <div class="card-header">
+                                <h3 class="h4 card-title">CPU</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    @foreach($cpu as $item)
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="cpu[]" value="{{$item->slug_CPU}}">{{$item->tenCPU}}
+                                        </label>
+                                    </div>
+                                    @endforeach
+
+                                </div>
+
+                            </div>
+                            <div class="card-header">
+                                <h3 class="h4 card-title">Mức giá</h3>
+                            </div>
+                            <div class="card-body">
                                 <div class="form-group">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox"> Armani (10)
+                                            <input type="checkbox" name="gia[]" value="under_10"> Dưới 10 triệu
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox"> Versace (12)
+                                            <input type="checkbox" name="gia[]" value="10_to_15"> 10-15 triệu
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox"> Carlo Bruni (15)
+                                            <input type="checkbox" name="gia[]" value="15_to_20"> 15-20 triệu
+                                        </label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="gia[]" value="20_to_25"> 20-25 triệu
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox"> Jack Honey (14)
+                                            <input type="checkbox" name="gia[]" value="over_25"> Trên 25 triệu
                                         </label>
                                     </div>
+
+
                                 </div>
-                                <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
-                            </form>
+                            </div>
+
+                            <button type="submit" class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Lọc</button>
                         </div>
-                    </div>
-                    <div class="card sidebar-menu mb-4">
-                        <div class="card-header">
-                            <h3 class="h4 card-title">Colours <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</a></h3>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"><span class="colour white"></span> White (14)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"><span class="colour blue"></span> Blue (10)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"><span class="colour green"></span> Green (20)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"><span class="colour yellow"></span> Yellow (13)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"><span class="colour red"></span> Red (10)
-                                        </label>
-                                    </div>
-                                </div>
-                                <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- *** MENUS AND FILTERS END ***-->
-                    <div class="banner"><a href="#"><img src="img/banner.jpg" alt="sales 2014" class="img-fluid"></a></div>
+                        <!-- *** MENUS AND FILTERS END ***-->
+                    </form>
                 </div>
+
                 <div class="col-lg-9">
 
                     <div class="box info-bar">
                         <div class="row">
-                            <div class="col-md-12 col-lg-4 products-showing">Showing <strong>12</strong> of <strong>25</strong> products</div>
+                            <div class="col-md-12 col-lg-4 products-showing"><strong>Hiển thị tổng {{ $totalSanPham }} sản phẩm</strong></div>
                             <div class="col-md-12 col-lg-7 products-number-sort">
                                 <form class="form-inline d-block d-lg-flex justify-content-between flex-column flex-md-row">
                                     <div class="products-number"><strong>Show</strong><a href="#" class="btn btn-sm btn-primary">12</a><a href="#" class="btn btn-outline-secondary btn-sm">24</a><a href="#" class="btn btn-outline-secondary btn-sm">All</a><span>products</span></div>
@@ -169,7 +144,7 @@
                                     <div style="text-align: center;">...</div>
                                     @endif
                                     </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
+                                    <p class="buttons"><a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
 
                                 </div>
 
