@@ -131,7 +131,7 @@ class CartController extends Controller
                             // Đã có mã coupon trong session
                             $tontai = 0;
                             if ($tontai == 0) {
-                                // Thực hiện các hành động với mã coupon tại đây
+                                // Thực hiện các hành động với mã coupon 
                                 $cou[] = array(
                                     'codegiamgia' => $coupon->codegiamgia,
                                     'tinhnangma' => $coupon->tinhnangma,

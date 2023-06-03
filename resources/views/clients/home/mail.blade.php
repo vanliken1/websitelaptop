@@ -94,7 +94,7 @@
                                 @endif
                             </tr>
                             <tr>
-                                <td class="total">Tổng giảm:</td>
+                                <td class="total">Tổng thanh toán sau khi giảm:</td>
                                 @if($cou['tinhnangma'] == 0)
                                 <td>{{ number_format($tong2 - $tong_coupon,0,',','.') }}đ</td>
                                 @elseif($cou['tinhnangma'] == 1)
