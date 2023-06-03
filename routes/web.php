@@ -4,6 +4,8 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CpuController;
 use App\Http\Controllers\DohoaController;
+use App\Http\Controllers\DonhangController;
+use App\Http\Controllers\GiamgiaController;
 use App\Http\Controllers\KhuyenmaiController;
 use App\Http\Controllers\LoaiSPController;
 use App\Http\Controllers\LoginController;
@@ -98,6 +100,13 @@ route::prefix('admin')->group(function () {
         route::get('edit/{id}', [SanphamController::class, 'edit']);
         route::post('update', [SanphamController::class, 'update']);
     });
+    route::prefix('giamgia')->group(function () {
+        route::get('/', [GiamgiaController::class, 'index']); 
+        route::post('store', [GiamgiaController::class, 'store']);
+        route::delete('destroy/{id}', [GiamgiaController::class, 'destroy']);
+        route::get('edit/{id}', [GiamgiaController::class, 'edit']);
+        route::post('update', [GiamgiaController::class, 'update']);
+    });
  
     route::prefix('khuyenmai')->group(function () {
         route::get('/', [KhuyenmaiController::class, 'index']); 
@@ -112,8 +121,17 @@ route::prefix('admin')->group(function () {
         route::get('edit/{id}', [KhuyenmaiController::class, 'edit']);
         route::post('update', [KhuyenmaiController::class, 'update']);
     });
+    route::prefix('donhang')->group(function () {
+        route::get('/', [DonhangController::class, 'index']); 
+        route::get('chitiet/{id}', [DonhangController::class, 'chitietdonhang']);
+        route::delete('destroy/{id}', [GiamgiaController::class, 'destroy']);
+        
+    });
+  
 });
 
+route::post('/updatesoluong', [DonhangController::class, 'updatesoluong']);
+route::post('/updateqty', [DonhangController::class, 'updateqty']);
 //Nguoi dung
 route::get('/', [PagesController::class, 'trangchu']); 
 //trang san pham ALL
@@ -128,3 +146,12 @@ route::get('/dangnhap', [LoginController::class, 'loginview']);
 route::post('/dangnhap', [LoginController::class, 'login']);
 route::post('/dangxuat', [LoginController::class, 'logoutuser']);
 route::post('/dangky', [LoginController::class, 'dangky']);
+
+route::get('/thanhtoan',[CartController::class, 'trangthanhtoan'])->middleware('ktUser');
+route::post('/savethanhtoan',[CartController::class, 'save_thanhtoan']);
+
+route::post('/checkcoupon', [CartController::class, 'check_coupon'])->middleware('ktUser');
+route::get('/xoama', [CartController::class, 'unsetcoupon']);
+
+//gui mail
+route::get('/sendmail',[CartController::class, 'trangthanhtoan'])->middleware('ktUser');

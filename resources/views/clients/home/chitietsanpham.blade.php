@@ -147,8 +147,13 @@
                                 </div>
                                 @else
                                 <caption>{{ number_format($item->giakhuyenmai, 0, ',', '.') }} đ</caption>
-                                <div style="text-align: center;">...</div>
+                                <div style="text-align: center;"></div>
                                 @endif</p>
+                                @if($item->soluong)
+                                <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                                    Còn hàng
+                                </div>
+                                @endif
                                 <p class="text-center buttons"><a href="/cart/add/{{$item->idsanpham}}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a><a href="basket.html" class="btn btn-outline-primary"><i class="fa fa-heart"></i> Add to wishlist</a></p>
                             </div>
 
@@ -223,12 +228,12 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="product same-height">
                                 <div style="display: flex; justify-content: center; align-items: center;">
-                                <div><img src="{{asset('storage/img/'.$item->img)}}" width="150px" height="150px"  alt=""></div>
+                                    <div><img src="{{asset('storage/img/'.$item->img)}}" width="150px" height="150px" alt=""></div>
                                 </div>
                                 <div class="text">
                                     <h3><a href="/chitiet/{{$item->slug_sanpham}}">{{$item->tensanpham}}</a></h3>
                                     <p class="price">
-                                    @if ($item->phantramkhuyenmai > 0 && $item->trangthaictkm == 1)
+                                        @if ($item->phantramkhuyenmai > 0 && $item->trangthaictkm == 1)
                                         <del>{{ number_format($item->gia, 0, ',', '.') }} đ</del>
                                         <caption>-{{ $item->phantramkhuyenmai }}%</caption>
                                     <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">

@@ -61,6 +61,7 @@ class PagesController extends Controller
         }
         $sanpham = $query->leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
             ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
+            ->where('sanpham.soluong', '>', 0)
             ->orderBy('sanpham.idsanpham')
             ->paginate(12);
 
@@ -112,6 +113,7 @@ class PagesController extends Controller
             $sptheobrand = $query->leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
                 ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
                 ->where('sanpham.idthuonghieu', $thuonghieu->idthuonghieu)
+                ->where('sanpham.soluong', '>', 0)
                 ->paginate(12);
             return view('clients.home.sanphamByBrand', ['sptheobrand' => $sptheobrand, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheobrand->total()]);
         }
@@ -122,6 +124,7 @@ class PagesController extends Controller
             $sptheocpu = $query->leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
                 ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
                 ->where('sanpham.idCPU', $slugcpu->idCPU)
+                ->where('sanpham.soluong', '>', 0)
                 ->paginate(12);
             return view('clients.home.sanphamByCPU', ['sptheocpu' => $sptheocpu, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheocpu->total()]);
         }
@@ -132,6 +135,7 @@ class PagesController extends Controller
             $sptheonhucau = $query->leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
                 ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
                 ->where('sanpham.idloaisanpham', $nhucau->idloaisanpham)
+                ->where('sanpham.soluong', '>', 0)
                 ->paginate(12);
             return view('clients.home.sanphamByNC', ['sptheonhucau' => $sptheonhucau, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheonhucau->total()]);
         }
@@ -145,6 +149,7 @@ class PagesController extends Controller
         $sanpham = Sanpham::leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
             ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
             ->where('slug_sanpham', $slugsanpham)
+            ->where('sanpham.soluong', '>', 0)
             ->get();
         
         $thuonghieuIds = $sanpham->pluck('idthuonghieu')->toArray();
@@ -153,6 +158,7 @@ class PagesController extends Controller
             ->whereIn('idthuonghieu', $thuonghieuIds)
             ->inRandomOrder()
             ->where('sanpham.idsanpham', '!=', $sanpham->first()->idsanpham)
+            ->where('sanpham.soluong', '>', 0)
             ->take(3)
             ->get();
         return view('clients.home.chitietsanpham', ['sanpham' => $sanpham, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'sanphamlienquan' => $sanphamlienquan]);

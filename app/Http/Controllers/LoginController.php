@@ -8,6 +8,7 @@ use App\Models\CPU;
 use App\Models\Loaisp;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 class LoginController extends Controller
 {
     //
@@ -34,6 +35,7 @@ class LoginController extends Controller
     function logoutuser()
     {
         auth()->logout();
+        Session::forget('coupon');
         return redirect('/');
     }
     function dangky(Request $r)

@@ -144,6 +144,11 @@
                                     <div style="text-align: center;">...</div>
                                     @endif
                                     </p>
+                                    @if($item->soluong)
+                                    <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                                        Còn hàng
+                                    </div>
+                                    @endif
                                     <p class="buttons"><a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
 
                                 </div>

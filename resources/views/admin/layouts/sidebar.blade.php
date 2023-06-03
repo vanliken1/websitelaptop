@@ -35,7 +35,8 @@
                     <a href="/admin/product" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Sản phẩm</a>
 
                     <a href="/admin/banner" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Banner</a>
-
+                    <a href="/admin/giamgia" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Giảm giá</a>
+                    <a href="/admin/donhang" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Đơn hàng</a>
 
                     
 
