@@ -12,6 +12,28 @@
                     {{session('mess')}}
                 </p>
                 @endif
+                @if(session()->has('kiemtra'))
+                <?php
+                    $mess = session()->get('kiemtra');
+                    //var_dump($mess);
+                    foreach ($mess as $i){
+
+                        if($i['check']=='addNew'||$i['check']=='true'){
+                        ?>
+                        <p class="alert alert-primary sm-4">
+                           <?php echo $i['idsanpham']?>  them dc
+                        </p>
+                        <?php
+                        }else{
+                        ?>
+                        <p class="alert alert-danger sm-4">
+                            <?php echo $i['idsanpham']?> khong them dc
+                        </p>
+                        <?php
+                        }
+                    }
+                ?>
+                @endif
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -41,11 +63,13 @@
                                     <form action="/admin/khuyenmai/destroykm/{{$item->idsanpham}}" method="POST">
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">
+                                        <input type="hidden" name="vanngu" value="{{$item->idkhuyenmai}}">
                                         <input type="submit" value="xóa" class="btn btn-danger">
                                     </form>
                                 </td>
                                 <td>
-                                    <button class='editkm btn btn-success' data-id='{{$item->idsanpham}}'>Sửa</button>
+                                    <!-- <input type="text" id="idkhuyenmai" value="{{$item->idkhuyenmai}}"> -->
+                                    <button class='editkm btn btn-success' data-idkhuyenmai="{{$item->idkhuyenmai}}"  data-id='{{$item->idsanpham}}'>Sửa</button>
                                 </td>
 
                             </tr>
@@ -258,14 +282,16 @@
                 function() {
                     //let data = new FormData( $('#modelId form')[0] );
                     // Lấy giá trị ID từ thuộc tính "data-id" của nút
-
+                    var idKhuyenMai = $(this).data('idkhuyenmai')
+                    console.log(idKhuyenMai)
                     $('#modelId1').modal('show');
                     $.ajax({
                         url: '/admin/khuyenmai/editkm/' + $(this).data('id'),
                         type: 'get',
-                        // data: {
+                        data: {
+                            idkhuyenmai: idKhuyenMai
                         //     // id: $(this).data('id')
-                        // },
+                         },
                         dataType: 'json',
                         success: function(data2) {
                             console.log(data2);

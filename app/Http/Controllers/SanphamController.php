@@ -147,11 +147,6 @@ class SanphamController extends Controller
                 $c->save();
             }
 
-
-
-
-
-
             //dd($c);
             return response()->json($c);
         }

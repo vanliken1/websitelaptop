@@ -281,7 +281,6 @@
                     order_product_id: order_product_id
                 },
 
-
                 success: function(data) {
 
                     alert("Thay doi tinh trang thành công");

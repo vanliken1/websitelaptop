@@ -120,6 +120,11 @@ route::prefix('admin')->group(function () {
         route::delete('destroy/{id}', [KhuyenmaiController::class, 'destroy']);
         route::get('edit/{id}', [KhuyenmaiController::class, 'edit']);
         route::post('update', [KhuyenmaiController::class, 'update']);
+
+        route::get('them/{id}', [KhuyenmaiController::class, 'them']);
+        route::post('them', [KhuyenmaiController::class, 'themstore']);
+        route::post('capnhat', [KhuyenmaiController::class, 'capnhat']);
+        route::get('capnhatajax', [KhuyenmaiController::class, 'capnhatajax']);
     });
     route::prefix('donhang')->group(function () {
         route::get('/', [DonhangController::class, 'index']); 

@@ -8,13 +8,22 @@ use App\Models\Sanpham;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
+use Carbon\Carbon;
 
 class KhuyenmaiController extends Controller
 {
     public function index()
     {
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        // $loc = Khuyenmai::join('chitietkhuyenmai', 'khuyenmai.idkhuyenmai', '=', 'chitietkhuyenmai.idkhuyenmai')
+        //     ->select('khuyenmai.*','chitietkhuyenmai.*')
+        //     ->get();
+        // foreach($loc as $item){
+        //     dd($item->trangthaictkm);
+        // }
+        //dd($loc);    
         $khuyenmai = Khuyenmai::all();
-        return view('admin.khuyenmai.index', ['khuyenmai' => $khuyenmai]);
+        return view('admin.khuyenmai.index', ['khuyenmai' => $khuyenmai, 'today' => $today]);
     }
     public function storekm(Request $r)
     {
@@ -44,7 +53,6 @@ class KhuyenmaiController extends Controller
                 'idsanpham' => $r->idsanpham,
                 'trangthaictkm' => $r->trangthai,
             ]);
-
             $sanpham = Sanpham::find($r->idsanpham);
             if ($sanpham && $u->trangthaictkm == 1) {
                 // Cập nhật giá khuyến mãi của sản phẩm
@@ -81,12 +89,12 @@ class KhuyenmaiController extends Controller
         // return print_r($request->all() ); exit;
         // response()->json($request->all());
         if ($validator->passes()) {
-
+            //$ngayBatDauFormatted = date_format($ngayBatDauObj, "d/m/Y")
             $c = Khuyenmai::findorfail($request->idkhuyenmai);
             $c->tenkhuyenmai = $request->tenkhuyenmai;
             $c->ngaybatdau = $request->ngaybatdau;
             $c->ngayketthuc = $request->ngayketthuc;
-           
+
 
             $c->save();
             //dd($c);
@@ -114,7 +122,7 @@ class KhuyenmaiController extends Controller
         // return print_r($request->all() ); exit;
         // response()->json($request->all());
         if ($validator->passes()) {
-            Chitietkhuyenmai::where('idsanpham', $request->idsanpham)->update([
+            Chitietkhuyenmai::where('idsanpham', $request->idsanpham)->where('idkhuyenmai', $request->idkhuyenmai)->update([
                 'phantramkhuyenmai' => $request->phantramkhuyenmai,
                 'trangthaictkm' => $request->trangthai
             ]);
@@ -126,7 +134,6 @@ class KhuyenmaiController extends Controller
             // // $c->save();
             $c = Chitietkhuyenmai::where('idsanpham', $request->idsanpham)->get();
             if ($c) {
-
                 foreach ($c as $chitiet)
                     $sanpham = Sanpham::find($request->idsanpham);
                 if ($sanpham && $chitiet->trangthaictkm == 1) {
@@ -163,7 +170,7 @@ class KhuyenmaiController extends Controller
                 'tenkhuyenmai' => $r->tenkhuyenmai,
                 'ngaybatdau' => $r->ngaybatdau,
                 'ngayketthuc' => $r->ngayketthuc,
-                
+
             ]);
             return response()->json($u);
             //return response()->json($u,['success'=>'Added new records.']);
@@ -177,10 +184,10 @@ class KhuyenmaiController extends Controller
         $data = Khuyenmai::findOrFail($id);
         return response()->json($data);
     }
-    public function editkm($id)
+    public function editkm($id, Request $r)
     {
-        // dd($id);
-        $data = Chitietkhuyenmai::where('idsanpham', $id)->get();
+        //dd($r->all());
+        $data = Chitietkhuyenmai::where('idsanpham', $id)->where('idkhuyenmai', $r->idkhuyenmai)->get();
         // $data=[$id];
         return response()->json($data);
     }
@@ -195,11 +202,12 @@ class KhuyenmaiController extends Controller
         // dd($data);
         return view('admin.khuyenmai.chitietkm', ['data' => $data, 'id' => $id, 'existingValues' => $existingValues, 'arrsp' => $arrSP]);
     }
-    public function destroykm($id)
+    public function destroykm($id, Request $r)
     {
-        $cc = Chitietkhuyenmai::where('idsanpham', $id)->get();
-        $data = $cc[0]->idkhuyenmai;
-        Chitietkhuyenmai::where('idsanpham', $id)->delete();;
+        //dd(typeOf($r->vanngu) );
+        $cc = Chitietkhuyenmai::where('idsanpham', $id)->where('idkhuyenmai', $r->vanngu)->delete();
+        //dd($cc);
+
         session()->flash('mess', 'đã xóa');
         $sanpham = Sanpham::find($id);
         if ($sanpham) {
@@ -209,7 +217,7 @@ class KhuyenmaiController extends Controller
             $sanpham->giakhuyenmai = $sanpham->gia;
             $sanpham->save();
         }
-        return redirect("/admin/khuyenmai/chitiet/$data");
+        return redirect("/admin/khuyenmai/chitiet/$r->vanngu");
     }
     public function destroy($id)
     {
@@ -222,6 +230,176 @@ class KhuyenmaiController extends Controller
             session()->flash('mess', 'Vui lòng xóa khuyến mãi trên sản phẩm');
         }
         return redirect('/admin/khuyenmai');
-        
+    }
+    public function them($id)
+    {
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        $arrSP = Sanpham::all();
+        //$data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
+        $km = Khuyenmai::where('idkhuyenmai', $id)->first();
+        //dd($km['ngayketthuc']);
+        $timkhuyenmai = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
+        //dd($timkhuyenmai);
+        //dd($existingValues);
+        if ($km['ngayketthuc'] > $today) {
+            if ($timkhuyenmai->isEmpty()) {
+                $array[] = '';
+            } else {
+                foreach ($timkhuyenmai as $item) {
+                    // dd($item->idsanpham);
+                    //dd($item);
+                    $array[] = $item->idsanpham;
+                }
+            }
+        } else {
+
+            $array[] = 'hehe';
+            dd($array);
+        }
+
+
+        //dd($array);
+        //dd($data);
+
+        return view('admin.khuyenmai.themctkm', ['sp' => $arrSP, 'existingValues' => $array, 'arrsp' => $arrSP, 'id' => $id]);
+    }
+    public function themstore(Request $r)
+    {
+        $d = $r->sanpham;
+        //for($i=0;$i<count($d);$i++)
+        //$f=Chitietkhuyenmai::find([$d]);
+        //dd($d);
+        $km = Khuyenmai::where('idkhuyenmai', $r->idkhuyenmai)->first();
+
+        // cung dc
+
+        foreach ($d as $k => $v) {
+            //HP220400253
+            //$a[]=$item;
+            // $k1 = Chitietkhuyenmai::where('idsanpham','AC211006749')->get();
+            $k1 = Chitietkhuyenmai::where('idsanpham', $v)->get();
+            //dd($k1);
+
+            if ($k1->isEmpty()) {
+                $a[] = ['idkhuyenmai' => '', 'idsanpham' => $v];
+            } else {
+                foreach ($k1 as $i) {
+                    $a[] = ['idkhuyenmai' => $i->idkhuyenmai, 'idsanpham' => $i->idsanpham];
+                }
+            }
+            //$a= array_unique($a);
+            //$km1=Chitietkhuyenmai::where('idsanpham', $d)->pluck('idkhuyenmai')->toArray();
+        }
+        //dd($a);
+        foreach ($a as $i) {
+            if ($i['idkhuyenmai'] == '') {
+                $b[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'ngaybatdau' => '', 'ngayketthuc' => '', 'idsanpham' => $i['idsanpham']];
+            } elseif ($i['idkhuyenmai'] != $km->idkhuyenmai) {
+                $s = Khuyenmai::where('idkhuyenmai', $i['idkhuyenmai'])->first();;
+                $b[] = ['idkhuyenmai' => $s->idkhuyenmai, 'ngaybatdau' => $s->ngaybatdau, 'ngayketthuc' => $s->ngayketthuc, 'idsanpham' => $i['idsanpham']];
+            }
+        }
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        //dd($b);
+        foreach ($b as $i) {
+            //dd();
+            //if($i['ngayketthuc'] < ngay thuc tai)
+            if ($i['ngaybatdau'] == '' && $i['ngaybatdau'] == '' && $i['idkhuyenmai'] == '') {
+                $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'check' => 'addNew'];
+            } elseif ($i['ngaybatdau'] > $km->ngayketthuc && $i['ngaybatdau'] > $km->ngaybatdau) {
+                if ($i['ngayketthuc'] >= $today) {
+
+                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'check' => 'true'];
+                } else {
+
+                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'check' => 'falseDayNow'];
+                }
+            } else {
+                $f = $i['idkhuyenmai'] . '--' . $i['idsanpham'] . '--false';
+                $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'check' => 'false'];
+            }
+        }
+        //dd($kiemtra);
+
+        foreach ($kiemtra as $item) {
+            //dd($item['check']);
+            if ($item['check'] == 'addNew') {
+                Chitietkhuyenmai::create([
+                    'idkhuyenmai' => $r->idkhuyenmai,
+                    'phantramkhuyenmai' => "30",
+                    'idsanpham' => $item['idsanpham'],
+                    'trangthaictkm'=> 0
+                ]);
+            } elseif ($item['check'] == 'true') {
+                Chitietkhuyenmai::create([
+                    'idkhuyenmai' => $r->idkhuyenmai,
+                    'phantramkhuyenmai' => "30",
+                    'idsanpham' => $item['idsanpham'],
+                    'trangthaictkm'=> 0
+                ]);
+            }
+        }
+        $id = $r->idkhuyenmai;
+        session()->flash('kiemtra', $kiemtra);
+        return redirect("/admin/khuyenmai/chitiet/$id");
+    }
+    public function capnhat(Request $r)
+    {
+        //dd($r->all());
+        // Khuyenmai->lay alll
+
+
+        $loc = Khuyenmai::join('chitietkhuyenmai', 'khuyenmai.idkhuyenmai', '=', 'chitietkhuyenmai.idkhuyenmai')
+            ->select('khuyenmai.*', 'chitietkhuyenmai.trangthaictkm')
+            ->where('chitietkhuyenmai.trangthaictkm', '1')
+            ->get();
+        //dd($loc);
+        foreach ($loc as $i) {
+            //dd($i->idkhuyenmai);
+            $c = Chitietkhuyenmai::findorfail($i->idkhuyenmai);
+            //dd($c);
+            $c->trangthaictkm = 0;
+            $c->save();
+        }
+        //dd($loc);
+
+        foreach ($r->idkhuyenmai as $i) {
+            //$ctkm = Chitietkhuyenmai::where('idkhuyenmai',$i)->get();
+            $ctkm = Khuyenmai::join('chitietkhuyenmai', 'khuyenmai.idkhuyenmai', '=', 'chitietkhuyenmai.idkhuyenmai')
+                ->select('khuyenmai.*', 'chitietkhuyenmai.*')
+                ->where('chitietkhuyenmai.idkhuyenmai', $i)
+                ->get();
+            //dd($ctkm);
+            
+            //     "idkhuyenmai" => 4
+            // "tenkhuyenmai" => "test"
+            // "ngaybatdau" => "2023-06-04"
+            // "ngayketthuc" => "2023-06-06"
+            // "phantramkhuyenmai" => 30.0
+            // "idsanpham" => "MSI230402250"
+            // "trangthaictkm" => 0
+            foreach ($ctkm as $i) {
+                //dd($i);
+                $c = Chitietkhuyenmai::where('idsanpham',$i->idsanpham)->where('idkhuyenmai',$i->idkhuyenmai)->first();
+                //dd($c);
+                $c->trangthaictkm = 1;
+                $c->save();
+                $sanpham = Sanpham::find($i->idsanpham);
+                $tam[]=$c;
+                if ($sanpham && $c->trangthaictkm == 1) {
+                    $sanpham->giakhuyenmai = $sanpham->gia - ($sanpham->gia * ($c->phantramkhuyenmai / 100));
+                    $sanpham->save();
+                } else {
+                    $sanpham->giakhuyenmai = $sanpham->gia;
+                    $sanpham->save();
+                }
+            }
+        }
+        //
+    }
+    public function capnhatajax()
+    {
+
+        return response()->json($r);
     }
 }

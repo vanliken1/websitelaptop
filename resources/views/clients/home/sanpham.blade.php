@@ -122,9 +122,7 @@
                     <div class="row products">
                         @foreach($sanpham as $item)
                         <div class="col-lg-4 col-md-6">
-
                             <div class="product">
-
                                 <div>
                                     <div>
                                         <div><img src="{{asset('storage/img/'.$item->img)}}" width="250px" height="350px" alt=""></div>
@@ -132,7 +130,7 @@
                                     </div>
                                 </div>
                                 <div class="text">
-
+                                
                                     <h3><a href="detail.html">{{$item->tensanpham}}</a></h3>
                                     <p class="price">
                                         @if ($item->phantramkhuyenmai > 0 && $item->trangthaictkm == 1)
@@ -152,9 +150,7 @@
                                     </div>
                                     @endif
                                     <p class="buttons"><a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a><a href="/cart/add/{{$item->idsanpham}}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
-
                                 </div>
-
                                 <!-- /.text-->
 
                                 <!-- /.ribbon-->
@@ -165,13 +161,9 @@
 
                                 <!-- /.ribbon-->
                             </div>
-
-
                             <!-- /.product            -->
                         </div>
                         @endforeach
-
-
                         <!-- /.products-->
                     </div>
                     <div class="pages">
