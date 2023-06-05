@@ -58,5 +58,5 @@ $('#btnget').click(function() {
   alert($('#chkveg').val());
 });
 }); -->
-</script>
+
 @stop
