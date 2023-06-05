@@ -32,7 +32,7 @@
                         @endif
 
                         @endforeach
-                        
+
                 </form>
                 <button class="btn btn-primary btn_ajax"> AJAX</button>
                 <div class="table-responsive">
@@ -57,7 +57,7 @@
                                 <td>{{$item->ngaybatdau}}</td>
                                 <td>{{$item->ngayketthuc}}</td>
                                 <td>
-                                    <a href="/admin/khuyenmai/chitiet/{{$item->idkhuyenmai}}" class="btn btn-danger"> Chi tiet khuyến mãi</a>
+                                    <a href="/admin/khuyenmai/chitiet/{{$item->idkhuyenmai}}" class="btn btn-info"> Xem chi tiết</a>
                                 </td>
                                 <td>
                                     <form action="/admin/khuyenmai/destroy/{{$item->idkhuyenmai}}" method="POST">
@@ -71,11 +71,11 @@
                                 </td>
                                 @if($item->ngayketthuc >= $today)
                                 <td>
-                                    <a href="/admin/khuyenmai/them/{{$item->idkhuyenmai}}" class="btn btn-danger"> Them chi tiet</a>
+                                    <a href="/admin/khuyenmai/them/{{$item->idkhuyenmai}}" class="btn btn-primary"> Thêm chi tiết </a>
                                 </td>
                                 @else
                                 <td>
-                                    <p>het thoi gian hehe</p>
+                                    <button disabled class="btn btn-primary">Thêm chi tiết</button>
                                 </td>
                                 @endif
 
@@ -214,7 +214,7 @@
                 //     a.push($(this).val());
                 // });
                 // console.log(a);
-                var data= $('#them').serializeArray()
+                var data = $('#them').serializeArray()
                 console.log(data)
                 $.ajax({
                     url: '/admin/khuyenmai/capnhat',
@@ -223,7 +223,7 @@
                     dataType: 'json',
                     success: function(s) {
                         console.log(s)
-                        
+
                     },
                     error: function(s) {
                         console.log(s)
@@ -354,5 +354,29 @@
             });
         }
     );
+    // $(function() {
+    //     var fiveSecond = 30000;
+    //     var oneMinute = 1000 * 60;
+    //     setInterval(function() {
+    //         // var date = new Date();
+    //         // var current_date = date.getHours()+"-"+date.getMinutes();
+    //         // if(current_date == "0-0"){
+    //         //     $.ajax({
+    //         //         url: "/auto",
+    //         //         type: "GET",
+    //         //         success: function (data) {
+    //         //             console.log(data)
+    //         //         },
+    //         //     });
+    //         // }
+    //         $.ajax({
+    //             url: "/admin/khuyenmai/capnhatajax",
+    //             type: "POST",
+    //             success: function(data) {
+    //                 console.log('da chay');
+    //             },
+    //         });
+    //     }, fiveSecond);
+    // })
 </script>
 @stop

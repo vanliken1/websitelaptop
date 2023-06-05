@@ -122,28 +122,32 @@ class KhuyenmaiController extends Controller
         // return print_r($request->all() ); exit;
         // response()->json($request->all());
         if ($validator->passes()) {
-            Chitietkhuyenmai::where('idsanpham', $request->idsanpham)->where('idkhuyenmai', $request->idkhuyenmai)->update([
+            $c=Chitietkhuyenmai::where('idsanpham', $request->idsanpham)->where('idkhuyenmai', $request->idkhuyenmai)->update([
                 'phantramkhuyenmai' => $request->phantramkhuyenmai,
-                'trangthaictkm' => $request->trangthai
+                
             ]);
+            // $c = Chitietkhuyenmai::findorfail($request->idkhuyenmai);
+            // $c->phantramkhuyenmai = $request->phantramkhuyenmai;
+      
+            // $c->save();
 
 
             // // $c->phantramkhuyenmai = $request->phantramkhuyenmai;
             // // $c->trangthai = $request->trangthai;
 
             // // $c->save();
-            $c = Chitietkhuyenmai::where('idsanpham', $request->idsanpham)->get();
-            if ($c) {
-                foreach ($c as $chitiet)
-                    $sanpham = Sanpham::find($request->idsanpham);
-                if ($sanpham && $chitiet->trangthaictkm == 1) {
-                    $sanpham->giakhuyenmai = $sanpham->gia - ($sanpham->gia * ($chitiet->phantramkhuyenmai / 100));
-                    $sanpham->save();
-                } else {
-                    $sanpham->giakhuyenmai = $sanpham->gia;
-                    $sanpham->save();
-                }
-            }
+            //$c = Chitietkhuyenmai::where('idsanpham', $request->idsanpham)->get();
+            // if ($c) {
+            //     foreach ($c as $chitiet)
+            //         $sanpham = Sanpham::find($request->idsanpham);
+            //     if ($sanpham && $chitiet->trangthaictkm == 1) {
+            //         $sanpham->giakhuyenmai = $sanpham->gia - ($sanpham->gia * ($chitiet->phantramkhuyenmai / 100));
+            //         $sanpham->save();
+            //     } else {
+            //         $sanpham->giakhuyenmai = $sanpham->gia;
+            //         $sanpham->save();
+            //     }
+            // }
             //dd($c);
 
             return response()->json($c);
@@ -194,29 +198,40 @@ class KhuyenmaiController extends Controller
 
     public function chitiet($id)
     {
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
         // dd($id);
         $data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
+        $km = Khuyenmai::find($id);
+        //dd($km->ngayketthuc);
         //lay danh sach gia tri cot idsanpham sau do chuyen thanh mang
-        $existingValues = Chitietkhuyenmai::pluck('idsanpham')->toArray();
-        $arrSP = Sanpham::all();
+        // $existingValues = Chitietkhuyenmai::pluck('idsanpham')->toArray();
+        // $arrSP = Sanpham::all();
         // dd($data);
-        return view('admin.khuyenmai.chitietkm', ['data' => $data, 'id' => $id, 'existingValues' => $existingValues, 'arrsp' => $arrSP]);
+        return view('admin.khuyenmai.chitietkm', ['data' => $data, 'id' => $id,'khuyenmai'=>$km,'today'=>$today]);
     }
     public function destroykm($id, Request $r)
     {
-        //dd(typeOf($r->vanngu) );
-        $cc = Chitietkhuyenmai::where('idsanpham', $id)->where('idkhuyenmai', $r->vanngu)->delete();
-        //dd($cc);
+        // //dd(typeOf($r->vanngu) );
+         
+        // //dd($cc);
 
-        session()->flash('mess', 'đã xóa');
-        $sanpham = Sanpham::find($id);
-        if ($sanpham) {
+        
+        $sanpham = Sanpham::leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
+            ->select('sanpham.*', 'chitietkhuyenmai.trangthaictkm')
+            ->where('sanpham.idsanpham',$id)
+            ->where('chitietkhuyenmai.idkhuyenmai',$r->vanngu)
+            ->first();
+        // $sanpham = Sanpham::find($id);
+        //dd($sanpham->trangthaictkm);
+        if ($sanpham->trangthaictkm != 0) {
             // Thực hiện cập nhật thông tin sản phẩm tại đây
             // Ví dụ: $sanpham->ten_thuoc_tinh = giá_trị_mới;
             // $sanpham->save();
             $sanpham->giakhuyenmai = $sanpham->gia;
             $sanpham->save();
         }
+        Chitietkhuyenmai::where('idsanpham', $id)->where('idkhuyenmai', $r->vanngu)->delete();
+        session()->flash('mess', 'đã xóa');
         return redirect("/admin/khuyenmai/chitiet/$r->vanngu");
     }
     public function destroy($id)
@@ -251,11 +266,11 @@ class KhuyenmaiController extends Controller
                     $array[] = $item->idsanpham;
                 }
             }
-        } else {
-
-            $array[] = 'hehe';
-            dd($array);
-        }
+        } 
+        // else {
+        //     $array[] = 'hehe';
+        //     dd($array);
+        // }
 
 
         //dd($array);
@@ -346,8 +361,6 @@ class KhuyenmaiController extends Controller
     public function capnhat(Request $r)
     {
         //dd($r->all());
-        // Khuyenmai->lay alll
-
 
         $loc = Khuyenmai::join('chitietkhuyenmai', 'khuyenmai.idkhuyenmai', '=', 'chitietkhuyenmai.idkhuyenmai')
             ->select('khuyenmai.*', 'chitietkhuyenmai.trangthaictkm')
@@ -364,6 +377,7 @@ class KhuyenmaiController extends Controller
         //dd($loc);
 
         foreach ($r->idkhuyenmai as $i) {
+            //dd($i);
             //$ctkm = Chitietkhuyenmai::where('idkhuyenmai',$i)->get();
             $ctkm = Khuyenmai::join('chitietkhuyenmai', 'khuyenmai.idkhuyenmai', '=', 'chitietkhuyenmai.idkhuyenmai')
                 ->select('khuyenmai.*', 'chitietkhuyenmai.*')
@@ -399,7 +413,64 @@ class KhuyenmaiController extends Controller
     }
     public function capnhatajax()
     {
+        // Khuyenmai->lay alll
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        $kiemtraKM=Khuyenmai::all();
+        foreach($kiemtraKM as $i){
+            //dd($i->ngaybatdau);
+            if($i->ngaybatdau <= $today && $i->ngayketthuc >= $today ){
+                $idkhuyenmai[]= $i->idkhuyenmai;
+            }
+        }
+       
+        // dd($homnaycankhuyenmai);
 
-        return response()->json($r);
+        $loc = Khuyenmai::join('chitietkhuyenmai', 'khuyenmai.idkhuyenmai', '=', 'chitietkhuyenmai.idkhuyenmai')
+            ->select('khuyenmai.*', 'chitietkhuyenmai.trangthaictkm')
+            ->where('chitietkhuyenmai.trangthaictkm', '1')
+            ->get();
+        //dd($loc);
+        foreach ($loc as $i) {
+            //dd($i->idkhuyenmai);
+            $c = Chitietkhuyenmai::findorfail($i->idkhuyenmai);
+            //dd($c);
+            $c->trangthaictkm = 0;
+            $c->save();
+        }
+        //dd($loc);
+
+        foreach ($idkhuyenmai as $i) {
+            //dd($i);
+            //$ctkm = Chitietkhuyenmai::where('idkhuyenmai',$i)->get();
+            $ctkm = Khuyenmai::join('chitietkhuyenmai', 'khuyenmai.idkhuyenmai', '=', 'chitietkhuyenmai.idkhuyenmai')
+                ->select('khuyenmai.*', 'chitietkhuyenmai.*')
+                ->where('chitietkhuyenmai.idkhuyenmai', $i)
+                ->get();
+            //dd($ctkm);
+            
+            //     "idkhuyenmai" => 4
+            // "tenkhuyenmai" => "test"
+            // "ngaybatdau" => "2023-06-04"
+            // "ngayketthuc" => "2023-06-06"
+            // "phantramkhuyenmai" => 30.0
+            // "idsanpham" => "MSI230402250"
+            // "trangthaictkm" => 0
+            foreach ($ctkm as $i) {
+                //dd($i);
+                $c = Chitietkhuyenmai::where('idsanpham',$i->idsanpham)->where('idkhuyenmai',$i->idkhuyenmai)->first();
+                //dd($c);
+                $c->trangthaictkm = 1;
+                $c->save();
+                $sanpham = Sanpham::find($i->idsanpham);
+                $tam[]=$c;
+                if ($sanpham && $c->trangthaictkm == 1) {
+                    $sanpham->giakhuyenmai = $sanpham->gia - ($sanpham->gia * ($c->phantramkhuyenmai / 100));
+                    $sanpham->save();
+                } else {
+                    $sanpham->giakhuyenmai = $sanpham->gia;
+                    $sanpham->save();
+                }
+            }
+        }
     }
 }

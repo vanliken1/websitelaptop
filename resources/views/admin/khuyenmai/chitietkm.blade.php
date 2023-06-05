@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý chi tiết Khuyến Mãi</h6>
-                <p><button class='addkm btn btn-primary'>Thêm</button></p>
+                <!-- <p><button class='addkm btn btn-primary'>Thêm</button></p> -->
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
                     {{session('mess')}}
@@ -59,6 +59,8 @@
                                     {{'Hiện'}}
                                     @endif
                                 </td>
+                                
+                                @if($khuyenmai->ngayketthuc >= $today)
                                 <td>
                                     <form action="/admin/khuyenmai/destroykm/{{$item->idsanpham}}" method="POST">
                                         @csrf
@@ -71,6 +73,15 @@
                                     <!-- <input type="text" id="idkhuyenmai" value="{{$item->idkhuyenmai}}"> -->
                                     <button class='editkm btn btn-success' data-idkhuyenmai="{{$item->idkhuyenmai}}"  data-id='{{$item->idsanpham}}'>Sửa</button>
                                 </td>
+                                @else
+                                <td >
+                                    <button disabled class='btn btn-danger' >Xóa</button>
+                                </td>
+                                <td>
+                                    <!-- <input type="text" id="idkhuyenmai" value="{{$item->idkhuyenmai}}"> -->
+                                    <button disabled class='btn btn-success'>Sửa</button>
+                                </td>
+                                @endif
 
                             </tr>
                         </tbody>
@@ -83,72 +94,7 @@
 
     </div>
 </div>
-<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Thêm </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <form action="/admin/khuyenmai/storekm" method="POST">
-                        @csrf
-                        <div class="form-floating mb-3">
-                            <input type="hidden" class="form-control" id="idkhuyenmai" value="{{$id}}" name="idkhuyenmai">
-                            <span class="text-danger error-text idkhuyenmai_err"></span>
 
-                        </div>
-
-                        <div class="form-floating mb-3">
-
-                            <input type="text" name='phantramkhuyenmai' id="phantramkhuyenmai" class='form-control mt-3'>
-                            <label for="floatingInput">Phần trăm khuyến mãi</label>
-                            <span class="text-danger error-text phantramkhuyenmai_err"></span>
-                        </div>
-                        <div class="form-floating mb-3">
-
-                            <select name='idsanpham' id="idsanpham" class='form-select mt-3'>
-
-                                @foreach($arrsp as $item)
-                                //kiem tra xem idsanpham da ton tai trong mảng exist chưa nếu chưa thì nó sẽ tạo một lựa chọn trong một trường select
-                                @if($item->trangthai==1)
-                                @if(!in_array($item->idsanpham, $existingValues))
-
-                                <option value="{{$item->idsanpham}}">{{$item->idsanpham}}</option>
-                                @endif
-                                @endif
-                                @endforeach
-                            </select>
-
-                            <label for="floatingInput">Mã sp </label>
-                            <span class="text-danger error-text idsanpham_err"></span>
-                        </div>
-                        <div class="form-floating mb-3">
-
-                            <select type="number" name='trangthai' class='form-select mt-3'>
-                                <option value="0">Ẩn</option>
-                                <option value="1">Hiện</option>
-                            </select>
-                            <label for="floatingInput">Trạng thái</label>
-                            <span class="text-danger error-text trangthai_err"></span>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="/admin/khuyenmai/chitiet/{{$id}}" class="btn btn-secondary">Thoát</a>
-
-                <button type="button" class="btn btn-primary storekm">Save..</button>
-            </div>
-
-
-        </div>
-    </div>
-</div>
 <div class="modal fade" id="modelId1" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

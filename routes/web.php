@@ -124,7 +124,7 @@ route::prefix('admin')->group(function () {
         route::get('them/{id}', [KhuyenmaiController::class, 'them']);
         route::post('them', [KhuyenmaiController::class, 'themstore']);
         route::post('capnhat', [KhuyenmaiController::class, 'capnhat']);
-        route::get('capnhatajax', [KhuyenmaiController::class, 'capnhatajax']);
+        route::post('capnhatajax', [KhuyenmaiController::class, 'capnhatajax']);
     });
     route::prefix('donhang')->group(function () {
         route::get('/', [DonhangController::class, 'index']); 
