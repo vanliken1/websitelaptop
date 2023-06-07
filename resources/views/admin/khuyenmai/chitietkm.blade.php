@@ -26,11 +26,14 @@
                         <?php
                         }elseif($i['check']=='false')
                         {
-                        ?>
-                        <p class="alert alert-danger sm-4">
-                            <?php echo $i['idsanpham']?> khong them dc
-                        </p>
-                        <?php
+                            if($i['trangthaictkm']==0){
+                                ?>
+                                <p class="alert alert-danger sm-4">
+                                    <?php echo $i['idsanpham']?> khong them dc
+                                </p>
+                                <?php
+                            }
+                
                         }elseif($i['check']=='truonghopmoi'){
                             if($i['trangthaictkm']==1){
                                 ?>

@@ -32,19 +32,7 @@
 
                 </div>
 
-                <!-- @foreach($sp as $item)
-                            @if(!in_array($item->idsanpham, $existingValues))
-
-                            <div class="form-check col-md-3">
-                                <input class="form-check-input" type="checkbox" name="sanpham[]" value="{{$item->idsanpham}}" >
-                                <label class="form-check-label" >
-                                    {{$item->tensanpham}}
-                                </label>
-                            </div>
-
-                            @endif
-                            <option value="{{$item->idsanpham}}">{{$item->idsanpham}}</option>
-                            @endforeach -->
+           
             </div>
         </div>
     </div>
@@ -101,12 +89,7 @@
                             //     resultsContainer.append(div);
                             // }
 
-                            // <div class="form-check col-md-3">
-                            //     <input class="form-check-input" type="checkbox" name="sanpham[]" value="{{$item->idsanpham}}" >
-                            //     <label class="form-check-label" >
-                            //         {{$item->tensanpham}}
-                            //     </label>
-                            // </div>
+                        
                             t += `  <div class="form-check col-md-3">
                                 <input class="form-check-input" type="checkbox" name="sanpham[]" value="${item.idsanpham}" >
                                 <label class="form-check-label" >
