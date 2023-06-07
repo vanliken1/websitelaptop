@@ -24,12 +24,27 @@
                            <?php echo $i['idsanpham']?>  them dc
                         </p>
                         <?php
-                        }else{
+                        }elseif($i['check']=='false')
+                        {
                         ?>
                         <p class="alert alert-danger sm-4">
                             <?php echo $i['idsanpham']?> khong them dc
                         </p>
                         <?php
+                        }elseif($i['check']=='truonghopmoi'){
+                            if($i['trangthaictkm']==1){
+                                ?>
+                                <p class="alert alert-danger sm-4">
+                                    <?php echo $i['idsanpham']?> khong them duoc-truonghopmoi
+                                </p>
+                                <?php
+                            }
+                        }else{
+                            ?>
+                            <p class="alert alert-danger sm-4">
+                                <?php echo $i['idsanpham']?> khong them duoc do ngay
+                            </p>
+                            <?php
                         }
                     }
                 ?>

@@ -104,7 +104,7 @@ class SanphamController extends Controller
                 $request->img->storeAs('public/img', $img);
             }
 
-            if (isset($ct) && $ct->trangthaictkm == 1 ) {
+            if (isset($ct) && $ct->trangthaictkm == 1) {
                 $khuyenmai = $request->gia - ($request->gia * ($ct->phantramkhuyenmai / 100));
 
                 $c->giakhuyenmai = $khuyenmai;
@@ -126,7 +126,7 @@ class SanphamController extends Controller
 
                 $c->save();
             } else {
-                
+
                 $khuyenmai = $request->gia;
 
                 $c->giakhuyenmai = $khuyenmai;
