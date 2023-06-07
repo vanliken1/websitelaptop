@@ -273,7 +273,7 @@ class KhuyenmaiController extends Controller
         //dd($array);
         //dd($data);
 
-        return view('admin.khuyenmai.themctkm', [ 'id' => $id]);
+        return view('admin.khuyenmai.themctkm', ['id' => $id]);
     }
     public function themstore(Request $r)
     {
@@ -323,35 +323,34 @@ class KhuyenmaiController extends Controller
             //if($i['ngayketthuc'] < ngay thuc tai)
             if ($i['ngaybatdau'] == '' && $i['ngaybatdau'] == '' && $i['idkhuyenmai'] == '') {
                 $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'check' => 'addNew'];
-            }elseif($i['ngaybatdau']>$km->ngaybatdau && $i['ngayketthuc']<$km->ngayketthuc){
-                if($i['trangthaictkm']!=0){
+            } elseif ($i['ngaybatdau'] > $km->ngaybatdau && $i['ngayketthuc'] < $km->ngayketthuc) {
+                if ($i['trangthaictkm'] != 0) {
 
-                    $kiemtra[]=['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'],'trangthaictkm'=>$i['trangthaictkm'],'check' => 'truonghopmoi'];
-                }else{
-                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'],'trangthaictkm'=>$i['trangthaictkm'], 'check' => 'addNew'];
-
+                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm'], 'check' => 'truonghopmoi'];
+                } else {
+                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm'], 'check' => 'addNew'];
                 }
-                
             }
             // elseif(){
 
             // }
             elseif ($i['ngaybatdau'] < $km->ngaybatdau && $i['ngayketthuc'] > $km->ngayketthuc) {
-                if($i['trangthaictkm']!=0){
+                if ($i['trangthaictkm'] != 0) {
 
-                    $kiemtra[]=['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'],'trangthaictkm'=>$i['trangthaictkm'],'check' => 'truonghopmoi'];
-                }else{
-                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'],'trangthaictkm'=>$i['trangthaictkm'], 'check' => 'addNew'];
-
-                }
-            }
-            elseif ($i['ngaybatdau'] > $km->ngayketthuc && $i['ngaybatdau'] > $km->ngaybatdau) {
-                if ($i['ngaybatdau'] >= $today) {
-
-                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'check' => 'true'];
+                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm'], 'check' => 'truonghopmoi'];
+                    break;
                 } else {
+                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm'], 'check' => 'addNew'];
+                }
+            } elseif ($i['ngaybatdau'] > $km->ngayketthuc && $i['ngaybatdau'] > $km->ngaybatdau) {
+                if ($km->ngaybatdau < $today && $km->ngayketthuc > $today) {
+                    if ($i['ngaybatdau'] >= $today) {
 
-                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'check' => 'falseDayNow'];
+                        $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'],'trangthaictkm' => $i['trangthaictkm'], 'check' => 'true'];
+                    } else {
+
+                        $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'],'trangthaictkm' => $i['trangthaictkm'], 'check' => 'falseDayNow'];
+                    }
                 }
             } elseif ($i['ngayketthuc'] <= $km->ngaybatdau && $i['ngayketthuc'] <= $km->ngayketthuc) {
                 if ($km->ngaybatdau >= $today) {
@@ -363,7 +362,7 @@ class KhuyenmaiController extends Controller
                 }
             } else {
                 $f = $i['idkhuyenmai'] . '--' . $i['idsanpham'] . '--false';
-                $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'],'trangthaictkm' => $i['trangthaictkm'], 'check' => 'false'];
+                $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm'], 'check' => 'false'];
             }
         }
         // dd($kiemtra);
