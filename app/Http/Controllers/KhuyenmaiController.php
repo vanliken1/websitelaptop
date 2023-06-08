@@ -302,7 +302,7 @@ class KhuyenmaiController extends Controller
             //$a= array_unique($a);
             //$km1=Chitietkhuyenmai::where('idsanpham', $d)->pluck('idkhuyenmai')->toArray();
         }
-        // dd($a);
+        //dd($a);
         foreach ($a as $i) {
             if ($i['idkhuyenmai'] == '') {
                 $b[] = [
@@ -329,7 +329,7 @@ class KhuyenmaiController extends Controller
         // }
         // dd(array_reverse($b,true));
         $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d ');
-        // dd($b);
+        //dd($b);
         foreach ($b as $i) {
             //dd();
             //if($i['ngayketthuc'] < ngay thuc tai)
@@ -405,6 +405,13 @@ class KhuyenmaiController extends Controller
                         'trangthaictkm' => $i['trangthaictkm'],
                         'check' => 'datbiet'
                     ];
+                } elseif ($i['ngaybatdau']==$km->ngaybatdau||$i['ngaybatdau']==$km->ngayketthuc||$i['ngayketthuc']==$km->ngaybatdau||$i['ngayketthuc']==$km->ngayketthuc){
+                    $kiemtra[] = [
+                        'idkhuyenmai' => $i['idkhuyenmai'],
+                        'idsanpham' => $i['idsanpham'],
+                        'trangthaictkm' => $i['trangthaictkm'],
+                        'check' => 'datbiet'
+                    ];
                 } else {
                     $kiemtra[] = [
                         'idkhuyenmai' => $i['idkhuyenmai'],
@@ -422,7 +429,15 @@ class KhuyenmaiController extends Controller
                         'trangthaictkm' => $i['trangthaictkm'],
                         'check' => 'datbiet'
                     ];
-                } else {
+                }elseif ($i['ngaybatdau']==$km->ngaybatdau||$i['ngaybatdau']==$km->ngayketthuc||$i['ngayketthuc']==$km->ngaybatdau||$i['ngayketthuc']==$km->ngayketthuc){
+                    $kiemtra[] = [
+                        'idkhuyenmai' => $i['idkhuyenmai'],
+                        'idsanpham' => $i['idsanpham'],
+                        'trangthaictkm' => $i['trangthaictkm'],
+                        'check' => 'datbiet'
+                    ];
+                }
+                 else {
                     $kiemtra[] = [
                         'idkhuyenmai' => $i['idkhuyenmai'],
                         'idsanpham' => $i['idsanpham'],
@@ -495,15 +510,17 @@ class KhuyenmaiController extends Controller
                 ];
             }
         }
-        dd($kiemtra);
+        //dd($kiemtra);
 
         foreach ($kiemtra as $item) {
             //dd($item['check']);
             if ($item['check'] == 'datbiet') {
-
-                Chitietkhuyenmai::where('idsanpham', $item['idsanpham'])->where('idkhuyenmai', $km->idkhuyenmai)->delete();
-                session()->flash('loi',  $item['idkhuyenmai']);
-                break;
+                $tam[]=[
+                    'idkhuyenmai' => $item['idkhuyenmai'],
+                    'idsanpham' => $item['idsanpham'],
+                    //$item['check'] == 'datbiet'
+                ];
+                $idkm[] = $item['idsanpham'];
             } else {
                 if ($item['check'] == 'addNew') {
                     Chitietkhuyenmai::create([
@@ -512,7 +529,9 @@ class KhuyenmaiController extends Controller
                         'idsanpham' => $item['idsanpham'],
                         'trangthaictkm' => 2
                     ]);
-                    session()->flash('themthanhcong',  $item['idsanpham']);
+                 
+                    $them[]= $item['idsanpham'];
+                    session()->flash('them', $them);
                 } elseif ($item['check'] == 'true' ) {
                     $ktra = Chitietkhuyenmai::where('idkhuyenmai', $km->idkhuyenmai)->where('idsanpham', $item['idsanpham'])->first();
                     if ($ktra == null) {
@@ -522,11 +541,32 @@ class KhuyenmaiController extends Controller
                             'idsanpham' => $item['idsanpham'],
                             'trangthaictkm' => 2
                         ]);
-                        session()->flash('themthanhcong',  $item['idsanpham']);
+                 
+                        $mang[]= [
+                                    'idkhuyenmai' => $item['idkhuyenmai'],
+                                    'idsanpham' => $item['idsanpham'],
+                                ];
                     }
                 }
             }
         }
+        if($idkm){
+            foreach($mang as $i){
+                if(!in_array($i['idsanpham'],$idkm)){
+                    $themthanhcong[]= $i['idsanpham'];
+                }
+            }
+            //dd($themthanhcong);
+            session()->flash('themthanhcong', $themthanhcong);
+        }
+        if($tam){
+            foreach($tam as $item){
+                Chitietkhuyenmai::where('idsanpham', $item['idsanpham'])->where('idkhuyenmai', $km->idkhuyenmai)->delete();
+                $bien[] = $item['idkhuyenmai'].'---'.$item['idsanpham'];
+                session()->flash('loi', $bien);
+            }
+        }
+        
         $id = $r->idkhuyenmai;
         //session()->flash('kiemtra', $kiemtra);
         return redirect("/admin/khuyenmai/chitiet/$id");

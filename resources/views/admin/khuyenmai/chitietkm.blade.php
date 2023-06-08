@@ -8,13 +8,40 @@
                 <h6 class="mb-4">Quản lý chi tiết Khuyến Mãi</h6>
                 <!-- <p><button class='addkm btn btn-primary'>Thêm</button></p> -->
                 @if(session()->has('loi'))
-                <p class="alert alert-danger sm-4">
-                    {{session('loi')}} da ton tai trung ngay
-                </p>
-                @elseif(session()->has('themthanhcong'))
-                <p class="alert alert-primary sm-4">
-                    {{session('themthanhcong')}} thêm thành công
-                </p>
+                <?php
+                    $mess = session()->get('loi');
+                    foreach ($mess as $i){
+                        ?>
+                        <p class="alert alert-danger sm-4">
+                            <?php echo $i?> lỗi trùng ngày nên không thêm đc 
+                        </p>
+                        <?php
+                    }
+                ?>
+                @endif
+                @if(session()->has('themthanhcong'))
+                <?php
+                    $mess = session()->get('themthanhcong');
+                    foreach ($mess as $i){
+                        ?>
+                        <p class="alert alert-primary sm-4">
+                            <?php echo $i?> thêm thành công
+                        </p>
+                        <?php
+                    }
+                ?>
+                @endif
+                @if(session()->has('them'))
+                <?php
+                    $mess = session()->get('them');
+                    foreach ($mess as $i){
+                        ?>
+                        <p class="alert alert-primary sm-4">
+                            <?php echo $i?> thêm thành công
+                        </p>
+                        <?php
+                    }
+                ?>
                 @endif
                 @if(session()->has('kiemtra'))
                 <?php
