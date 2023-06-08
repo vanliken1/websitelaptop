@@ -199,11 +199,16 @@
                 // alert( $(this).data('id') );
                 var quantity = $(this).val();
                 var rowId = $(this).data('id');
-                var stockQuantity = $('.soluongton_' + rowId).val();
+               
 
                 if (quantity <= 0) {
                     $(this).val(1);
                     return;
+                }
+                if (quantity > 5) {
+                    $(this).val(5);
+                    quantity = 5;
+                    alert('Số lượng sản phẩm tối đa là 5.');
                 }
 
                 $.ajax({
@@ -212,17 +217,14 @@
                     data: {
                         rowId: $(this).data('id'),
                         qty: $(this).val(),
-                        stockQuantity: stockQuantity,
+                       
                         _token: $('input[name=_token]').val()
                     },
                     dataType: 'json',
                     success: function(dataReturn) {
                         console.log(dataReturn);
-                        if(dataReturn.error){
-                            alert(dataReturn.error)
-                        }else{
                         $('#qty').html(dataReturn.n);
-                        }
+                        
                         location.reload();
                     }
                 });

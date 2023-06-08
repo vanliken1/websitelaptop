@@ -34,9 +34,16 @@
         type: "POST",
         success: function(data) {
           console.log('da chay');
-         
+
         },
       });
     }, fiveSecond);
   })
+
+  window.onload = function() {
+    var alertMessage = "{{ session('alert') }}";
+    if (alertMessage) {
+      alert(alertMessage);
+    }
+  }
 </script>

@@ -35,11 +35,13 @@
                                     @elseif($item->trangthai==2)
                                     <span style="color: blue;">Đã xử lý</span>
                                     @elseif($item->trangthai==3)
-                                    <span style="color: red;">Hủy</span>
+                                    <span style="color: red;">Hủy-sau xử lý</span>
                                     @elseif($item->trangthai==4)
                                     <span style="color: SkyBlue;">Đang giao</span>
-                                    @else
+                                    @elseif($item->trangthai==5)
                                     <span style="color: cyan;">Đã giao</span>
+                                    @else
+                                    <span style="color: red;">Hủy-trước xử lý</span>
                                     @endif
 
                                 </td>

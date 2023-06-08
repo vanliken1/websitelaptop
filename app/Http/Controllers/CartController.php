@@ -47,7 +47,7 @@ class CartController extends Controller
                 Cart::update($item->rowId, [
                     'id' => $sanpham->idsanpham,
                     'name' => $sanpham->tensanpham,
-                    'options' => ['img' => $sanpham->img, 'giagoc' => $sanpham->gia,'soluongkho'=>$sanpham->soluong],
+                    'options' => ['img' => $sanpham->img, 'giagoc' => $sanpham->gia, 'soluongkho' => $sanpham->soluong],
                     'price' => $sanpham->giakhuyenmai,
                 ]);
             }
@@ -59,15 +59,24 @@ class CartController extends Controller
         $sanpham = Sanpham::find($id);
         //dd($product);
         // Cart::add('1','sp1',1,9.99 ,10);
+        // Kiểm tra xem sản phẩm đã có trong giỏ hàng hay chưa
+        $existingItem = Cart::search(function ($cartItem, $rowId) use ($id) {
+            return $cartItem->id == $id;
+        });
+
+        if ($existingItem->isNotEmpty()) {
+            // Hiển thị thông báo sản phẩm đã có trong giỏ hàng
+            return redirect()->back()->with('alert', 'Sản phẩm đã có trong giỏ hàng.');
+        }
         $cart = [
             'id' => $sanpham->idsanpham,
             'name' => $sanpham->tensanpham,
-            'options' => ['img' => $sanpham->img, 'giagoc' => $sanpham->gia,'soluongkho'=>$sanpham->soluong],
+            'options' => ['img' => $sanpham->img, 'giagoc' => $sanpham->gia, 'soluongkho' => $sanpham->soluong],
             'qty' => 1,
             'price' => $sanpham->giakhuyenmai,
             'weight' => 0
         ];
-  
+
         Cart::add($cart);
 
 
@@ -81,16 +90,10 @@ class CartController extends Controller
     }
     function edit(Request $r)
     {
-        $stockQuantity = $r->stockQuantity;
-        // dd($stockQuantity);
-        if ($r->qty > $stockQuantity) {
-            // Xử lý thông báo hoặc hành động khi số lượng đặt vượt quá số lượng tồn kho
-            return response()->json(['error' => 'Số lượng kho không đủ']);
-        }else{
-    
+
+
         Cart::update($r->rowId, $r->qty);
         return response()->json(['n' => Cart::count()]);
-        }
     }
     function trangthanhtoan()
     {
@@ -229,10 +232,21 @@ class CartController extends Controller
         //         'sdtnguoinhan.digits' => 'SĐT ko hợp lệ',
         //     ]
         // );
+        $today = Carbon::today();
+
+        // Kiểm tra số lần ID người dùng đã xuất hiện trong đơn hàng trong ngày hôm nay
+        $donHangDaDatTrongHomNay = Donhang::where('idnguoidung', auth()->user()->idnguoidung)
+            ->whereDate('ngaydat', $today)
+            ->count();
+
+        if ($donHangDaDatTrongHomNay >= 3) {
+            session()->flash('error', 'Bạn đã đạt số lượng đơn hàng tối đa trong ngày hôm nay.Mai quay lại bạn nhé!');
+            return redirect('/thanhtoan');
+        }
         $data = $r->all();
         // $haongu=Session::get('coupon');  
         // dd($haongu[0]['codegiamgia']); 
-        
+
         $coupon1 = Giamgia::where('codegiamgia', $data['coupon_donhang'])
             ->where('trangthai', 1)
             ->first();
@@ -248,9 +262,8 @@ class CartController extends Controller
             }
             $coupon1->dasudung = $coupon1->dasudung . ',' . auth()->user()->idnguoidung;
             $coupon1->save();
-            
         }
-     
+
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $data['ngaydat'] = date('y-m-d h:i:s');
@@ -268,27 +281,27 @@ class CartController extends Controller
                 'idsanpham' => $item->id,
                 'soluong' => $item->qty,
                 'gia' => $item->price,
-                'trangthai'=>1,
+                'trangthai' => 1,
                 'codegiamgia' => $r->coupon_donhang,
             ];
-            $ct=Chitietdonhang::create($data2);
+            $ct = Chitietdonhang::create($data2);
         }
         $dataEmail = [
             'madonhang' => $o->iddonhang,
             'magiamgia' => $ct->codegiamgia,
             'diachinguoinhan' => $o->diachinguoinhan,
             'tennguoinhan' => $o->tennguoinhan,
-            'tennguoigui'=>auth()->user()->tennguoidung,
+            'tennguoigui' => auth()->user()->tennguoidung,
             'sdtnguoinhan' => $o->sdtnguoinhan,
             'ghichu' => $o->note,
             'hinhthucthanhtoan' => $o->hinhthuc,
-            'cart'=>Cart::content(),
-            'session_coupon'=>Session::get('coupon'),
-        
+            'cart' => Cart::content(),
+            'session_coupon' => Session::get('coupon'),
+
         ];
-         //-----gui mail ne---------
-         $email['email'] = auth()->user()->email;
-         Mail::to($email)->send(new testmail($dataEmail));
+        //-----gui mail ne---------
+        $email['email'] = auth()->user()->email;
+        Mail::to($email)->send(new testmail($dataEmail));
         //----xoa all gio hang------
         Cart::destroy();
         Session::forget('coupon');

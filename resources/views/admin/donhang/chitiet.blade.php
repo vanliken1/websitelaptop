@@ -124,7 +124,7 @@
                                 </td>
                                 <td>
                                     <!-- //soluong khach hang dat -->
-                                    <input type="number" min="1" value="{{number_format($item->soluong,0, ',', '.')}}" data-product-id="{{$item->products->idsanpham}}" class="order_qty_{{$item->products->idsanpham}} soluongne" name="soluonghang" {{$item->orders->trangthai==2?'disabled':''}}{{$item->orders->trangthai==3?'disabled':''}} {{$item->orders->trangthai==4?'disabled':''}} {{$item->orders->trangthai==5?'disabled':''}} />
+                                    <input type="number" min="1" value="{{number_format($item->soluong,0, ',', '.')}}" data-product-id="{{$item->products->idsanpham}}" class="order_qty_{{$item->products->idsanpham}} soluongne" name="soluonghang" {{$item->orders->trangthai==2?'disabled':''}}{{$item->orders->trangthai==3?'disabled':''}} {{$item->orders->trangthai==4?'disabled':''}} {{$item->orders->trangthai==5?'disabled':''}}{{$item->orders->trangthai==6?'disabled':''}} />
                                     <!-- <input type="text" readonly  value="{{number_format($item->soluong,0, ',', '.')}}" class="order_qty_{{$item->products->idsanpham}}" name="soluonghang"> -->
 
                                     <!-- //so luong kho -->
@@ -134,7 +134,7 @@
                                     <!-- //ma san pham  -->
 
                                     <input type="hidden" name="order_product_id" class="order_product_id" value="{{$item->products->idsanpham}}">
-                                 
+
                                 </td>
                                 <td>{{number_format($item->soluong * $item->gia, 0, ',', '.')}}</td>
 
@@ -152,9 +152,11 @@
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" selected value="1">Chưa xử lý</option>
                                             <option id="{{$dh->iddonhang}}" value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy-sau xử lý</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="4">Đang giao</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="5">Đã giao</option>
+                                            <option id="{{$dh->iddonhang}}" value="6">Hủy-trước xử lý</option>
+
                                         </select>
                                     </form>
                                     @elseif($dh->trangthai==2)
@@ -164,10 +166,10 @@
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="1">Chưa xử lý</option>
                                             <option id="{{$dh->iddonhang}}" selected value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" value="3">Hủy</option>
+                                            <option id="{{$dh->iddonhang}}" value="3">Hủy-sau xử lý</option>
                                             <option id="{{$dh->iddonhang}}" value="4">Đang giao</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="5">Đã giao</option>
-
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xử lý</option>
 
                                         </select>
                                     </form>
@@ -178,10 +180,10 @@
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="1">Chưa xử lý</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" selected value="3">Hủy</option>
+                                            <option id="{{$dh->iddonhang}}" selected value="3">Hủy-sau xử lý</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="4">Đang giao</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="5">Đã giao</option>
-
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xử lý</option>
                                         </select>
                                     </form>
                                     @elseif($dh->trangthai==4)
@@ -191,9 +193,24 @@
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="1">Chưa xử lý</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" value="3">Hủy</option>
+                                            <option id="{{$dh->iddonhang}}" value="3">Hủy-sau xử lý</option>
                                             <option id="{{$dh->iddonhang}}" selected value="4">Đang giao</option>
                                             <option id="{{$dh->iddonhang}}" value="5">Đã giao</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xử lý</option>
+
+                                        </select>
+                                    </form>
+                                    @elseif($dh->trangthai==5)
+                                    <form method="post">
+                                        @csrf
+                                        <select class="form-control trangthaidh">
+                                            <option value="">--Chọn phương thức xử lý--</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="1">Chưa xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy-sau xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="4">Đang giao</option>
+                                            <option id="{{$dh->iddonhang}}" selected value="5">Đã giao</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xử lý</option>
 
                                         </select>
                                     </form>
@@ -204,9 +221,10 @@
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="1">Chưa xử lý</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy-sau xử lý</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="4">Đang giao</option>
-                                            <option id="{{$dh->iddonhang}}" selected value="5">Đã giao</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="5">Đã giao</option>
+                                            <option id="{{$dh->iddonhang}}" selected value="6">Hủy-trước xử lý</option>
 
                                         </select>
                                     </form>
@@ -261,40 +279,40 @@
             var order_product_id = $(this).data('product-id');
             var order_qty = $('.order_qty_' + order_product_id).val();
             var order_donhang = $('.order_iddonhang').val();
-           
-       
+
+
             var _token = $('input[name="_token"]').val();
             // alert(order_product_id);
             // // alert(order_qty);
             // alert(order_donhang);
             if (order_qty <= 0) {
-                    alert('Số không được âm');
-                    location.reload();
-            }else{
-            $.ajax({
-                url: '/updateqty',
-                type: 'POST',
-                data: {
-                    _token: _token,
-                    order_qty: order_qty,
-                    order_donhang: order_donhang,
-                    order_product_id: order_product_id
-                },
+                alert('Số không được âm');
+                location.reload();
+            } else {
+                $.ajax({
+                    url: '/updateqty',
+                    type: 'POST',
+                    data: {
+                        _token: _token,
+                        order_qty: order_qty,
+                        order_donhang: order_donhang,
+                        order_product_id: order_product_id
+                    },
 
-                success: function(data) {
+                    success: function(data) {
 
-                    alert("Thay doi tinh trang thành công");
-                    location.reload();
-                },
-            });
-        }
+                        alert("Thay doi tinh trang thành công");
+                        location.reload();
+                    },
+                });
+            }
         });
-        
+
         $('.trangthaidh').change(function() {
             var trangthaidh = $(this).val();
             var iddonhang = $(this).children(":selected").attr('id');
             var _token = $('input[name="_token"]').val();
-            alert(trangthaidh);
+            // alert(trangthaidh);
 
             var quantity = [];
             $("input[name='soluonghang']").each(function() {

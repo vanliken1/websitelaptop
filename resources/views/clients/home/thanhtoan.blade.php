@@ -16,7 +16,11 @@
                 <div id="checkout" class="col-lg-9">
 
                     <div class="box">
-
+                    @if(session()->has('error'))
+                        <p class="alert alert-danger sm-4">
+                            {{session('error')}}
+                        </p>
+                        @endif
 
                         <h1>Checkout - Address</h1>
                         <div class="nav flex-column flex-md-row nav-pills text-center"><a href="checkout1.html" class="nav-link flex-sm-fill text-sm-center active"> <i class="fa fa-credit-card"> </i>Thanh toán</a></div>
