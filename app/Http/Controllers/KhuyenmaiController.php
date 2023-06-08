@@ -227,7 +227,7 @@ class KhuyenmaiController extends Controller
             ->first();
         // $sanpham = Sanpham::find($id);
         //dd($sanpham->trangthaictkm);
-        if ($sanpham->trangthaictkm != 0) {
+        if ($sanpham->trangthaictkm != 0||$sanpham->trangthaictkm!=2) {
             // Thực hiện cập nhật thông tin sản phẩm tại đây
             // Ví dụ: $sanpham->ten_thuoc_tinh = giá_trị_mới;
             // $sanpham->save();
@@ -566,6 +566,10 @@ class KhuyenmaiController extends Controller
                     }
                 }
                 session()->flash('themthanhcong', $themthanhcong);
+            }else
+            {
+                $tam[]=$idkm;
+                session()->flash('loi',$tam );
             }
             // dd($themthanhcong);
 

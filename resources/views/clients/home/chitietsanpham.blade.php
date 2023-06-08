@@ -139,21 +139,28 @@
                         <div class="col-md-6">
                             <div class="box">
                                 <h1 class="text-center">{{$item->tensanpham}}</h1>
-                                <p class="price"> @if ($item->phantramkhuyenmai > 0 && $item->trangthaictkm == 1)
-                                    <del>{{ number_format($item->gia, 0, ',', '.') }} đ</del>
-                                    <caption>-{{ $item->phantramkhuyenmai }}%</caption>
-                                <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
-                                    {{ number_format($item->giakhuyenmai, 0, ',', '.') }} đ
-                                </div>
-                                @else
-                                <caption>{{ number_format($item->giakhuyenmai, 0, ',', '.') }} đ</caption>
-                                <div style="text-align: center;"></div>
-                                @endif</p>
-                                @if($item->soluong)
-                                <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
-                                    Còn hàng
-                                </div>
-                                @endif
+                                <?php $phantram = (($item->gia - $item->giakhuyenmai) / $item->gia) * 100 ?>
+                                    @if($phantram!=0)
+                                    <p class="price">
+
+                                        <del>{{ number_format($item->gia, 0, ',', '.') }} đ</del>
+                                        <caption>-{{ $phantram }}%</caption>
+                                    <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                                        {{ number_format($item->giakhuyenmai, 0, ',', '.') }} đ
+                                    </div>
+
+                                    </p>
+                                    @else
+                                    <p class="price">
+
+                                        <caption>...</caption>
+                                        
+                                    <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                                    {{ number_format($item->gia, 0, ',', '.') }} đ
+                                    </div>
+
+                                    </p>
+                                    @endif
                                 <p class="text-center buttons"><a href="/cart/add/{{$item->idsanpham}}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a><a href="basket.html" class="btn btn-outline-primary"><i class="fa fa-heart"></i> Add to wishlist</a></p>
                             </div>
 
@@ -232,18 +239,28 @@
                                 </div>
                                 <div class="text">
                                     <h3><a href="/chitiet/{{$item->slug_sanpham}}">{{$item->tensanpham}}</a></h3>
+                                    <?php $phantram = (($item->gia - $item->giakhuyenmai) / $item->gia) * 100 ?>
+                                    @if($phantram!=0)
                                     <p class="price">
-                                        @if ($item->phantramkhuyenmai > 0 && $item->trangthaictkm == 1)
+
                                         <del>{{ number_format($item->gia, 0, ',', '.') }} đ</del>
-                                        <caption>-{{ $item->phantramkhuyenmai }}%</caption>
+                                        <caption>-{{ $phantram }}%</caption>
                                     <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
                                         {{ number_format($item->giakhuyenmai, 0, ',', '.') }} đ
                                     </div>
-                                    @else
-                                    <caption>{{ number_format($item->giakhuyenmai, 0, ',', '.') }} đ</caption>
-                                    <div style="text-align: center;">...</div>
-                                    @endif
+
                                     </p>
+                                    @else
+                                    <p class="price">
+
+                                        <caption>...</caption>
+
+                                    <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                                        {{ number_format($item->gia, 0, ',', '.') }} đ
+                                    </div>
+
+                                    </p>
+                                    @endif
                                 </div>
                             </div>
                             <!-- /.product-->

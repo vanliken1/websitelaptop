@@ -88,8 +88,8 @@
                                             <input type="checkbox" name="gia[]" value="over_25"> Trên 25 triệu
                                         </label>
                                     </div>
-                                     
-                                    
+
+
                                 </div>
                             </div>
 
@@ -130,10 +130,10 @@
                                     </div>
                                 </div>
                                 <div class="text">
-                                
+
                                     <h3><a href="detail.html">{{$item->tensanpham}}</a></h3>
-                                    <p class="price">
-                                        @if ($item->phantramkhuyenmai > 0 && $item->trangthaictkm == 1)
+                                    <!-- <p class="price">
+                                        @if ($item->trangthaictkm == 1)
                                         <del>{{ number_format($item->gia, 0, ',', '.') }} đ</del>
                                         <caption>-{{ $item->phantramkhuyenmai }}%</caption>
                                     <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
@@ -143,7 +143,32 @@
                                     <caption>{{ number_format($item->giakhuyenmai, 0, ',', '.') }} đ</caption>
                                     <div style="text-align: center;">...</div>
                                     @endif
+                                    </p> -->
+
+                                    <?php $phantram = (($item->gia - $item->giakhuyenmai) / $item->gia) * 100 ?>
+                                    @if($phantram!=0)
+                                    <p class="price">
+
+                                        <del>{{ number_format($item->gia, 0, ',', '.') }} đ</del>
+                                        <caption>-{{ $phantram }}%</caption>
+                                    <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                                        {{ number_format($item->giakhuyenmai, 0, ',', '.') }} đ
+                                    </div>
+
                                     </p>
+                                    @else
+                                    <p class="price">
+
+                                        <caption>...</caption>
+                                        
+                                    <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                                    {{ number_format($item->gia, 0, ',', '.') }} đ
+                                    </div>
+
+                                    </p>
+                                    @endif
+
+
                                     @if($item->soluong>0)
                                     <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
                                         Còn hàng

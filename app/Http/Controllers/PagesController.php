@@ -59,15 +59,16 @@ class PagesController extends Controller
                 }
             });
         }
-        $query->where(function ($query) {
-            $query->where('sanpham.soluong', '>', 0)
-                ->where('chitietkhuyenmai.trangthaictkm', 1)
-                // ->whereNotNull('chitietkhuyenmai.idsanpham');
-                ->orWhereNull('chitietkhuyenmai.idsanpham');
-        });
-        $sanpham = $query->leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
-            ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
-            ->orderBy('sanpham.idsanpham')
+        // $query->where(function ($query) {
+        //     $query->where('sanpham.soluong', '>', 0)
+        //         ->where('chitietkhuyenmai.trangthaictkm','=', 1)
+        //         // ->whereNotBetween('chitietkhuyenmai.trangthaictkm',[2,0])
+        //         // ->whereNotNull('chitietkhuyenmai.idsanpham');
+        //         ->orWhereNull('chitietkhuyenmai.idsanpham');
+              
+        // });
+        $sanpham = $query->where('soluong', '>', 0)
+            ->orderBy('idsanpham')
             ->paginate(12);
         
         // $sanpham=Sanpham::with('chitietkm')->paginate(12);
@@ -111,21 +112,21 @@ class PagesController extends Controller
                 }
             });
         }
-        $query->where(function ($query) {
-            $query->where('sanpham.soluong', '>', 0)
-                ->where('chitietkhuyenmai.trangthaictkm', 1)
-                // ->whereNotNull('chitietkhuyenmai.idsanpham')
-                ->orWhereNull('chitietkhuyenmai.idsanpham');
-        });
+        // $query->where(function ($query) {
+        //     $query->where('sanpham.soluong', '>', 0)
+        //         ->where('chitietkhuyenmai.trangthaictkm','=', 1)
+        //         ->whereNotNull('chitietkhuyenmai.idsanpham')
+        //         ->orWhereNull('chitietkhuyenmai.idsanpham');
+                
+        // });
         //Tim san pham theo danh muc Thuong hieu
         $thuonghieu = Thuonghieu::where('slug_thuonghieu', $slugdanhmuc)->first();
         if ($thuonghieu) {
 
-            $sptheobrand = $query->leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
-                ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
-                ->where('sanpham.idthuonghieu', $thuonghieu->idthuonghieu)
+            $sptheobrand = $query->where('soluong', '>', 0)
+                ->where('idthuonghieu', $thuonghieu->idthuonghieu)
 
-                ->where('sanpham.soluong', '>', 0)
+                
 
                 ->paginate(12);
             return view('clients.home.sanphamByBrand', ['sptheobrand' => $sptheobrand, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheobrand->total()]);
@@ -134,11 +135,8 @@ class PagesController extends Controller
         //Tim san pham theo danh muc CPU
         $slugcpu = CPU::where('slug_CPU', $slugdanhmuc)->first();
         if ($slugcpu) {
-            $sptheocpu = $query->leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
-                ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
-                ->where('sanpham.idCPU', $slugcpu->idCPU)
-                ->where('sanpham.soluong', '>', 0)
-                ->where('chitietkhuyenmai.trangthaictkm','=',1)
+            $sptheocpu = $query->where('soluong', '>', 0)
+                ->where('idCPU', $slugcpu->idCPU)
                 
                 ->paginate(12);
             return view('clients.home.sanphamByCPU', ['sptheocpu' => $sptheocpu, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheocpu->total()]);
@@ -147,11 +145,8 @@ class PagesController extends Controller
         //Tim san pham theo danh muc CPU
         $nhucau = Loaisp::where('slug_loai', $slugdanhmuc)->first();
         if ($nhucau) {
-            $sptheonhucau = $query->leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
-                ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
-                ->where('sanpham.idloaisanpham', $nhucau->idloaisanpham)
-                ->where('sanpham.soluong', '>', 0)
-                ->where('chitietkhuyenmai.trangthaictkm','=',1)
+            $sptheonhucau = $query->where('soluong', '>', 0)
+                ->where('idloaisanpham', $nhucau->idloaisanpham)
                
                 ->paginate(12);
             return view('clients.home.sanphamByNC', ['sptheonhucau' => $sptheonhucau, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheonhucau->total()]);
@@ -163,19 +158,16 @@ class PagesController extends Controller
         $thuonghieusp = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
-        $sanpham = Sanpham::leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
-            ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
+        $sanpham = Sanpham::where('soluong', '>', 0)
             ->where('slug_sanpham', $slugsanpham)
             ->where('sanpham.soluong', '>', 0)
             ->get();
         
         $thuonghieuIds = $sanpham->pluck('idthuonghieu')->toArray();
-        $sanphamlienquan = Sanpham::leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
-            ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
-            ->whereIn('idthuonghieu', $thuonghieuIds)
+        $sanphamlienquan = Sanpham::whereIn('idthuonghieu', $thuonghieuIds)
             ->inRandomOrder()
-            ->where('sanpham.idsanpham', '!=', $sanpham->first()->idsanpham)
-            ->where('sanpham.soluong', '>', 0)
+            ->where('idsanpham', '!=', $sanpham->first()->idsanpham)
+            ->where('soluong', '>', 0)
             ->take(3)
             ->get();
         return view('clients.home.chitietsanpham', ['sanpham' => $sanpham, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'sanphamlienquan' => $sanphamlienquan]);
