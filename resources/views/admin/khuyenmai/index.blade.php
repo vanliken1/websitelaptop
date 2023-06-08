@@ -12,25 +12,56 @@
                     {{session('mess')}}
                 </p>
                 @endif
+                <form action="/admin/khuyenmai/capnhat" method="POST">
+                    @csrf
+                    @foreach($khuyenmai as $item)
+                    @if($item->ngaybatdau <= $today && $item->ngayketthuc >= $today && $item->trangthaictkm == 0 )
+                        <input type="text" name="idkhuyenmai[]" value="{{$item->idkhuyenmai}}">
+                        <!-- <input type="text"   name="idsanpham[]" value="{{$item->idsanpham}}"> -->
+                        @endif
+
+                        @endforeach
+                        <input type="submit">
+                </form>
+                <form id="them" method="POST">
+                    @csrf
+                    @foreach($khuyenmai as $item)
+                    @if($item->ngaybatdau <= $today && $item->ngayketthuc >= $today && $item->trangthaictkm == 0 )
+                        <input type="text" name="idkhuyenmai[]" value="{{$item->idkhuyenmai}}">
+                        <!-- <input type="text"   name="idsanpham[]" value="{{$item->idsanpham}}"> -->
+                        @endif
+
+                        @endforeach
+
+                </form>
+                <button class="btn btn-primary btn_ajax"> AJAX</button>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Tên khuyến mãi</th>
+                                <th scope="col">Ngay bat dau</th>
+                                <th scope="col">Ngay ket thuc</th>
+                                <th>📄</th>
+                                <th>📄</th>
                                 <th>📄</th>
                                 <th>🗑️</th>
                                 <th>✏️</th>
                             </tr>
                         </thead>
                         @foreach($khuyenmai as $item)
+
                         <tbody>
                             <tr>
                                 <td>{{$item->idkhuyenmai}}</td>
                                 <td>{{$item->tenkhuyenmai}}</td>
+                                <td>{{$item->ngaybatdau}}</td>
+                                <td>{{$item->ngayketthuc}}</td>
                                 <td>
-                                    <a href="/admin/khuyenmai/chitiet/{{$item->idkhuyenmai}}" class="btn btn-danger"> Chi tiet khuyến mãi</a>
+                                    <a href="/admin/khuyenmai/chitiet/{{$item->idkhuyenmai}}" class="btn btn-info"> Xem chi tiết</a>
                                 </td>
+                                @if($item->ngayketthuc >= $today)
                                 <td>
                                     <form action="/admin/khuyenmai/destroy/{{$item->idkhuyenmai}}" method="POST">
                                         @csrf
@@ -39,8 +70,30 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <button class='editkhuyenmai btn btn-success' data-id='{{$item->idkhuyenmai}}'>Sửa</button>
+                                    <button class='editkhuyenmai btn btn-success' data-id='{{$item->idkhuyenmai}}'>Sửa Ajax</button>
                                 </td>
+                                <td>
+                                    <a class='btn btn-warning' href='/admin/khuyenmai/editform/{{$item->idkhuyenmai}}'>Sửa</button>
+                                </td>
+                                
+                                <td>
+                                    <a href="/admin/khuyenmai/them/{{$item->idkhuyenmai}}" class="btn btn-primary"> Thêm chi tiết </a>
+                                </td>
+                                @else
+                                <td>
+                                    <button disabled class="btn btn-danger">Xóa</button>
+                                </td>
+                                <td>
+                                    <button disabled class="btn btn-success">Sửa Ajax</button>
+                                </td>
+                                <td>
+                                    <button disabled class="btn btn-warning"> Sửa </a>
+                                </td>
+                                <td>
+                                    <button disabled class="btn btn-primary">Thêm chi tiết</button>
+                                </td>
+                                
+                                @endif
 
                             </tr>
                         </tbody>
@@ -89,7 +142,7 @@
                             <label for="floatingInput">Slug</label>
                             <span class="text-danger error-text ngayketthuc_err"></span>
                         </div>
-                
+
                     </form>
                 </div>
             </div>
@@ -140,7 +193,7 @@
                             <label for="floatingInput">Slug</label>
                             <span class="text-danger error-text ngayketthuc_err"></span>
                         </div>
-                    
+
                     </form>
                 </div>
             </div>
@@ -168,7 +221,31 @@
 
     });
     $(document).ready(
+
+
         function() {
+            $('button.btn_ajax').click(function() {
+                //var a = [];
+                // $("input[name='idkhuyenmai']").each(function() {
+                //     a.push($(this).val());
+                // });
+                // console.log(a);
+                var data = $('#them').serializeArray()
+                console.log(data)
+                $.ajax({
+                    url: '/admin/khuyenmai/capnhat',
+                    type: 'POST',
+                    data: data,
+                    dataType: 'json',
+                    success: function(s) {
+                        console.log(s)
+
+                    },
+                    error: function(s) {
+                        console.log(s)
+                    }
+                })
+            })
 
             $('button.addkhuyenmai').click(
                 function() {
@@ -246,7 +323,7 @@
                             $('#modelId1 form #tenkhuyenmai').val(data2.tenkhuyenmai);
                             $('#modelId1 form #ngaybatdau').val(data2.ngaybatdau);
                             $('#modelId1 form #ngayketthuc').val(data2.ngayketthuc);
-                            
+                           
 
                         }
                     })
@@ -273,6 +350,7 @@
                             $('#modelId1').modal('hide');
                         } else {
                             printErrorMsg(s.error);
+                           
                             // $.each( s.error , function(k,v){
                             //     alert(k+'->'+v);
                             // })
@@ -293,5 +371,29 @@
             });
         }
     );
+    // $(function() {
+    //     var fiveSecond = 30000;
+    //     var oneMinute = 1000 * 60;
+    //     setInterval(function() {
+    //         // var date = new Date();
+    //         // var current_date = date.getHours()+"-"+date.getMinutes();
+    //         // if(current_date == "0-0"){
+    //         //     $.ajax({
+    //         //         url: "/auto",
+    //         //         type: "GET",
+    //         //         success: function (data) {
+    //         //             console.log(data)
+    //         //         },
+    //         //     });
+    //         // }
+    //         $.ajax({
+    //             url: "/admin/khuyenmai/capnhatajax",
+    //             type: "POST",
+    //             success: function(data) {
+    //                 console.log('da chay');
+    //             },
+    //         });
+    //     }, fiveSecond);
+    // })
 </script>
 @stop

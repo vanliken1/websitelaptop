@@ -99,6 +99,8 @@ route::prefix('admin')->group(function () {
         route::delete('destroy/{id}', [SanphamController::class, 'destroy']);
         route::get('edit/{id}', [SanphamController::class, 'edit']);
         route::post('update', [SanphamController::class, 'update']);
+        Route::get('lockm', [KhuyenmaiController::class, 'lockm']);
+    
     });
     route::prefix('giamgia')->group(function () {
         route::get('/', [GiamgiaController::class, 'index']); 
@@ -120,6 +122,15 @@ route::prefix('admin')->group(function () {
         route::delete('destroy/{id}', [KhuyenmaiController::class, 'destroy']);
         route::get('edit/{id}', [KhuyenmaiController::class, 'edit']);
         route::post('update', [KhuyenmaiController::class, 'update']);
+        
+        route::get('them/{id}', [KhuyenmaiController::class, 'them']);
+        route::post('them', [KhuyenmaiController::class, 'themstore']);
+        route::post('capnhat', [KhuyenmaiController::class, 'capnhat']);
+        route::post('capnhatajax', [KhuyenmaiController::class, 'capnhatajax']);
+
+        route::get('editform/{id}', [KhuyenmaiController::class, 'editform']);
+        route::put('updateform', [KhuyenmaiController::class, 'updateform']);
+        
     });
     route::prefix('donhang')->group(function () {
         route::get('/', [DonhangController::class, 'index']); 

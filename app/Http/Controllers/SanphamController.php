@@ -23,9 +23,11 @@ class SanphamController extends Controller
     {
         $sanpham = Sanpham::leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
             ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai')
+            ->where('chitietkhuyenmai.trangthaictkm','=',1)
             ->whereNotNull('chitietkhuyenmai.idsanpham')
             ->orWhereNull('chitietkhuyenmai.idsanpham')
-            ->paginate(12);
+            ->paginate(10);
+        // dd($sanpham);
         $thuonghieu = Thuonghieu::all();
         $loaisp = Loaisp::all();
         $cpu = CPU::all();
@@ -104,7 +106,7 @@ class SanphamController extends Controller
                 $request->img->storeAs('public/img', $img);
             }
 
-            if (isset($ct) && $ct->trangthaictkm == 1 ) {
+            if (isset($ct) && $ct->trangthaictkm == 1) {
                 $khuyenmai = $request->gia - ($request->gia * ($ct->phantramkhuyenmai / 100));
 
                 $c->giakhuyenmai = $khuyenmai;
@@ -126,7 +128,7 @@ class SanphamController extends Controller
 
                 $c->save();
             } else {
-                
+
                 $khuyenmai = $request->gia;
 
                 $c->giakhuyenmai = $khuyenmai;
@@ -146,11 +148,6 @@ class SanphamController extends Controller
                 $c->trangthai = $request->trangthai;
                 $c->save();
             }
-
-
-
-
-
 
             //dd($c);
             return response()->json($c);
