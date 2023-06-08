@@ -14,7 +14,7 @@ class KhuyenmaiController extends Controller
 {
     public function index()
     {
-        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d ');
         // $loc = Khuyenmai::join('chitietkhuyenmai', 'khuyenmai.idkhuyenmai', '=', 'chitietkhuyenmai.idkhuyenmai')
         //     ->select('khuyenmai.*','chitietkhuyenmai.*')
         //     ->get();
@@ -198,7 +198,7 @@ class KhuyenmaiController extends Controller
 
     public function chitiet($id)
     {
-        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d ');
         // dd($id);
         $data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
         $km = Khuyenmai::find($id);
@@ -248,7 +248,7 @@ class KhuyenmaiController extends Controller
     }
     public function them($id)
     {
-        // $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        // $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d ');
         // $arrSP = Sanpham::all();
         // //$data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
         // $km = Khuyenmai::where('idkhuyenmai', $id)->first();
@@ -282,14 +282,14 @@ class KhuyenmaiController extends Controller
         //$f=Chitietkhuyenmai::find([$d]);
         //dd($d);
         $km = Khuyenmai::where('idkhuyenmai', $r->idkhuyenmai)->first();
-
+        //dd($km);
         // cung dc
 
         foreach ($d as $k => $v) {
             //HP220400253
             //$a[]=$item;
             // $k1 = Chitietkhuyenmai::where('idsanpham','AC211006749')->get();
-            $k1 = Chitietkhuyenmai::where('idsanpham', $v)->get();
+            $k1 = Chitietkhuyenmai::where('idsanpham', $v)->where('trangthaictkm', '!=','0')->get();
             //dd($k1);
 
             if ($k1->isEmpty()) {
@@ -305,88 +305,230 @@ class KhuyenmaiController extends Controller
         // dd($a);
         foreach ($a as $i) {
             if ($i['idkhuyenmai'] == '') {
-                $b[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'ngaybatdau'
-                => '', 'ngayketthuc' => '', 'idsanpham' => $i['idsanpham']];
+                $b[] = [
+                    'idkhuyenmai' => $i['idkhuyenmai'],
+                    'ngaybatdau' => '',
+                    'ngayketthuc' => '',
+                    'idsanpham' => $i['idsanpham']
+                ];
             } elseif ($i['idkhuyenmai'] != $km->idkhuyenmai) {
                 $s = Khuyenmai::where('idkhuyenmai', $i['idkhuyenmai'])->first();;
-                $b[] = ['idkhuyenmai' => $s->idkhuyenmai, 'ngaybatdau'
-                => $s->ngaybatdau, 'ngayketthuc' => $s->ngayketthuc, 'idsanpham'
-                => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm']];
+                $b[] = [
+                    'idkhuyenmai' => $s->idkhuyenmai,
+                    'ngaybatdau' => $s->ngaybatdau,
+                    'ngayketthuc' => $s->ngayketthuc,
+                    'idsanpham' => $i['idsanpham'],
+                    'trangthaictkm' => $i['trangthaictkm']
+                ];
             }
         }
-
-
+        // $p =array_reverse($b,true);
+        // dd($p);
+        // foreach($p as $i){
+        //     dd($i);
+        // }
+        // dd(array_reverse($b,true));
         $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d ');
         // dd($b);
         foreach ($b as $i) {
             //dd();
             //if($i['ngayketthuc'] < ngay thuc tai)
             if ($i['ngaybatdau'] == '' && $i['ngaybatdau'] == '' && $i['idkhuyenmai'] == '') {
-                $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'check' => 'addNew'];
+                $kiemtra[] = [
+                    'idkhuyenmai' => $i['idkhuyenmai'],
+                    'idsanpham' => $i['idsanpham'],
+                    'check' => 'addNew'
+                ];
             } elseif ($i['ngaybatdau'] > $km->ngaybatdau && $i['ngayketthuc'] < $km->ngayketthuc) {
-                if ($i['trangthaictkm'] != 0) {
-
-                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm'], 'check' => 'truonghopmoi'];
-                } else {
-                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm'], 'check' => 'addNew'];
-                }
+                // if($i['trangthaictkm'] == 2){
+                    $kiemtra[] = [
+                        'idkhuyenmai' => $i['idkhuyenmai'],
+                        'idsanpham' => $i['idsanpham'],
+                        'trangthaictkm' => $i['trangthaictkm'],
+                        'check' => 'datbiet'
+                    ];
+                // } 
+                // else {
+                //     if ($i['trangthaictkm'] != 0) {
+                //         $kiemtra[] = [
+                //             'idkhuyenmai' => $i['idkhuyenmai'],
+                //             'idsanpham' => $i['idsanpham'],
+                //             'trangthaictkm' => $i['trangthaictkm'],
+                //             'check' => 'truonghopmoi'
+                //         ];
+                //         break;
+                //     } else {
+                //         $kiemtra[] = [
+                //             'idkhuyenmai' => $i['idkhuyenmai'],
+                //             'idsanpham' => $i['idsanpham'],
+                //             'trangthaictkm' => $i['trangthaictkm'],
+                //             'check' => 'true'
+                //         ];
+                //     }
+                // }
             }
             // elseif(){
 
             // }
-            elseif ($i['ngaybatdau'] < $km->ngaybatdau && $i['ngayketthuc'] > $km->ngayketthuc) {
-                if ($i['trangthaictkm'] != 0) {
-
-                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm'], 'check' => 'truonghopmoi'];
-                    break;
+            elseif ($i['ngaybatdau'] < $km->ngaybatdau && $i['ngayketthuc'] > $km->ngayketthuc) { // 7 15 16 20 
+                // if ($i['trangthaictkm'] == 2) {
+                    $kiemtra[] = [
+                        'idkhuyenmai' => $i['idkhuyenmai'],
+                        'idsanpham' => $i['idsanpham'],
+                        'trangthaictkm' => $i['trangthaictkm'],
+                        'check' => 'datbiet'
+                    ];
+                // } 
+                // else {
+                //     if ($i['trangthaictkm'] != 0) {
+                //         $kiemtra[] = [
+                //             'idkhuyenmai' => $i['idkhuyenmai'],
+                //             'idsanpham' => $i['idsanpham'],
+                //             'trangthaictkm' => $i['trangthaictkm'],
+                //             'check' => 'truonghopmoi'
+                //         ];
+                //         break;
+                //     } else {
+                //         $kiemtra[] = [
+                //             'idkhuyenmai' => $i['idkhuyenmai'],
+                //             'idsanpham' => $i['idsanpham'],
+                //             'trangthaictkm' => $i['trangthaictkm'],
+                //             'check' => 'true'
+                //         ];
+                //     }
+                // }
+            } elseif ($i['ngaybatdau'] < $km->ngaybatdau && $i['ngayketthuc'] < $km->ngayketthuc) { ///($i['ngayketthuc'] < $km->ngaybatdau && $i['ngayketthuc'] < $km->ngayketthuc )
+                if($i['ngaybatdau'] < $km->ngaybatdau && $i['ngayketthuc'] > $km->ngaybatdau){
+                    $kiemtra[] = [
+                        'idkhuyenmai' => $i['idkhuyenmai'],
+                        'idsanpham' => $i['idsanpham'],
+                        'trangthaictkm' => $i['trangthaictkm'],
+                        'check' => 'datbiet'
+                    ];
                 } else {
-                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm'], 'check' => 'addNew'];
+                    $kiemtra[] = [
+                        'idkhuyenmai' => $i['idkhuyenmai'],
+                        'idsanpham' => $i['idsanpham'],
+                        'trangthaictkm' => $i['trangthaictkm'],
+                        'check' => 'true'
+                    ];
                 }
-            } elseif ($i['ngaybatdau'] > $km->ngayketthuc && $i['ngaybatdau'] > $km->ngaybatdau) {
-                if ($km->ngaybatdau < $today && $km->ngayketthuc > $today) {
-                    if ($i['ngaybatdau'] >= $today) {
 
-                        $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'],'trangthaictkm' => $i['trangthaictkm'], 'check' => 'true'];
-                    } else {
-
-                        $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'],'trangthaictkm' => $i['trangthaictkm'], 'check' => 'falseDayNow'];
-                    }
-                }
-            } elseif ($i['ngayketthuc'] <= $km->ngaybatdau && $i['ngayketthuc'] <= $km->ngayketthuc) {
-                if ($km->ngaybatdau >= $today) {
-
-                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'check' => 'true'];
+            } elseif (($i['ngaybatdau'] > $km->ngaybatdau && $i['ngayketthuc'] > $km->ngayketthuc)){  /// 7 15 16 20 
+                if($i['ngaybatdau'] > $km->ngaybatdau && $i['ngaybatdau'] < $km->ngayketthuc){
+                    $kiemtra[] = [
+                        'idkhuyenmai' => $i['idkhuyenmai'],
+                        'idsanpham' => $i['idsanpham'],
+                        'trangthaictkm' => $i['trangthaictkm'],
+                        'check' => 'datbiet'
+                    ];
                 } else {
-
-                    $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'check' => 'falseDayNow'];
+                    $kiemtra[] = [
+                        'idkhuyenmai' => $i['idkhuyenmai'],
+                        'idsanpham' => $i['idsanpham'],
+                        'trangthaictkm' => $i['trangthaictkm'],
+                        'check' => 'true'
+                    ];
                 }
-            } else {
-                $f = $i['idkhuyenmai'] . '--' . $i['idsanpham'] . '--false';
-                $kiemtra[] = ['idkhuyenmai' => $i['idkhuyenmai'], 'idsanpham' => $i['idsanpham'], 'trangthaictkm' => $i['trangthaictkm'], 'check' => 'false'];
+            } 
+            // elseif ($i['ngaybatdau'] > $km->ngayketthuc && $i['ngaybatdau'] > $km->ngaybatdau ) { /// 3 8 10 20 
+            //     if($i['trangthaictkm']==2){
+            //         if ($i['ngaybatdau']  > $today) {
+            //             $kiemtra[] = [
+            //                 'idkhuyenmai' => $i['idkhuyenmai'],
+            //                 'idsanpham' => $i['idsanpham'],
+            //                 'trangthaictkm' => $i['trangthaictkm'],
+            //                 'check' => 'true'
+            //             ];
+            //         } else {
+            //             $kiemtra[] = [
+            //                 'idkhuyenmai' => $i['idkhuyenmai'],
+            //                 'idsanpham' => $i['idsanpham'],
+            //                 'trangthaictkm' => $i['trangthaictkm'],
+            //                 'check' => 'falseDayNow'
+            //             ];
+            //         }
+            //     } 
+            // } 
+            // elseif ($i['ngayketthuc'] < $km->ngaybatdau && $i['ngayketthuc'] < $km->ngayketthuc ) { /// 3 8 10 20 
+            //     if ( $i['trangthaictkm'] == 2) {
+            //         if ($i['ngayketthuc'] > $today) {
+            //             $kiemtra[] = [
+            //                 'idkhuyenmai' => $i['idkhuyenmai'],
+            //                 'idsanpham' => $i['idsanpham'],
+            //                 'trangthaictkm' => $i['trangthaictkm'],
+            //                 'check' => 'true'
+            //             ];
+            //         } else {
+            //             $kiemtra[] = [
+            //                 'idkhuyenmai' => $i['idkhuyenmai'],
+            //                 'idsanpham' => $i['idsanpham'],
+            //                 'trangthaictkm' => $i['trangthaictkm'],
+            //                 'check' => 'falseDayNow'
+            //             ];
+            //         }
+                    
+            //     } else {
+            //         if ($i['ngayketthuc'] > $today) {
+            //             $kiemtra[] = [
+            //                 'idkhuyenmai' => $i['idkhuyenmai'],
+            //                 'idsanpham' => $i['idsanpham'],
+            //                 'trangthaictkm' => $i['trangthaictkm'],
+            //                 'check' => 'true'
+            //             ];
+            //         } else {
+            //             $kiemtra[] = [
+            //                 'idkhuyenmai' => $i['idkhuyenmai'],
+            //                 'idsanpham' => $i['idsanpham'],
+            //                 'trangthaictkm' => $i['trangthaictkm'],
+            //                 'check' => 'falseDayNow'
+            //             ];
+            //         }
+            //     }
+            // } 
+            else {
+                $kiemtra[] = [
+                    'idkhuyenmai' => $i['idkhuyenmai'],
+                    'idsanpham' => $i['idsanpham'],
+                    'trangthaictkm' => $i['trangthaictkm'],
+                    'check' => 'false'
+                ];
             }
         }
-        // dd($kiemtra);
+        dd($kiemtra);
 
         foreach ($kiemtra as $item) {
             //dd($item['check']);
-            if ($item['check'] == 'addNew') {
-                Chitietkhuyenmai::create([
-                    'idkhuyenmai' => $r->idkhuyenmai,
-                    'phantramkhuyenmai' => "30",
-                    'idsanpham' => $item['idsanpham'],
-                    'trangthaictkm' => 0
-                ]);
-            } elseif ($item['check'] == 'true') {
-                Chitietkhuyenmai::create([
-                    'idkhuyenmai' => $r->idkhuyenmai,
-                    'phantramkhuyenmai' => "30",
-                    'idsanpham' => $item['idsanpham'],
-                    'trangthaictkm' => 0
-                ]);
+            if ($item['check'] == 'datbiet') {
+
+                Chitietkhuyenmai::where('idsanpham', $item['idsanpham'])->where('idkhuyenmai', $km->idkhuyenmai)->delete();
+                session()->flash('loi',  $item['idkhuyenmai']);
+                break;
+            } else {
+                if ($item['check'] == 'addNew') {
+                    Chitietkhuyenmai::create([
+                        'idkhuyenmai' => $r->idkhuyenmai,
+                        'phantramkhuyenmai' => "30",
+                        'idsanpham' => $item['idsanpham'],
+                        'trangthaictkm' => 2
+                    ]);
+                    session()->flash('themthanhcong',  $item['idsanpham']);
+                } elseif ($item['check'] == 'true' ) {
+                    $ktra = Chitietkhuyenmai::where('idkhuyenmai', $km->idkhuyenmai)->where('idsanpham', $item['idsanpham'])->first();
+                    if ($ktra == null) {
+                        Chitietkhuyenmai::create([
+                            'idkhuyenmai' => $km->idkhuyenmai,
+                            'phantramkhuyenmai' => "30",
+                            'idsanpham' => $item['idsanpham'],
+                            'trangthaictkm' => 2
+                        ]);
+                        session()->flash('themthanhcong',  $item['idsanpham']);
+                    }
+                }
             }
         }
         $id = $r->idkhuyenmai;
-        session()->flash('kiemtra', $kiemtra);
+        //session()->flash('kiemtra', $kiemtra);
         return redirect("/admin/khuyenmai/chitiet/$id");
     }
     public function capnhat(Request $r)
@@ -430,7 +572,7 @@ class KhuyenmaiController extends Controller
                 $c->trangthaictkm = 1;
                 $c->save();
                 $sanpham = Sanpham::find($i->idsanpham);
-                $tam[] = $c;
+                //$tam[] = $c;
                 if ($sanpham && $c->trangthaictkm == 1) {
                     $sanpham->giakhuyenmai = $sanpham->gia - ($sanpham->gia * ($c->phantramkhuyenmai / 100));
                     $sanpham->save();
@@ -507,7 +649,7 @@ class KhuyenmaiController extends Controller
     public function lockm(Request $request)
     {
         $keyword = $request->input('keyword');
-        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d ');
         $arrSP = Sanpham::all();
         $km = Khuyenmai::where('idkhuyenmai', $request->id)->first();
         $timkhuyenmai = Chitietkhuyenmai::where('idkhuyenmai', $request->id)->get();

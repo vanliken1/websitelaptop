@@ -7,9 +7,13 @@
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý chi tiết Khuyến Mãi</h6>
                 <!-- <p><button class='addkm btn btn-primary'>Thêm</button></p> -->
-                @if(session()->has('mess'))
+                @if(session()->has('loi'))
+                <p class="alert alert-danger sm-4">
+                    {{session('loi')}} da ton tai trung ngay
+                </p>
+                @elseif(session()->has('themthanhcong'))
                 <p class="alert alert-primary sm-4">
-                    {{session('mess')}}
+                    {{session('themthanhcong')}} thêm thành công
                 </p>
                 @endif
                 @if(session()->has('kiemtra'))
@@ -18,18 +22,15 @@
                     //var_dump($mess);
                     foreach ($mess as $i){
 
-                        if($i['check']=='addNew'||$i['check']=='true'){
-                        ?>
-                        <p class="alert alert-primary sm-4">
-                           <?php echo $i['idsanpham']?>  them dc
-                        </p>
-                        <?php
-                        }elseif($i['check']=='false')
+                        if($i['check']=='addNew'|| $i['check']=='true'){
+                       
+                        }else
+                        if($i['check']=='false')
                         {
                             if($i['trangthaictkm']==0){
                                 ?>
                                 <p class="alert alert-danger sm-4">
-                                    <?php echo $i['idsanpham']?> khong them dc
+                                    <?php echo $i['idsanpham']?> Không thêm được
                                 </p>
                                 <?php
                             }
