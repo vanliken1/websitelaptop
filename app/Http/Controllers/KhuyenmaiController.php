@@ -603,6 +603,44 @@ class KhuyenmaiController extends Controller
         //session()->flash('kiemtra', $kiemtra);
         return redirect("/admin/khuyenmai/chitiet/$id");
     }
+    public function editform($id)
+    {
+        $km = Khuyenmai::findOrFail($id);
+        return View('admin.khuyenmai.edit', ['km' => $km]);
+    }
+    public function updateform(Request $request)
+    {
+        //
+        $request->validate(
+            [
+
+                'tenkhuyenmai' => 'required',
+                'ngaybatdau'=>'after_or_equal:today',
+                'ngayketthuc'=>'after:ngaybatdau',
+
+            ],
+            [
+
+
+                'tenkhuyenmai.required' => 'Chưa nhập tên',
+                'ngaybatdau.after_or_equal'=>'Ngày bắt đầu phải là ngày hiện tại hoặc sau đó',
+                'ngayketthuc.after'=>'Ngày kết thúc phải sau ngày bắt đầu và ngày hôm nay'
+                
+            ]
+        );
+        $c = Khuyenmai::findorfail($request->idkhuyenmai); 
+        $c->tenkhuyenmai = $request->tenkhuyenmai;
+        $c->ngaybatdau = $request->ngaybatdau;
+        $c->ngayketthuc = $request->ngayketthuc;
+        $c->save();
+        session()->flash("mess","Sua thanh cong");
+        //dd($c);
+        return redirect('/admin/khuyenmai');
+    }
+
+
+
+
     public function capnhat(Request $r)
     {
         //dd($r->all());

@@ -44,6 +44,8 @@
                                 <th scope="col">Ngay bat dau</th>
                                 <th scope="col">Ngay ket thuc</th>
                                 <th>📄</th>
+                                <th>📄</th>
+                                <th>📄</th>
                                 <th>🗑️</th>
                                 <th>✏️</th>
                             </tr>
@@ -68,9 +70,11 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <button class='editkhuyenmai btn btn-success' data-id='{{$item->idkhuyenmai}}'>Sửa</button>
+                                    <button class='editkhuyenmai btn btn-success' data-id='{{$item->idkhuyenmai}}'>Sửa Ajax</button>
                                 </td>
-                           
+                                <td>
+                                    <a class='btn btn-warning' href='/admin/khuyenmai/editform/{{$item->idkhuyenmai}}'>Sửa</button>
+                                </td>
                                 
                                 <td>
                                     <a href="/admin/khuyenmai/them/{{$item->idkhuyenmai}}" class="btn btn-primary"> Thêm chi tiết </a>
@@ -80,11 +84,15 @@
                                     <button disabled class="btn btn-danger">Xóa</button>
                                 </td>
                                 <td>
-                                    <button disabled class="btn btn-success">Sửa</button>
+                                    <button disabled class="btn btn-success">Sửa Ajax</button>
+                                </td>
+                                <td>
+                                    <button disabled class="btn btn-warning"> Sửa </a>
                                 </td>
                                 <td>
                                     <button disabled class="btn btn-primary">Thêm chi tiết</button>
                                 </td>
+                                
                                 @endif
 
                             </tr>
