@@ -59,6 +59,7 @@
                                 <td>
                                     <a href="/admin/khuyenmai/chitiet/{{$item->idkhuyenmai}}" class="btn btn-info"> Xem chi tiết</a>
                                 </td>
+                                @if($item->ngayketthuc >= $today)
                                 <td>
                                     <form action="/admin/khuyenmai/destroy/{{$item->idkhuyenmai}}" method="POST">
                                         @csrf
@@ -69,11 +70,18 @@
                                 <td>
                                     <button class='editkhuyenmai btn btn-success' data-id='{{$item->idkhuyenmai}}'>Sửa</button>
                                 </td>
-                                @if($item->ngayketthuc >= $today)
+                           
+                                
                                 <td>
                                     <a href="/admin/khuyenmai/them/{{$item->idkhuyenmai}}" class="btn btn-primary"> Thêm chi tiết </a>
                                 </td>
                                 @else
+                                <td>
+                                    <button disabled class="btn btn-danger">Xóa</button>
+                                </td>
+                                <td>
+                                    <button disabled class="btn btn-success">Sửa</button>
+                                </td>
                                 <td>
                                     <button disabled class="btn btn-primary">Thêm chi tiết</button>
                                 </td>
@@ -307,7 +315,7 @@
                             $('#modelId1 form #tenkhuyenmai').val(data2.tenkhuyenmai);
                             $('#modelId1 form #ngaybatdau').val(data2.ngaybatdau);
                             $('#modelId1 form #ngayketthuc').val(data2.ngayketthuc);
-
+                           
 
                         }
                     })
@@ -334,6 +342,7 @@
                             $('#modelId1').modal('hide');
                         } else {
                             printErrorMsg(s.error);
+                           
                             // $.each( s.error , function(k,v){
                             //     alert(k+'->'+v);
                             // })

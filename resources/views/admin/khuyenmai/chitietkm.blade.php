@@ -22,6 +22,7 @@
                 @if(session()->has('themthanhcong'))
                 <?php
                     $mess = session()->get('themthanhcong');
+                
                     foreach ($mess as $i){
                         ?>
                         <p class="alert alert-primary sm-4">

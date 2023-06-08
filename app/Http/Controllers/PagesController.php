@@ -59,12 +59,17 @@ class PagesController extends Controller
                 }
             });
         }
+        $query->where(function ($query) {
+            $query->where('sanpham.soluong', '>', 0)
+                ->where('chitietkhuyenmai.trangthaictkm', 1)
+                // ->whereNotNull('chitietkhuyenmai.idsanpham');
+                ->orWhereNull('chitietkhuyenmai.idsanpham');
+        });
         $sanpham = $query->leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
             ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
-            ->where('sanpham.soluong', '>', 0)
             ->orderBy('sanpham.idsanpham')
             ->paginate(12);
-
+        
         // $sanpham=Sanpham::with('chitietkm')->paginate(12);
         return view('clients.home.sanpham', ['sanpham' => $sanpham, 'thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp, 'totalSanPham' => $sanpham->total()]);
     }
@@ -106,6 +111,12 @@ class PagesController extends Controller
                 }
             });
         }
+        $query->where(function ($query) {
+            $query->where('sanpham.soluong', '>', 0)
+                ->where('chitietkhuyenmai.trangthaictkm', 1)
+                // ->whereNotNull('chitietkhuyenmai.idsanpham')
+                ->orWhereNull('chitietkhuyenmai.idsanpham');
+        });
         //Tim san pham theo danh muc Thuong hieu
         $thuonghieu = Thuonghieu::where('slug_thuonghieu', $slugdanhmuc)->first();
         if ($thuonghieu) {
@@ -113,7 +124,9 @@ class PagesController extends Controller
             $sptheobrand = $query->leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
                 ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
                 ->where('sanpham.idthuonghieu', $thuonghieu->idthuonghieu)
+
                 ->where('sanpham.soluong', '>', 0)
+
                 ->paginate(12);
             return view('clients.home.sanphamByBrand', ['sptheobrand' => $sptheobrand, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheobrand->total()]);
         }
@@ -125,6 +138,8 @@ class PagesController extends Controller
                 ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
                 ->where('sanpham.idCPU', $slugcpu->idCPU)
                 ->where('sanpham.soluong', '>', 0)
+                ->where('chitietkhuyenmai.trangthaictkm','=',1)
+                
                 ->paginate(12);
             return view('clients.home.sanphamByCPU', ['sptheocpu' => $sptheocpu, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheocpu->total()]);
         }
@@ -136,6 +151,8 @@ class PagesController extends Controller
                 ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai', 'chitietkhuyenmai.trangthaictkm')
                 ->where('sanpham.idloaisanpham', $nhucau->idloaisanpham)
                 ->where('sanpham.soluong', '>', 0)
+                ->where('chitietkhuyenmai.trangthaictkm','=',1)
+               
                 ->paginate(12);
             return view('clients.home.sanphamByNC', ['sptheonhucau' => $sptheonhucau, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheonhucau->total()]);
         }

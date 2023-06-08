@@ -23,9 +23,11 @@ class SanphamController extends Controller
     {
         $sanpham = Sanpham::leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
             ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai')
+            ->where('chitietkhuyenmai.trangthaictkm','=',1)
             ->whereNotNull('chitietkhuyenmai.idsanpham')
             ->orWhereNull('chitietkhuyenmai.idsanpham')
-            ->paginate(12);
+            ->paginate(10);
+        // dd($sanpham);
         $thuonghieu = Thuonghieu::all();
         $loaisp = Loaisp::all();
         $cpu = CPU::all();

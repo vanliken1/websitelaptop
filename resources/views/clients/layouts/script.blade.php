@@ -15,7 +15,7 @@
 
   });
   $(function() {
-    var fiveSecond = 30000;
+    var fiveSecond = 5000;
     var oneMinute = 1000 * 60;
     setInterval(function() {
       // var date = new Date();
@@ -34,6 +34,7 @@
         type: "POST",
         success: function(data) {
           console.log('da chay');
+         
         },
       });
     }, fiveSecond);
