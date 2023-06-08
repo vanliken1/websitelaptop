@@ -343,7 +343,7 @@ class KhuyenmaiController extends Controller
                     'idsanpham' => $i['idsanpham'],
                     'check' => 'addNew'
                 ];
-            } elseif ($i['ngaybatdau'] > $km->ngaybatdau && $i['ngayketthuc'] < $km->ngayketthuc) {
+            } elseif ($i['ngaybatdau'] >= $km->ngaybatdau && $i['ngayketthuc'] <= $km->ngayketthuc) {
                 // if($i['trangthaictkm'] == 2){
                 $kiemtra[] = [
                     'idkhuyenmai' => $i['idkhuyenmai'],
@@ -374,7 +374,7 @@ class KhuyenmaiController extends Controller
             // elseif(){
 
             // }
-            elseif ($i['ngaybatdau'] < $km->ngaybatdau && $i['ngayketthuc'] > $km->ngayketthuc) { // 7 15 16 20 
+            elseif ($i['ngaybatdau'] <= $km->ngaybatdau && $i['ngayketthuc'] >= $km->ngayketthuc) { // 7 15 16 20 
                 // if ($i['trangthaictkm'] == 2) {
                 $kiemtra[] = [
                     'idkhuyenmai' => $i['idkhuyenmai'],
@@ -571,22 +571,27 @@ class KhuyenmaiController extends Controller
                 $tam[]=$idkm;
                 session()->flash('loi',$tam );
             }
-            // dd($themthanhcong);
+           
 
         } else {
             
             if (!empty($mang)) {
                 foreach ($mang as $i) {
                     // dd(!in_array($i['idsanpham'], $idkm));
-                    if (!in_array($i['idsanpham'], $idkm)) {
-                        $themthanhcong[] = $i['idsanpham'];
-                     
-                    }else{
+                    if (in_array($i['idsanpham'], $idkm)) {
                         $themthanhcong = [];
+                        
                     }
+                    else{
+                        $themthanhcong[] = $i['idsanpham'];
+                    }
+                    // else
+                    // {
+                    //     $themthanhcong = [];
+                    // }
                 }
                 session()->flash('themthanhcong', $themthanhcong);
-                
+                // dd($themthanhcong);
             }
         }
 
