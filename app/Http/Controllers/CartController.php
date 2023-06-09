@@ -83,6 +83,29 @@ class CartController extends Controller
         //dd(Cart::content());
         return redirect('/cart');
     }
+    function addajax($id,Request $r)
+    {
+        $sanpham = Sanpham::find($id);
+        // ...
+        $existingItem = Cart::search(function ($cartItem, $rowId) use ($id) {
+            return $cartItem->id == $id;
+        });
+        if ($existingItem->isNotEmpty()) {
+            return response()->json(['success' => false]);
+        }
+        $cart = [
+            'id' => $sanpham->idsanpham,
+            'name' => $sanpham->tensanpham,
+            'options' => ['img' => $sanpham->img, 'giagoc' => $sanpham->gia, 'soluongkho' => $sanpham->soluong],
+            'qty' => 1,
+            'price' => $sanpham->giakhuyenmai,
+            'weight' => 0
+        ];
+        // Add the item to the cart
+        Cart::add($cart);
+        // Return a JSON response indicating successful addition to the cart
+        return response()->json(['success' => true]);
+    }
     function remove($rowId)
     {
         Cart::remove($rowId);

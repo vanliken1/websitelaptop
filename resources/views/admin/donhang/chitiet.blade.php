@@ -96,7 +96,8 @@
                                 <th scope="col">Mã sản phẩm</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Số lượng kho</th>
-                                <th>Giá</th>
+                                <th>Giá gốc</th>
+                                <th>Giá bán</th>
                                 <th>Mã coupon</th>
                                 <th>Số lượng</th>
                                 <th>Tổng tiền</th>
@@ -113,6 +114,7 @@
                                 <td>{{$item->products->idsanpham}}</td>
                                 <td>{{$item->products->tensanpham}}</td>
                                 <td>{{$item->products->soluong}}</td>
+                                <td>{{number_format($item->products->gia,0,',','.')}}</td>
                                 <td>{{number_format($item->gia,0,',','.')}}</td>
 
                                 <td>

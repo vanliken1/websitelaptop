@@ -149,20 +149,33 @@ route::get('/', [PagesController::class, 'trangchu']);
 route::get('/laptop', [PagesController::class, 'trangsanpham']); 
 route::get('/laptop/{slugdanhmuc}', [PagesController::class, 'sanphamtheodanhmuc']);
 route::get('/chitiet/{slugsanpham}', [PagesController::class, 'chitiet']);
+
+//Gio hang
 route::get('/cart', [CartController::class, 'index']);
 route::get('/cart/add/{id}', [CartController::class, 'add']);
+route::post('/cart/add/{id}', [CartController::class, 'addajax']);
 route::get('/cart/remove/{id}', [CartController::class, 'remove']);
 route::post('/cart/edit', [CartController::class, 'edit']);
+
+//Dang nhap dang ky user
 route::get('/dangnhap', [LoginController::class, 'loginview']);
 route::post('/dangnhap', [LoginController::class, 'login']);
 route::post('/dangxuat', [LoginController::class, 'logoutuser']);
 route::post('/dangky', [LoginController::class, 'dangky']);
 
+//Thanh toán
 route::get('/thanhtoan',[CartController::class, 'trangthanhtoan'])->middleware('ktUser');
 route::post('/savethanhtoan',[CartController::class, 'save_thanhtoan']);
 
+//Coupon
 route::post('/checkcoupon', [CartController::class, 'check_coupon'])->middleware('ktUser');
 route::get('/xoama', [CartController::class, 'unsetcoupon']);
 
 //gui mail
 route::get('/sendmail',[CartController::class, 'trangthanhtoan'])->middleware('ktUser');
+
+//Thong tin người dùng và lịch sử đơn hàng
+route::get('/history', [PagesController::class, 'history']); 
+route::get('history-details/{id}', [PagesController::class, 'chitiethistory']); 
+route::get('/info', [PagesController::class, 'infouser']); 
+route::put('/updateuser', [PagesController::class, 'updateuser']); 

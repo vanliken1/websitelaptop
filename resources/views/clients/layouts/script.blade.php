@@ -4,6 +4,8 @@
 <script src="/asset/client/vendor/owl.carousel/owl.carousel.min.js"></script>
 <script src="/asset/client/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.js"></script>
 <script src="/asset/client/js/front.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
 <script>
   $.ajaxSetup({
 
@@ -15,7 +17,7 @@
 
   });
   $(function() {
-    var fiveSecond = 5000;
+    var fiveSecond = 60000;
     var oneMinute = 1000 * 60;
     setInterval(function() {
       // var date = new Date();

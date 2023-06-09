@@ -12,6 +12,7 @@
                 <button type="submit" class="btn btn-link">Logout</button>
               </form>
             </li>
+            <li class="list-inline-item"><a href="/history">Thông tin</a></li>
           @else
             <li class="list-inline-item"><a href="/dangnhap">Login</a></li>
           @endauth

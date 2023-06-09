@@ -131,7 +131,7 @@
                                 </div>
                                 <div class="text">
 
-                                    <h3><a href="detail.html">{{$item->tensanpham}}</a></h3>
+                                    <h3><a href="/chitiet/{{$item->slug_sanpham}}">{{$item->tensanpham}}</a></h3>
                                     <!-- <p class="price">
                                         @if ($item->trangthaictkm == 1)
                                         <del>{{ number_format($item->gia, 0, ',', '.') }} đ</del>
@@ -160,9 +160,9 @@
                                     <p class="price">
 
                                         <caption>...</caption>
-                                        
+
                                     <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
-                                    {{ number_format($item->gia, 0, ',', '.') }} đ
+                                        {{ number_format($item->gia, 0, ',', '.') }} đ
                                     </div>
 
                                     </p>
@@ -174,7 +174,10 @@
                                         Còn hàng
                                     </div>
                                     @endif
-                                    <p class="buttons"><a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a><a href="/cart/add/{{$item->idsanpham}}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
+                                    <p class="buttons">
+                                        <a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a>
+                                        <a class="btn btn-primary add-to-cart" data-id="{{$item->idsanpham}}"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </p>
                                 </div>
                                 <!-- /.text-->
 
@@ -205,4 +208,62 @@
     </div>
 </div>
 
+@stop
+@section('script')
+<script>
+    $.ajaxSetup({
+
+        headers: {
+
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        }
+
+    });
+    $(document).ready(function() {
+        $('.add-to-cart').click(function(e) {
+            e.preventDefault();
+            var productId = $(this).data('id');
+            var url = "/cart/add/" + productId;
+            // alert('hehe')
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thêm vào giỏ hàng thành công',
+                            showConfirmButton: false,
+                            
+                            timer: 4000,
+                          
+
+                        });
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Sản phẩm đã tồn tại trong giỏ hàng',
+                            showConfirmButton: false,
+                           
+                            timer: 4000,
+                           
+
+                        });
+
+                    }
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+
+                },
+                // error: function(xhr, status, error) {
+                //     alert('An error occurred while adding the product to the cart.');
+                // }
+            });
+        });
+    });
+</script>
 @stop

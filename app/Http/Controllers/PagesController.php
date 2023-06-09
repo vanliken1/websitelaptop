@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chitietdonhang;
 use App\Models\CPU;
 use App\Models\Dohoa;
+use App\Models\Donhang;
+use App\Models\Giamgia;
 use App\Models\Loaisp;
 use App\Models\Sanpham;
 use App\Models\Thuonghieu;
+use App\Models\User;
 use Illuminate\Http\Request;
-
+use Hash;
 class PagesController extends Controller
 {
     //
@@ -171,5 +175,98 @@ class PagesController extends Controller
             ->take(3)
             ->get();
         return view('clients.home.chitietsanpham', ['sanpham' => $sanpham, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'sanphamlienquan' => $sanphamlienquan]);
+    }
+    function history()
+    {
+
+        $thuonghieusp = Thuonghieu::all();
+        $cpu = CPU::all();
+        $loaisp = Loaisp::all();
+        if(!auth()->check()){
+            return redirect('/dangnhap');
+        }else{
+            $donhang = Donhang::where('idnguoidung',auth()->user()->idnguoidung)->orderBy('ngaydat', 'DESC')->paginate(10);
+            return view('clients.home.history', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,'donhang'=>$donhang]);
+        }
+        
+       
+    }
+    function chitiethistory($iddonhang)
+    {
+
+        $thuonghieusp = Thuonghieu::all();
+        $cpu = CPU::all();
+        $loaisp = Loaisp::all();
+        if(!auth()->check()){
+            return redirect('/dangnhap');
+        }else{
+            $chitiet = Chitietdonhang::where('iddonhang', $iddonhang)->get();
+            $donhang = Donhang::where('iddonhang', $iddonhang)->get();
+            foreach ($chitiet as $or) {
+                $coupon_code = $or->codegiamgia;
+            }
+            // $coupon = Giamgia::where('codegiamgia', $coupon_code)->first();
+            if ($coupon_code != 'no') {
+                $coupon = Giamgia::where('codegiamgia', $coupon_code)->first();
+    
+                $tinhnangma = $coupon->tinhnangma;
+                $sotiengiam = $coupon->sotiengiam;
+            } else {
+                $tinhnangma = 1;
+                $sotiengiam = 0;
+            }
+            return view('clients.home.viewhistory', ['chitietdonhang' => $chitiet, 'donhang' => $donhang,'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,'donhang'=>$donhang,'tinhnangma' => $tinhnangma, 'sotiengiam' => $sotiengiam]);
+        }
+        
+       
+    }
+    function infouser()
+    {
+
+        $thuonghieusp = Thuonghieu::all();
+        $cpu = CPU::all();
+        $loaisp = Loaisp::all();
+        if(!auth()->check()){
+            return redirect('/dangnhap');
+        }else{
+            $info=User::findOrFail(auth()->user()->idnguoidung);
+            // dd($info->email);
+            return view('clients.home.infouser',['nguoidung'=>$info,'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp]);
+
+        }
+        
+       
+    }
+    function updateuser(Request $request)
+    {
+        // dd($request->email);
+        
+        $c=User::findOrFail(auth()->user()->idnguoidung);
+        if($request->changePassword =="on"){
+            $request->validate(
+                [
+                   
+                    
+                    'password2'=>'same:password',
+                 
+    
+                ],
+                [
+                    
+                    
+                   'password2.same'=>'Không trùng khớp',
+                    
+                ]
+            );
+            $c->password=Hash::make($request->password);
+        }
+        $c->email=$request->email;
+        $c->tennguoidung = $request->tennguoidung;
+        $c->sdt= $request->sdt;
+        $c->diachi = $request->diachi;
+      
+        $c->save();
+        session()->flash("mess","Cập nhật thành công");
+        return redirect("/info");
     }
 }
