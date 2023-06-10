@@ -162,6 +162,9 @@ route::get('/dangnhap', [LoginController::class, 'loginview']);
 route::post('/dangnhap', [LoginController::class, 'login']);
 route::post('/dangxuat', [LoginController::class, 'logoutuser']);
 route::post('/dangky', [LoginController::class, 'dangky']);
+//dang nhap gg
+route::get('/login-google', [LoginController::class, 'logingg']);
+route::get('/users/google/callback', [LoginController::class, 'callbackgg']);
 
 //Thanh toán
 route::get('/thanhtoan',[CartController::class, 'trangthanhtoan'])->middleware('ktUser');

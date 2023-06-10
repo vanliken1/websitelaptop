@@ -103,7 +103,7 @@
 
 
                 </div>
-                <p>Mọi chi tiết liên hệ website tại:<a href="http://127.0.0.1:8000/">laptopvanhao.com</a>, hoặc liên hệ hotline 0985142764.Xin cảm ơn quý khách đã đặt hàng</p>
+                <p>Nhấp vào đây để xem <a href="http://127.0.0.1:8000/history">lịch sử đơn hàng</a>, hoặc liên hệ hotline 0985142764.Xin cảm ơn quý khách đã đặt hàng</p>
 
             </div>
         </div>

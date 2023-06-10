@@ -90,6 +90,12 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i>Đăng nhập</button>
                             </div>
                         </form>
+                        <div class="text-center">
+                        
+                            <a href="/login-google"><img width="10%" alt="Đăng nhập google" src="{{asset('storage/img/google.jpg')}}"></a>
+                            <a href=""><img width="10px" alt="Đăng nhập facebook" src=""></a>
+
+                        </div>
                     </div>
                 </div>
             </div>
