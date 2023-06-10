@@ -12,6 +12,18 @@
                     {{session('mess')}}
                 </p>
                 @endif
+                @if(session()->has('errors'))
+                <?php
+                    $mess = session()->get('errors');
+                    foreach ($mess as $i){
+                        ?>
+                        <p class="alert alert-danger sm-4">
+                            <?php echo $i?> trùng ngày nên không thêm đc 
+                        </p>
+                        <?php
+                    }
+                ?>
+                @endif
                 <form action="/admin/khuyenmai/capnhat" method="POST">
                     @csrf
                     @foreach($khuyenmai as $item)
@@ -345,6 +357,7 @@
                     success: function(s) {
                         console.log(s);
                         if ($.isEmptyObject(s.error)) {
+                            //console.log()
                             alert("Sua thanh cong");
                             location.reload();
                             $('#modelId1').modal('hide');
