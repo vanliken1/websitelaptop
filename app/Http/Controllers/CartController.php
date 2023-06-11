@@ -118,12 +118,13 @@ class CartController extends Controller
         Cart::update($r->rowId, $r->qty);
         return response()->json(['n' => Cart::count()]);
     }
-    function trangthanhtoan()
+    function trangthanhtoan(Request $r)
     {
-
+        // dd($r->all());
         $thuonghieusp = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
+
         return view('clients.home.thanhtoan', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp]);
     }
 
@@ -279,6 +280,7 @@ class CartController extends Controller
         //     ]
         // );
         $data2 = $r->all();
+        // dd($data2);
         // dd($data['tongmomo']);
         $today = Carbon::today();
 
@@ -318,6 +320,7 @@ class CartController extends Controller
             $extraData =  "";
             //before sign HMAC SHA256 signature
             $rawHash = "partnerCode=" . $partnerCode . "&accessKey=" . $accessKey . "&requestId=" . $requestId . "&amount=" . $amount . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&returnUrl=" . $returnUrl . "&notifyUrl=" . $notifyurl . "&extraData=" . $extraData;
+            // dd($rawHash);
             $signature = hash_hmac("sha256", $rawHash, $secretKey);
 
             // dd($signature);
@@ -338,7 +341,10 @@ class CartController extends Controller
             $result = $this->execPostRequest($endpoint, json_encode($data));
             // dd($result);
             $jsonResult = json_decode($result, true);  // decode json
-           
+            //    dd($jsonResult);
+
+            // Giao dịch bị hủy bỏ, không thực hiện các dòng code sau
+            
             $coupon1 = Giamgia::where('codegiamgia', $data2['coupon_donhang'])
                 ->where('trangthai', 1)
                 ->first();
@@ -398,8 +404,12 @@ class CartController extends Controller
             //----xoa all gio hang------
             Cart::destroy();
             Session::forget('coupon');
-            //Just a example, please check more in there
+            
+
             return redirect()->to($jsonResult['payUrl']);
+
+            //Just a example, please check more in there
+
             // header('Location: ' . );
 
         }

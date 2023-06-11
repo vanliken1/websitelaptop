@@ -65,8 +65,10 @@
                                 <td>
                                     @if($item->hinhthuc==0)
                                     {{'Thanh toán tiền mặt'}}
+                                    @elseif($item->hinhthuc==1)
+                                    {{'Thanh toán chuyển khoản'}}
                                     @else
-                                    {{'Thanh toán ví điện tử'}}
+                                    {{'Thanh toán MoMo'}}
                                     @endif
                                 </td>
                                 <td>{{$item->ngaydat}}</td>
