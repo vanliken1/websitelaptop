@@ -39,6 +39,7 @@ class Chitietdonhang extends Model
         'iddonhang',
         'idsanpham',
         'soluong',
+        'giagoc',
         'gia',
         'codegiamgia',
         'trangthai'

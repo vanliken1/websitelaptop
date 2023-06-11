@@ -114,7 +114,7 @@
                                 <td>{{$item->products->idsanpham}}</td>
                                 <td>{{$item->products->tensanpham}}</td>
                                 <td>{{$item->products->soluong}}</td>
-                                <td>{{number_format($item->products->gia,0,',','.')}}</td>
+                                <td>{{number_format($item->giagoc,0,',','.')}}</td>
                                 <td>{{number_format($item->gia,0,',','.')}}</td>
 
                                 <td>

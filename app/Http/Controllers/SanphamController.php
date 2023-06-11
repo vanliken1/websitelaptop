@@ -21,12 +21,7 @@ class SanphamController extends Controller
     //
     public function index()
     {
-        $sanpham = Sanpham::leftJoin('chitietkhuyenmai', 'sanpham.idsanpham', '=', 'chitietkhuyenmai.idsanpham')
-            ->select('sanpham.*', 'chitietkhuyenmai.phantramkhuyenmai')
-            ->where('chitietkhuyenmai.trangthaictkm','=',1)
-            ->whereNotNull('chitietkhuyenmai.idsanpham')
-            ->orWhereNull('chitietkhuyenmai.idsanpham')
-            ->paginate(10);
+        $sanpham = Sanpham::paginate(10);
         // dd($sanpham);
         $thuonghieu = Thuonghieu::all();
         $loaisp = Loaisp::all();
@@ -60,10 +55,10 @@ class SanphamController extends Controller
                 $data['img'] = $img;
                 $r->img->storeAs('public/img', $img);
             }
-            if (isset($ct)) {
-                $data['giakhuyenmai'] = $data['gia'] - ($data['gia'] * ($ct->phantramkhuyenmai / 100));
-            }
-            $data['giakhuyenmai'] = $data['gia'];
+            // if (isset($ct)) {
+            //     $data['giakhuyenmai'] = $data['gia'] - ($data['gia'] * ($ct->phantramkhuyenmai / 100));
+            // }
+            // $data['giakhuyenmai'] = $data['gia'];
             $u = Sanpham::create($data);
             return response()->json($u);
             //return response()->json($u,['success'=>'Added new records.']);
@@ -106,7 +101,7 @@ class SanphamController extends Controller
                 $request->img->storeAs('public/img', $img);
             }
 
-            if (isset($ct) && $ct->trangthaictkm == 1) {
+            if (isset($ct)&&$ct->trangthaictkm == 1) {
                 $khuyenmai = $request->gia - ($request->gia * ($ct->phantramkhuyenmai / 100));
 
                 $c->giakhuyenmai = $khuyenmai;

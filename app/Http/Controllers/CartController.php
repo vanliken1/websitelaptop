@@ -83,7 +83,7 @@ class CartController extends Controller
         //dd(Cart::content());
         return redirect('/cart');
     }
-    function addajax($id,Request $r)
+    function addajax($id, Request $r)
     {
         $sanpham = Sanpham::find($id);
         // ...
@@ -236,6 +236,29 @@ class CartController extends Controller
             return redirect('/cart');
         }
     }
+    public function execPostRequest($url, $data)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data)
+            )
+        );
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        //execute post
+        $result = curl_exec($ch);
+        //close connection
+        // dd($result);
+        curl_close($ch);
+        return $result;
+    }
     function save_thanhtoan(Request $r)
     {
         // $r->validate(
@@ -255,6 +278,8 @@ class CartController extends Controller
         //         'sdtnguoinhan.digits' => 'SĐT ko hợp lệ',
         //     ]
         // );
+        $data2 = $r->all();
+        // dd($data['tongmomo']);
         $today = Carbon::today();
 
         // Kiểm tra số lần ID người dùng đã xuất hiện trong đơn hàng trong ngày hôm nay
@@ -266,11 +291,122 @@ class CartController extends Controller
             session()->flash('error', 'Bạn đã đạt số lượng đơn hàng tối đa trong ngày hôm nay.Mai quay lại bạn nhé!');
             return redirect('/thanhtoan');
         }
-        $data = $r->all();
+        // dd($data['hinhthuc']);
+        if ($data2['hinhthuc'] == 2) {
+
+            // include "../common/helper.php";
+
+
+            $endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
+
+
+            $partnerCode = "MOMOBKUN20180529";
+            $accessKey = "klm05TvNBzhg7h7j";
+            $secretKey = "at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa";
+            $orderInfo = "Thanh toán qua MoMo";
+            $amount = $_POST['tongmomo'];
+            // dd($amount);
+            $orderId = time() . "";
+            $returnUrl = "http://127.0.0.1:8000/";
+            $notifyurl = "http://127.0.0.1:8000/";
+            // Lưu ý: link notifyUrl không phải là dạng localhost
+            $extraData = "merchantName=MoMo Partner";
+
+
+            $requestId = time() . "";
+            $requestType = "captureMoMoWallet";
+            $extraData =  "";
+            //before sign HMAC SHA256 signature
+            $rawHash = "partnerCode=" . $partnerCode . "&accessKey=" . $accessKey . "&requestId=" . $requestId . "&amount=" . $amount . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&returnUrl=" . $returnUrl . "&notifyUrl=" . $notifyurl . "&extraData=" . $extraData;
+            $signature = hash_hmac("sha256", $rawHash, $secretKey);
+
+            // dd($signature);
+            $data = array(
+                'partnerCode' => $partnerCode,
+                'accessKey' => $accessKey,
+                'requestId' => $requestId,
+                'amount' => $amount,
+                'orderId' => $orderId,
+                'orderInfo' => $orderInfo,
+                'returnUrl' => $returnUrl,
+                'notifyUrl' => $notifyurl,
+                'extraData' => $extraData,
+                'requestType' => $requestType,
+                'signature' => $signature
+            );
+            // dd($data);
+            $result = $this->execPostRequest($endpoint, json_encode($data));
+            // dd($result);
+            $jsonResult = json_decode($result, true);  // decode json
+           
+            $coupon1 = Giamgia::where('codegiamgia', $data2['coupon_donhang'])
+                ->where('trangthai', 1)
+                ->first();
+
+            if ($coupon1) {
+                if ($coupon1->soluong > 0) {
+                    $coupon1->soluong = $coupon1->soluong - 1;
+                    $coupon1->save();
+                } else {
+                    Session::forget('coupon');
+                    session()->flash('error', 'Mã giảm giá đã hết số lượng');
+                    return redirect('/cart');
+                }
+                $coupon1->dasudung = $coupon1->dasudung . ',' . auth()->user()->idnguoidung;
+                $coupon1->save();
+            }
+
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+            $data2['ngaydat'] = date('y-m-d h:i:s');
+            $data2['iddonhang'] = time();
+            $data2['trangthai'] = 1;
+            $data2['idnguoidung'] = auth()->user()->idnguoidung;
+            //dd($data['idusers'] = session('users')['idusers']);
+            //$data = Users::where('idusers', '1')->first();
+            $o = Donhang::create($data2);
+            // dd($o);
+            $idorder = $o->iddonhang;
+            foreach (Cart::content() as $item) {
+                $data3 = [
+                    'iddonhang' => $idorder,
+                    'idsanpham' => $item->id,
+                    'soluong' => $item->qty,
+                    'giagoc' => $item->options->giagoc,
+                    'gia' => $item->price,
+                    'trangthai' => 1,
+                    'codegiamgia' => $r->coupon_donhang,
+                ];
+                $ct = Chitietdonhang::create($data3);
+            }
+            $dataEmail = [
+                'madonhang' => $o->iddonhang,
+                'magiamgia' => $ct->codegiamgia,
+                'diachinguoinhan' => $o->diachinguoinhan,
+                'tennguoinhan' => $o->tennguoinhan,
+                'tennguoigui' => auth()->user()->tennguoidung,
+                'sdtnguoinhan' => $o->sdtnguoinhan,
+                'ghichu' => $o->note,
+                'hinhthucthanhtoan' => $o->hinhthuc,
+                'cart' => Cart::content(),
+                'session_coupon' => Session::get('coupon'),
+
+            ];
+            //-----gui mail ne---------
+            $email['email'] = auth()->user()->email;
+            Mail::to($email)->send(new testmail($dataEmail));
+            //----xoa all gio hang------
+            Cart::destroy();
+            Session::forget('coupon');
+            //Just a example, please check more in there
+            return redirect()->to($jsonResult['payUrl']);
+            // header('Location: ' . );
+
+        }
         // $haongu=Session::get('coupon');  
         // dd($haongu[0]['codegiamgia']); 
 
-        $coupon1 = Giamgia::where('codegiamgia', $data['coupon_donhang'])
+        $coupon1 = Giamgia::where('codegiamgia', $data2['coupon_donhang'])
             ->where('trangthai', 1)
             ->first();
 
@@ -289,25 +425,26 @@ class CartController extends Controller
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-        $data['ngaydat'] = date('y-m-d h:i:s');
-        $data['iddonhang'] = time();
-        $data['trangthai'] = 1;
-        $data['idnguoidung'] = auth()->user()->idnguoidung;
+        $data2['ngaydat'] = date('y-m-d h:i:s');
+        $data2['iddonhang'] = time();
+        $data2['trangthai'] = 1;
+        $data2['idnguoidung'] = auth()->user()->idnguoidung;
         //dd($data['idusers'] = session('users')['idusers']);
         //$data = Users::where('idusers', '1')->first();
-        $o = Donhang::create($data);
+        $o = Donhang::create($data2);
         // dd($o);
         $idorder = $o->iddonhang;
         foreach (Cart::content() as $item) {
-            $data2 = [
+            $data3 = [
                 'iddonhang' => $idorder,
                 'idsanpham' => $item->id,
                 'soluong' => $item->qty,
+                'giagoc' => $item->options->giagoc,
                 'gia' => $item->price,
                 'trangthai' => 1,
                 'codegiamgia' => $r->coupon_donhang,
             ];
-            $ct = Chitietdonhang::create($data2);
+            $ct = Chitietdonhang::create($data3);
         }
         $dataEmail = [
             'madonhang' => $o->iddonhang,

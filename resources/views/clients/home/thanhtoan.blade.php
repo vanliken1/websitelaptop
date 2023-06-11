@@ -16,7 +16,7 @@
                 <div id="checkout" class="col-lg-9">
 
                     <div class="box">
-                    @if(session()->has('error'))
+                        @if(session()->has('error'))
                         <p class="alert alert-danger sm-4">
                             {{session('error')}}
                         </p>
@@ -56,7 +56,8 @@
                                             <label>Hình thức thanh toán</label>
                                             <select type="number" name='hinhthuc' id="hinhthuc" class='form-control'>
                                                 <option value="0">Thanh toán tiền mặt</option>
-                                                <option value="1">Thanh toán ví điện tử</option>
+                                                <option value="1">Thanh toán chuyển khoản</option>
+                                                <option value="2">Thanh toán MoMo</option>
                                             </select>
                                         </div>
                                     </div>
@@ -80,8 +81,38 @@
                                 @else
                                 <input type="hidden" name="coupon_donhang" value="no">
                                 @endif
-                                <input type="submit" class="btn btn-primary" value="Thanh toán" />
+                                @php
+                                $tong = 0;
+                                foreach (Cart::content() as $item) {
+                                $tong += $item->qty * $item->price;
+                                }
+                                if (Cart::count() > 0) {
+                                if (Session::has('coupon')) {
+                                foreach (Session::get('coupon') as $cou) {
+                                if ($cou['tinhnangma'] == 0) {
+                                $sotiengiam = $cou['sotiengiam'];
+                                $tong_coupon = ($tong * $sotiengiam) / 100;
+                                } elseif ($cou['tinhnangma'] == 1) {
+                                $sotiengiam = $cou['sotiengiam'];
+                                $tong_coupon = $sotiengiam;
+                                }
+
+                                $tong_con = $tong - $tong_coupon;
+                                if ($cou['tinhnangma'] == 0) {
+                                $tong_con = $tong - $cou['sotiengiam'];
+                                }
+                                }
+                                } else {
+                                $tong_con = $tong;
+                                }
+                                }
+                                
+                                @endphp
+                                <input type="hidden" name="tongmomo" value="{{$tong_con}}">
+                                <!-- <input type="submit" class="btn btn-primary" name="payUrl" value="Thanh toán" /> -->
                             </div>
+                            <input type="submit" class="btn btn-primary" name="payUrl" value="Thanh toán" />
+
                             <!-- <input type="submit" class="btn btn-primary" value="Thanh toán" /> -->
                         </form>
 
@@ -126,17 +157,23 @@
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td class="total">Tổng giảm:</td>
+                                            <td class="total">Tổng thanh toán:</td>
+                                            <?php $tong_con = $tong - $tong_coupon ?>
                                             @if($cou['tinhnangma'] == 0)
-                                            <th>{{ number_format($tong - $tong_coupon,0,',','.') }}đ</th>
+                                            <th>{{ number_format($tong_con,0,',','.') }}đ</th>
+                                            <?php $tong_con = $tong - $cou['sotiengiam'] ?>
                                             @elseif($cou['tinhnangma'] == 1)
-                                            <th>{{ number_format($tong-$cou['sotiengiam'],0,',','.') }}đ</th>
+                                            <th>{{ number_format($tong_con,0,',','.') }}đ</th>
                                             @endif
                                         </tr>
                                         @endforeach
+                                        @else
+                                        <?php $tong_con = $tong ?>
+                                        <td class="total">Tổng thanh toán:</td>
+                                        <th>{{ number_format($tong_con,0,',','.') }}đ</th>
                                         @endif
                                         @endif
-                                        
+
                                     </tbody>
                                 </table>
                             </div>

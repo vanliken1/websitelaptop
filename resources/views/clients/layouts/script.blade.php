@@ -17,7 +17,7 @@
 
   });
   $(function() {
-    var fiveSecond = 60000;
+    var fiveSecond = 5000;
     var oneMinute = 1000 * 60;
     setInterval(function() {
       // var date = new Date();

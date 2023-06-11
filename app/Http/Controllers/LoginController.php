@@ -11,7 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Socialite;
-
+use Cart;
 class LoginController extends Controller
 {
     //
@@ -40,6 +40,7 @@ class LoginController extends Controller
     {
         auth()->logout();
         Session::forget('coupon');
+        Cart::destroy();
         return redirect('/');
     }
     function dangky(Request $r)
@@ -89,23 +90,26 @@ class LoginController extends Controller
     }
     function logingg()
     {
-        return Socialite::driver('google')->redirect();
+        // return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')->with(["prompt" => "select_account"])->redirect();
+
     }
 
     function callbackgg()
     {
+        //kết nối tới tài khoản google
+        // auth()->logout();
         $users = Socialite::driver('google')->stateless()->user();
+        //Tìm id tk google = idnguoidungxahoi có trong bảng Social
         $authUser = Social::where('idnguoidungxahoi', $users->id)->first();
+        //nếu như tài khoản đã tồn tại thì đang nhặp
+        if ($authUser) {
 
-        if (!$authUser) {
-            $taikhoanmoi = new Social([
-                'idnguoidungxahoi' => $users->id,
-                'emailnguoidungxahoi' => $users->email,
-                'kieumangxahoi' => strtoupper('google')
-            ]);
+            auth()->login($authUser->user);
 
-            $orang = User::where('email', $users->email)->first();
-
+        } else {
+            $orang = User::where('email', $users->email)->first(); //Tìm user có email giống email gg
+            //Nếu ko có email trùng với email đã tìm thì tạo mới
             if (!$orang) {
                 $orang = User::create([
                     'tennguoidung' => $users->name,
@@ -116,46 +120,22 @@ class LoginController extends Controller
                     'trangthai' => 1
                 ]);
             }
-
+            //dong thời tạo bên bảng Social một tài khoản mới 
+            $taikhoanmoi = new Social([
+                'idnguoidungxahoi' => $users->id,
+                'emailnguoidungxahoi' => $users->email,
+                'kieumangxahoi' => strtoupper('google'),
+                'idnguoidung' => $orang->idnguoidung
+            ]);
+            // dd($taikhoanmoi);
+            //Thiết lập mối quan hệ giữa bản Social và User nghĩa là idnguoidung Social=idnguoidung User
             $taikhoanmoi->user()->associate($orang);
             $taikhoanmoi->save();
-            $authUser = $taikhoanmoi;
+            //Dang nhap tk user mới
+            auth()->login($orang);
         }
-
-        if ($authUser) {
-            auth()->login($authUser->user);
-        }
+        
 
         return redirect('/');
     }
-    // public function findOrCreateUser($users, $provider)
-    // {
-    //     $authUser = Social::where('idnguoidungxahoi', $users->id)->first();
-    //     if ($authUser) {
-
-    //         return $authUser;
-    //     } else {
-    //         $taikhoanmoi = new Social([
-    //             'idnguoidungxahoi' => $users->id,
-    //             'emailnguoidungxahoi' => $users->email,
-    //             'kieumangxahoi' => strtoupper($provider)
-    //         ]);
-
-    //         $orang = User::where('email', $users->email)->first();
-
-    //         if (!$orang) {
-    //             $orang = User::create([
-    //                 'tennguoidung' => $users->name,
-    //                 'email' => $users->email,
-    //                 'password' => '',
-    //                 'diachi' => '',
-    //                 'sdt' => '',
-    //                 'trangthai' => 1
-    //             ]);
-    //         }
-    //         $taikhoanmoi->user()->associate($orang);
-    //         $taikhoanmoi->save();
-    //         return $taikhoanmoi;
-    //     }
-    // }
 }

@@ -742,7 +742,7 @@ class KhuyenmaiController extends Controller
             ]
         );
         $ct = Chitietkhuyenmai::where('idkhuyenmai', $request->idkhuyenmai)->get();
-        //dd($ct);
+        // dd($ct);
         if ($ct->isEmpty()) {
             $c = Khuyenmai::findorfail($request->idkhuyenmai);
             $c->tenkhuyenmai = $request->tenkhuyenmai;
@@ -756,71 +756,23 @@ class KhuyenmaiController extends Controller
             foreach ($ct as $item) {
                 $sp[] = $item->idsanpham;
             }
-            //dd($sp);
+            // dd($sp);
+            $a = [];
+
             foreach ($sp as $i) {
                 $k1 = Chitietkhuyenmai::where('idsanpham', $i)->where('trangthaictkm', '!=', '0')->where('idkhuyenmai', '!=', $request->idkhuyenmai)->get();
                 //$c[]=$k1;
+                // dd($i);
+
                 foreach ($k1 as $i) {
+
                     $a[] =  $i->idkhuyenmai;
                 }
             }
             //dd($c);
+            // dd($a);
             $a = array_unique($a);
-            //dd($a);
-            foreach ($a as $i) {
-                $km = Khuyenmai::where('idkhuyenmai', $i)->first();
-                //dd($km['idkhuyenmai']);
-                $b[] = [
-                    'idkhuyenmai' => $km['idkhuyenmai'],
-                    'ngaybatdau' => $km['ngaybatdau'],
-                    'ngayketthuc' => $km['ngayketthuc'],
-                ];
-            }
-            //dd($b);
-            $kiemtra = [];
-            foreach ($b as $i) {
-                //dd($i['ngaybatdau']);
-                if ($i['ngaybatdau'] >= $request->ngaybatdau && $i['ngayketthuc'] <= $request->ngayketthuc) {
-                    // if($i['trangthaictkm'] == 2){
-                    $kiemtra[] = [
-                        'idkhuyenmai' => $i['idkhuyenmai'],
-                        'check' => 'datbiet'
-                    ];
-                } elseif ($i['ngaybatdau'] <= $request->ngaybatdau && $i['ngayketthuc'] >= $request->ngayketthuc) { // 7 15 16 20 
-                    // if ($i['trangthaictkm'] == 2) {
-                    $kiemtra[] = [
-                        'idkhuyenmai' => $i['idkhuyenmai'],
-                        'check' => 'datbiet'
-                    ];
-                } elseif ($i['ngaybatdau'] < $request->ngaybatdau && $i['ngayketthuc'] < $request->ngayketthuc) { ///($i['ngayketthuc'] < $km->ngaybatdau && $i['ngayketthuc'] < $km->ngayketthuc )
-                    if ($i['ngaybatdau'] < $request->ngaybatdau && $i['ngayketthuc'] > $request->ngaybatdau) {
-                        $kiemtra[] = [
-                            'idkhuyenmai' => $i['idkhuyenmai'],
-                            'check' => 'datbiet'
-                        ];
-                    } elseif ($i['ngaybatdau'] == $request->ngaybatdau || $i['ngaybatdau'] == $request->ngayketthuc || $i['ngayketthuc'] == $request->ngaybatdau || $i['ngayketthuc'] == $request->ngayketthuc) {
-                        $kiemtra[] = [
-                            'idkhuyenmai' => $i['idkhuyenmai'],
-                            'check' => 'datbiet'
-                        ];
-                    }
-                } elseif (($i['ngaybatdau'] > $request->ngaybatdau && $i['ngayketthuc'] > $request->ngayketthuc)) {  /// 7 15 16 20 
-                    if ($i['ngaybatdau'] > $request->ngaybatdau && $i['ngaybatdau'] < $request->ngayketthuc) {
-                        $kiemtra[] = [
-                            'idkhuyenmai' => $i['idkhuyenmai'],
-                            'check' => 'datbiet'
-                        ];
-                    } elseif ($i['ngaybatdau'] == $request->ngaybatdau || $i['ngaybatdau'] == $request->ngayketthuc || $i['ngayketthuc'] == $request->ngaybatdau || $i['ngayketthuc'] == $request->ngayketthuc) {
-                        $kiemtra[] = [
-                            'idkhuyenmai' => $i['idkhuyenmai'],
-                            'check' => 'datbiet'
-                        ];
-                    }
-                }
-            }
-            //dd($kiemtra);
-            if (empty($kiemtra)) {
-                //dd('sua');
+            if (empty($a)) {
                 $c = Khuyenmai::findorfail($request->idkhuyenmai);
                 if ($c['ngaybatdau'] <= $today && $c['ngayketthuc'] >= $today) {
                     if ($request->ngaybatdau > $today) {
@@ -846,11 +798,95 @@ class KhuyenmaiController extends Controller
                 //dd($c);
                 return redirect('/admin/khuyenmai');
             } else {
-                foreach ($kiemtra as $item) {
-                    $bien[] = $item['idkhuyenmai'];
+
+
+                //dd($a);
+                foreach ($a as $i) {
+                    $km = Khuyenmai::where('idkhuyenmai', $i)->first();
+                    //dd($km['idkhuyenmai']);
+                    $b[] = [
+                        'idkhuyenmai' => $km['idkhuyenmai'],
+                        'ngaybatdau' => $km['ngaybatdau'],
+                        'ngayketthuc' => $km['ngayketthuc'],
+                    ];
                 }
-                session()->flash("errors", $bien);
-                return redirect('/admin/khuyenmai');
+                //dd($b);
+                $kiemtra = [];
+                foreach ($b as $i) {
+                    //dd($i['ngaybatdau']);
+                    if ($i['ngaybatdau'] >= $request->ngaybatdau && $i['ngayketthuc'] <= $request->ngayketthuc) {
+                        // if($i['trangthaictkm'] == 2){
+                        $kiemtra[] = [
+                            'idkhuyenmai' => $i['idkhuyenmai'],
+                            'check' => 'datbiet'
+                        ];
+                    } elseif ($i['ngaybatdau'] <= $request->ngaybatdau && $i['ngayketthuc'] >= $request->ngayketthuc) { // 7 15 16 20 
+                        // if ($i['trangthaictkm'] == 2) {
+                        $kiemtra[] = [
+                            'idkhuyenmai' => $i['idkhuyenmai'],
+                            'check' => 'datbiet'
+                        ];
+                    } elseif ($i['ngaybatdau'] < $request->ngaybatdau && $i['ngayketthuc'] < $request->ngayketthuc) { ///($i['ngayketthuc'] < $km->ngaybatdau && $i['ngayketthuc'] < $km->ngayketthuc )
+                        if ($i['ngaybatdau'] < $request->ngaybatdau && $i['ngayketthuc'] > $request->ngaybatdau) {
+                            $kiemtra[] = [
+                                'idkhuyenmai' => $i['idkhuyenmai'],
+                                'check' => 'datbiet'
+                            ];
+                        } elseif ($i['ngaybatdau'] == $request->ngaybatdau || $i['ngaybatdau'] == $request->ngayketthuc || $i['ngayketthuc'] == $request->ngaybatdau || $i['ngayketthuc'] == $request->ngayketthuc) {
+                            $kiemtra[] = [
+                                'idkhuyenmai' => $i['idkhuyenmai'],
+                                'check' => 'datbiet'
+                            ];
+                        }
+                    } elseif (($i['ngaybatdau'] > $request->ngaybatdau && $i['ngayketthuc'] > $request->ngayketthuc)) {  /// 7 15 16 20 
+                        if ($i['ngaybatdau'] > $request->ngaybatdau && $i['ngaybatdau'] < $request->ngayketthuc) {
+                            $kiemtra[] = [
+                                'idkhuyenmai' => $i['idkhuyenmai'],
+                                'check' => 'datbiet'
+                            ];
+                        } elseif ($i['ngaybatdau'] == $request->ngaybatdau || $i['ngaybatdau'] == $request->ngayketthuc || $i['ngayketthuc'] == $request->ngaybatdau || $i['ngayketthuc'] == $request->ngayketthuc) {
+                            $kiemtra[] = [
+                                'idkhuyenmai' => $i['idkhuyenmai'],
+                                'check' => 'datbiet'
+                            ];
+                        }
+                    }
+                }
+
+                //dd($kiemtra);
+                if (empty($kiemtra)) {
+                    //dd('sua');
+                    $c = Khuyenmai::findorfail($request->idkhuyenmai);
+                    if ($c['ngaybatdau'] <= $today && $c['ngayketthuc'] >= $today) {
+                        if ($request->ngaybatdau > $today) {
+                            foreach ($ct as $i) {
+                                $ctkm = Chitietkhuyenmai::findorfail($i->idkhuyenmai);
+                                //dd($c);
+                                $ctkm->trangthaictkm = 2;
+                                $ctkm->save();
+                                //dd($ctkm);
+                                $sanpham = Sanpham::find($i->idsanpham);
+                                if ($sanpham && $ctkm->trangthaictkm == 2) {
+                                    $sanpham->giakhuyenmai = $sanpham->gia;
+                                    $sanpham->save();
+                                }
+                            }
+                        }
+                    }
+                    $c->tenkhuyenmai = $request->tenkhuyenmai;
+                    $c->ngaybatdau = $request->ngaybatdau;
+                    $c->ngayketthuc = $request->ngayketthuc;
+                    $c->save();
+                    session()->flash("mess", "Sua thanh cong");
+                    //dd($c);
+                    return redirect('/admin/khuyenmai');
+                } else {
+                    foreach ($kiemtra as $item) {
+                        $bien[] = $item['idkhuyenmai'];
+                    }
+                    session()->flash("errors", $bien);
+                    return redirect('/admin/khuyenmai');
+                }
             }
         }
     }
