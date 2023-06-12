@@ -15,6 +15,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\RamController;
 use App\Http\Controllers\SanphamController;
 use App\Http\Controllers\ThuonghieuController;
+use App\Http\Controllers\UserController;
 use App\Models\Khuyenmai;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,9 @@ route::prefix('admin')->group(function () {
     route::get('/', function () {
         return view('admin.index');
     });
+    route::prefix('users')->group(function () {
+        route::get('/', [UserController::class, 'index']); 
+    }); 
     route::prefix('brand')->group(function () {
         route::get('/', [ThuonghieuController::class, 'index']); 
         route::get('create', [ThuonghieuController::class, 'create']);
