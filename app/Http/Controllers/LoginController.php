@@ -29,6 +29,9 @@ class LoginController extends Controller
         if (auth()->attempt($credentials)) {
             // Đăng nhập thành công
             // dd(auth()->check());
+            if(auth()->user()->level!=0){
+                return redirect('/admin');
+            }
             return redirect('/');
         } else {
             session()->flash('error', 'Tài khoản không tồn tại');
@@ -79,9 +82,9 @@ class LoginController extends Controller
             'email' => $r->email,
             'sdt' => $r->sdt,
             'diachi' => $r->diachi,
-            'password' => Hash::make($r->password)
-
-
+            'password' => Hash::make($r->password),
+            'level'=> 0,
+            'trangthai'=> 1
 
         ]);
 
@@ -117,6 +120,7 @@ class LoginController extends Controller
                     'password' => '',
                     'diachi' => '',
                     'sdt' => '',
+                    'level'=> 0,
                     'trangthai' => 1
                 ]);
             }

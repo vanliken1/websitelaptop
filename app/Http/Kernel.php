@@ -64,5 +64,13 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'ktUser' =>\App\Http\Middleware\kiemtraUser::class,
+        'ktAdmin' =>\App\Http\Middleware\kiemtraAdmin::class,
+        'ktAdmindm' =>\App\Http\Middleware\kiemtraAdminDM::class,
+        'ktAdminsp' =>\App\Http\Middleware\kiemtraAdminSP::class,
+        'ktAdminbn' =>\App\Http\Middleware\kiemtraAdminBanner::class,
+        'ktAdminkm' =>\App\Http\Middleware\kiemtraAdminKM::class,
+        'ktAdmingg' =>\App\Http\Middleware\kiemtraAdminGG::class,
+        'ktAdmindh' =>\App\Http\Middleware\kiemtraAdminDH::class,
+        'ktSuperAdmin' =>\App\Http\Middleware\kiemtraSuperAdmin::class,
     ];
 }

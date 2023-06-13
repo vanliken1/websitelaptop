@@ -32,6 +32,7 @@ class User extends Authenticatable
         'password',
         'sdt',
         'diachi',
+        'level',
         'trangthai'
     ];
 
@@ -55,5 +56,8 @@ class User extends Authenticatable
     ];
     public function orders(){
         return $this->hasMany(Donhang::class,'idnguoidung','idnguoidung');
+    }
+    public function social(){
+        return $this->hasMany(Social::class,'idnguoidung','idnguoidung');
     }
 }
