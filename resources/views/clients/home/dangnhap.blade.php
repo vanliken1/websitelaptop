@@ -34,7 +34,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input id="email" type="text" name="email" class="form-control" required>
+                                <input  type="text" name="email" class="form-control" required>
                                 @error('email')
                                 <div class=" alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -55,7 +55,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input id="password" name="password" type="password" class="form-control" required>
+                                <input  name="password" type="password" class="form-control" required>
                                 @error('password')
                                 <div class=" alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -75,23 +75,32 @@
                             {{ session()->get('error') }}
                         </div>
                         @endif
+                        @if(session()->has('thongbao'))
+                        <div class="alert alert-success">
+                            {{ session()->get('thongbao') }}
+                        </div>
+                        @endif
                         <hr>
                         <form action="/dangnhap" method="post">
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input id="email" name="email" type="text" class="form-control">
+                                <input id="email" name="email"  type="text" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input id="password" type="password" name="password" class="form-control">
+                                <input id="password" type="password"  name="password" class="form-control">
                             </div>
+                            <span>
+                                <a href="/quenmatkhau" >Quên mật khẩu ?</a>
+                            </span>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i>Đăng nhập</button>
                             </div>
                         </form>
+
                         <div class="text-center">
-                        
+
                             <a href="/login-google"><img width="10%" alt="Đăng nhập google" src="{{asset('storage/img/google.jpg')}}"></a>
                             <a href=""><img width="10px" alt="Đăng nhập facebook" src=""></a>
 
@@ -102,4 +111,5 @@
         </div>
     </div>
 </div>
+
 @stop

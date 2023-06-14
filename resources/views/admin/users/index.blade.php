@@ -1,55 +1,7 @@
 @extends('admin/layouts/masteradmin')
 @section('content')
 <!-- Table Start -->
-<div class="container-fluid pt-4 px-4">
-    <div class="row g-4">
-        <div class="col-md-12">
-            <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Người dùng(Khách hàng)</h6>
-                @if(session()->has('mess'))
-                <p class="alert alert-primary sm-4">
-                    {{session('mess')}}
-                </p>
-                @endif
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Tên người dùng</th>
-                                <th>Email</th>
-                                <th>SĐT</th>
-                                <th>Địa chỉ</tH>
-                                <th>Cấp độ</th>
-                            </tr>
-                        </thead>
-                        @foreach($users as $item)
-                        <tbody>
-                            <tr>
-                                <td>{{$item->idnguoidung}}</td>
-                                <td>{{$item->tennguoidung}}</td>
-                                <td>{{$item->email}}</td>
-                                <td>{{$item->sdt}}</td>
-                                <td>{{$item->diachi}}</td>
-                                <td> @if($item->level==0)
-                                    {{'Khách hàng'}}
-                                    @else
-                                    {{'Admin'}}
-                                    @endif
-                                </td>
 
-
-                            </tr>
-                        </tbody>
-                        @endforeach
-                    </table>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</div>
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <div class="col-md-12">
@@ -127,8 +79,8 @@
                                 <th>SĐT</th>
                                 <th>Địa chỉ</tH>
                                 <th>Cấp độ</th>
-                                <th>🗑️</th>
-                                <th>✏️</th>
+                                <th>Trạng thái</th>
+                                <th>⚙️</th>
                             </tr>
                         </thead>
                         @foreach($adminql as $item)
@@ -159,14 +111,21 @@
                                     @endif
 
                                 </td>
-                                
-                                <td>
+                                <td>@if($item->trangthai==1)
+                                    <span style="color: green;">Đang hoạt động</span>
+                                    @else
+                                    <span style="color: red;">Đã khóa</span>
+
+                                    @endif
+                                </td>
+
+                                <!-- <td>
                                     <form action="/admin/users/destroy/{{$item->idnguoidung}}" method="POST">
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">
                                         <input type="submit" value="xóa" class="btn btn-danger">
                                     </form>
-                                </td>
+                                </td> -->
                                 <td>
                                     <button class='editadmin btn btn-success' data-id='{{$item->idnguoidung}}'>Cấp quyền</button>
                                 </td>
@@ -196,8 +155,8 @@
                     <form method="POST">
                         @csrf
                         <div class="form-floating mb-3">
-                            <input type="hidden" class="form-control"  name="idnguoidung">
-                            <span class="text-danger error-text idram_err"></span>
+                            <input type="hidden" class="form-control" name="idnguoidung">
+                            <span class="text-danger error-text idnguoidung_err"></span>
 
                         </div>
                         <div class="form-floating mb-3">
@@ -233,7 +192,7 @@
                         </div>
                         <div class="form-floating mb-3">
 
-                            <select type="number" name='level'  class='form-select mt-3'>
+                            <select type="number" name='level' class='form-select mt-3'>
                                 <option value="">--Chọn cấp độ--</option>
                                 <option value="2">Quản lý danh mục</option>
                                 <option value="3">Quản lý sản phẩm</option>
@@ -291,6 +250,17 @@
                             <label for="floatingInput">Cấp độ</label>
                             <span class="text-danger error-text level_err"></span>
                         </div>
+                        <div class="form-floating mb-3">
+
+                            <select type="number" name='trangthai' id="trangthai" class='form-select mt-3' required>
+                                <option value="1">Đang hoạt động</option>
+                                <option value="0">Đã khóa</option>
+                             
+                          
+                            </select>
+                            <label for="floatingInput">Trạng thái</label>
+                            <span class="text-danger error-text trangthai_err"></span>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -302,6 +272,55 @@
 
 
         </div>
+    </div>
+</div>
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-md-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Người dùng(Khách hàng)</h6>
+                @if(session()->has('mess'))
+                <p class="alert alert-primary sm-4">
+                    {{session('mess')}}
+                </p>
+                @endif
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tên người dùng</th>
+                                <th>Email</th>
+                                <th>SĐT</th>
+                                <th>Địa chỉ</tH>
+                                <th>Cấp độ</th>
+                            </tr>
+                        </thead>
+                        @foreach($users as $item)
+                        <tbody>
+                            <tr>
+                                <td>{{$item->idnguoidung}}</td>
+                                <td>{{$item->tennguoidung}}</td>
+                                <td>{{$item->email}}</td>
+                                <td>{{$item->sdt}}</td>
+                                <td>{{$item->diachi}}</td>
+                                <td> @if($item->level==0)
+                                    {{'Khách hàng'}}
+                                    @else
+                                    {{'Admin'}}
+                                    @endif
+                                </td>
+
+
+                            </tr>
+                        </tbody>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </div>
 <!-- Table End -->
@@ -392,9 +411,10 @@
                         dataType: 'json',
                         success: function(data2) {
                             console.log(data2);
-                           
+
                             $('#modelId1 form #idnguoidung').val(data2.idnguoidung);
                             $('#modelId1 form #level').val(data2.level);
+                            $('#modelId1 form #trangthai').val(data2.trangthai);
 
                         }
                     })

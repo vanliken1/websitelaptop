@@ -20,13 +20,18 @@ class kiemtraAdmin
             // Người dùng chưa đăng nhập
             return redirect('/');
         }
-        
+
         if (auth()->user()->level == 0) {
             // Người dùng đã đăng nhập nhưng có level bằng 0
+            
+            return redirect('/');
+        }
+        if (auth()->user()->level != 0 && auth()->user()->level != 1 && auth()->user()->trangthai == 0) {
+            session()->flash('status', 'Bạn không có quyền truy cập');
             return redirect('/');
         }
 
-        
+
         // Người dùng đã đăng nhập và có level khác 0
         return $next($request);
     }

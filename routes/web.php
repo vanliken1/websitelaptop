@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CpuController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\RamController;
 use App\Http\Controllers\SanphamController;
 use App\Http\Controllers\ThuonghieuController;
 use App\Http\Controllers\UserController;
+use App\Models\Admin;
 use App\Models\Khuyenmai;
 use Illuminate\Support\Facades\Route;
 
@@ -32,15 +34,14 @@ use Illuminate\Support\Facades\Route;
 
 route::middleware([ktAdmin::class])->group(function () {
     route::prefix('admin')->group(function () {
-        route::get('/', function () {
-            return view('admin.index');
-        });
+        route::get('/', [AdminController::class, 'index']);
+
         route::get('/infoadmin', [UserController::class, 'infoadmin']);
         route::put('/updateadmin', [UserController::class, 'updateadmin']);
         route::middleware([ktSuperAdmin::class])->prefix('users')->group(function () {
             route::get('/', [UserController::class, 'index']);
             route::post('/store', [UserController::class, 'store']);
-            route::delete('destroy/{id}', [UserController::class, 'destroy']);
+            // route::delete('destroy/{id}', [UserController::class, 'destroy']);
             route::get('edit/{id}', [UserController::class, 'edit']);
 
             route::post('update', [UserController::class, 'update']);
@@ -138,7 +139,7 @@ route::middleware([ktAdmin::class])->group(function () {
             route::get('them/{id}', [KhuyenmaiController::class, 'them']);
             route::post('them', [KhuyenmaiController::class, 'themstore']);
             route::post('capnhat', [KhuyenmaiController::class, 'capnhat']);
-            route::post('capnhatajax', [KhuyenmaiController::class, 'capnhatajax'])->withoutMiddleware([ktAdmin::class])->withoutMiddleware([ktAdminbn::class]);
+            
 
             route::get('editform/{id}', [KhuyenmaiController::class, 'editform']);
             route::put('updateform', [KhuyenmaiController::class, 'updateform']);
@@ -150,7 +151,7 @@ route::middleware([ktAdmin::class])->group(function () {
         });
     });
 });
-
+route::post('/admin/khuyenmai/capnhatajax', [KhuyenmaiController::class, 'capnhatajax']);
 route::post('/updatesoluong', [DonhangController::class, 'updatesoluong']);
 route::post('/updateqty', [DonhangController::class, 'updateqty']);
 //Nguoi dung
@@ -172,6 +173,10 @@ route::get('/dangnhap', [LoginController::class, 'loginview']);
 route::post('/dangnhap', [LoginController::class, 'login']);
 route::post('/dangxuat', [LoginController::class, 'logoutuser']);
 route::post('/dangky', [LoginController::class, 'dangky']);
+route::get('/quenmatkhau', [LoginController::class, 'quenmatkhau']);
+route::post('/khoiphucmatkhau', [LoginController::class, 'khoiphucmatkhau']);
+route::get('/newpass', [LoginController::class, 'matkhaumoi']);
+route::put('/updatenewpass', [LoginController::class, 'updatematkhaumoi']);
 //dang nhap gg
 route::get('/login-google', [LoginController::class, 'logingg']);
 route::get('/users/google/callback', [LoginController::class, 'callbackgg']);

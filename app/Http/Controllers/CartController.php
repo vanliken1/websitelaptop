@@ -118,7 +118,7 @@ class CartController extends Controller
         Cart::update($r->rowId, $r->qty);
         return response()->json(['n' => Cart::count()]);
     }
-    function trangthanhtoan(Request $r)
+    function trangthanhtoan()
     {
         // dd($r->all());
         $thuonghieusp = Thuonghieu::all();

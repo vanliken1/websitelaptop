@@ -17,6 +17,7 @@ class kiemtraAdminGG
     public function handle(Request $request, Closure $next)
     {
         if(auth()->user()->level!=6&&auth()->user()->level!=1){
+            session()->flash('status', 'Bạn không có quyền truy cập');
             return redirect('/admin');
         }
         return $next($request);

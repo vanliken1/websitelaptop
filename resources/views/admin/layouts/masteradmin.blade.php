@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<!-- {{asset('public/backend/vendor/jquery/jquery.min.js')}} -->
+    <!-- {{asset('public/backend/vendor/jquery/jquery.min.js')}} -->
     <meta charset="utf-8">
     <title>DASHMIN - Bootstrap Admin Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -38,8 +38,6 @@
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        
-        <!-- Spinner End -->
 
 
         <!-- Sidebar Start -->
@@ -54,7 +52,7 @@
             <!-- Navbar End -->
             @yield('content')
 
-            
+
 
 
             <!-- Footer Start -->
@@ -73,7 +71,7 @@
     @yield('script')
 
     <!-- Template Javascript -->
-    
+
 </body>
 
 </html>

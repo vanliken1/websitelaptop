@@ -70,23 +70,23 @@ class UserController extends Controller
         if ($validator->passes()) {
         $c = User::findorfail($request->idnguoidung);
         $c->level= $request->level;
-      
+        $c->trangthai=$request->trangthai;
         $c->save();
         //dd($c);
         return response()->json($c);
     }
     return response()->json(['error' => $validator->errors()]);
     }
-    public function destroy($id)
-    {
-        if(count(User::find($id)->orders)==0&&count(User::find($id)->social)==0){
-            User::destroy($id);
-            session()->flash('thongbao', 'đã xóa');
-        }else{
-            session()->flash('thongbao', 'Admin này không thể xóa.Vui lòng xem xét lại');
-        }
-        return redirect('/admin/users');
-    }
+    // public function destroy($id)
+    // {
+    //     if(count(User::find($id)->orders)==0&&count(User::find($id)->social)==0){
+    //         User::destroy($id);
+    //         session()->flash('thongbao', 'đã xóa');
+    //     }else{
+    //         session()->flash('thongbao', 'Admin này không thể xóa.Vui lòng xem xét lại');
+    //     }
+    //     return redirect('/admin/users');
+    // }
     function infoadmin()
     {
 
