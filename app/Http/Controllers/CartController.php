@@ -365,6 +365,7 @@ class CartController extends Controller
             date_default_timezone_set('Asia/Ho_Chi_Minh');
 
             $data2['ngaydat'] = date('y-m-d h:i:s');
+            $data2['ngaytinhdoanhthu'] = date('y-m-d');
             $data2['iddonhang'] = time();
             $data2['trangthai'] = 1;
             $data2['idnguoidung'] = auth()->user()->idnguoidung;
@@ -436,6 +437,7 @@ class CartController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $data2['ngaydat'] = date('y-m-d h:i:s');
+        $data2['ngaytinhdoanhthu'] = date('y-m-d');
         $data2['iddonhang'] = time();
         $data2['trangthai'] = 1;
         $data2['idnguoidung'] = auth()->user()->idnguoidung;

@@ -258,6 +258,7 @@
                         @endphp
                         @endif
                         Thanh toán:{{number_format($tong_coupon,0,',','.')}} đ
+                        <input type="text" class="tongthanhtoan" value="{{$tong_coupon}}">
                     </div>
                 </div>
             </div>
@@ -317,7 +318,8 @@
             var iddonhang = $(this).children(":selected").attr('id');
             var _token = $('input[name="_token"]').val();
             // alert(trangthaidh);
-
+            var tongthanhtoan = $('.tongthanhtoan').val();
+            // alert(tongthanhtoan);
             var quantity = [];
             $("input[name='soluonghang']").each(function() {
                 quantity.push($(this).val());
@@ -359,7 +361,9 @@
                         trangthaidh: trangthaidh,
                         iddonhang: iddonhang,
                         quantity: quantity,
-                        order_product_id: order_product_id
+                        order_product_id: order_product_id,
+                        tongthanhtoan:tongthanhtoan
+
                     },
                     success: function(data) {
                         alert("Cập nhật trạng thái đơn hàng thành công");

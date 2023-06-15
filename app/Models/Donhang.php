@@ -24,7 +24,8 @@ class Donhang extends Model
         'idnguoidung',
         'idthanhtoan',
         'trangthai',
-        'ngaydat'
+        'ngaydat',
+        'ngaytinhdoanhthu'
     ];
     public function users(){
         return $this->belongsTo(User::class,'idnguoidung','idnguoidung');

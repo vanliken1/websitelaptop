@@ -8,4 +8,6 @@
 <script src="/asset/admin/lib/tempusdominus/js/moment-timezone.min.js"></script>
 <script src="/asset/admin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 <script src="/asset/admin/js/main.js"></script>
-
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>

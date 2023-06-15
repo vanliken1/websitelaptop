@@ -10,6 +10,8 @@ use App\Models\Sanpham;
 use Illuminate\Http\Request;
 use Mail;
 use App\Mail\xacnhandh;
+use App\Models\Thongke;
+
 class DonhangController extends Controller
 {
     //
@@ -70,16 +72,25 @@ class DonhangController extends Controller
             'ghichu' => $order->note,
             'hinhthucthanhtoan' => $order->hinhthuc,
             'cart' => $chitiet,
-            'tinhnangma'=>$tinhnangma,
-            'sotiengiam'=>$sotiengiam,
+            'tinhnangma' => $tinhnangma,
+            'sotiengiam' => $sotiengiam,
         ];
         $dataEmail2 = [
             'madonhang' => $order->iddonhang,
             'cart' => $chitiet,
-            'tinhnangma'=>$tinhnangma,
-            'sotiengiam'=>$sotiengiam,
+            'tinhnangma' => $tinhnangma,
+            'sotiengiam' => $sotiengiam,
         ];
-
+        $ngaydathang = $order->ngaytinhdoanhthu;
+        $thongke = Thongke::where('ngaydat', $ngaydathang)->get();
+        if ($thongke) {
+            $dem = $thongke->count();
+        } else {
+            $dem = 0;
+        }
+        $tongdonhang = 0;
+        $doanhthu = 0;
+        $soluongdaban = 0;
         if ($order->trangthai == 2) {
             foreach ($data['order_product_id'] as $key => $idsanpham) {
                 $sanpham = Sanpham::find($idsanpham);
@@ -108,7 +119,6 @@ class DonhangController extends Controller
                 }
             }
             Mail::to($order->users->email)->send(new huydh($dataEmail2));
-           
         } elseif ($order->trangthai == 4 || $order->trangthai == 5 || $order->trangthai == 6) {
             foreach ($data['order_product_id'] as $key => $idsanpham) {
                 $sanpham = Sanpham::find($idsanpham);
@@ -119,13 +129,34 @@ class DonhangController extends Controller
                         $soluongcon = $soluongsp;
                         $sanpham->soluong = $soluongcon;
                         $sanpham->save();
+                        if ($order->trangthai == 5) {
+                            $soluongdaban += $qty;
+                            $tongdonhang = 1;
+                            $doanhthu = $data['tongthanhtoan'];
+                        }
                     }
                 }
             }
-            if($order->trangthai == 6){
+            if ($order->trangthai == 6) {
                 Mail::to($order->users->email)->send(new huydh($dataEmail2));
             }
-
+        }
+      
+        if ($dem > 0) {
+            $thongke_update = Thongke::where('ngaydat', $ngaydathang)->first();
+            $thongke_update->doanhthu = $thongke_update->doanhthu + $doanhthu;
+            $thongke_update->soluongdaban = $thongke_update->soluongdaban + $soluongdaban;
+            if ($order->trangthai == 5) {
+                $thongke_update->tongdonhang = $thongke_update->tongdonhang + 1;
+            }
+            $thongke_update->save();
+        } else {
+            Thongke::create([
+                'ngaydat' => $ngaydathang,
+                'doanhthu' => $doanhthu,
+                'soluongdaban' => $soluongdaban,
+                'tongdonhang' => $tongdonhang
+            ]);
         }
     }
     public function updateqty(Request $r)

@@ -49,31 +49,39 @@
 </div>
 <!-- Sale & Revenue End -->
 
-
-<!-- Sales Chart Start -->
 <div class="container-fluid pt-4 px-4">
-    <div class="row g-4">
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-light text-center rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Worldwide Sales</h6>
-                    <a href="">Show All</a>
+    <div class="bg-light text-center rounded p-4">
+        <div class="row ">
+            <p>Thống kê doanh thu đơn hàng</p>
+            <form class="d-flex">
+                @csrf
+                <div class="col-md-2 mx-2">
+                    <p>Từ ngày:<input type="text" id="datepicker" class="form-control"></p>
+                    <input type="button" id="btn-date-filter" class="btn btn-primary btn-sm" value="Lọc">
                 </div>
-                <canvas id="worldwide-sales"></canvas>
-            </div>
-        </div>
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-light text-center rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Salse & Revenue</h6>
-                    <a href="">Show All</a>
+                <div class="col-md-2 mx-2">
+                    <p>Đến ngày:<input type="text" id="datepicker2" class="form-control"></p>
                 </div>
-                <canvas id="salse-revenue"></canvas>
+                <div class="col-md-2 mx-2">
+                    <p>Lọc theo:
+                        <select class="filter-date2 form-control">
+                        <option>--Chọn--</option>
+                        <option value="7ngay">7 ngày qua</option>
+                        <option value="thangtruoc">Tháng trước</option>
+                        <option value="thangnay">Tháng này</option>
+                        <option value="1nam">1 Năm qua</option>
+                        </select>
+                    </p>
+                </div>
+
+            </form>
+            <div class="col-md-12">
+                <div id="firstchart" style="height: 250px;"></div>
             </div>
         </div>
     </div>
 </div>
-<!-- Sales Chart End -->
+
 
 
 <!-- Recent Sales Start -->
@@ -150,125 +158,119 @@
 </div>
 <!-- Recent Sales End -->
 
+@stop
+@section('script')
+<script>
+    $.ajaxSetup({
 
-<!-- Widgets Start -->
-<!-- <div class="container-fluid pt-4 px-4">
-    <div class="row g-4">
-        <div class="col-sm-12 col-md-6 col-xl-4">
-            <div class="h-100 bg-light rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <h6 class="mb-0">Messages</h6>
-                    <a href="">Show All</a>
-                </div>
-                <div class="d-flex align-items-center border-bottom py-3">
-                    <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                    <div class="w-100 ms-3">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-0">Jhon Doe</h6>
-                            <small>15 minutes ago</small>
-                        </div>
-                        <span>Short message goes here...</span>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center border-bottom py-3">
-                    <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                    <div class="w-100 ms-3">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-0">Jhon Doe</h6>
-                            <small>15 minutes ago</small>
-                        </div>
-                        <span>Short message goes here...</span>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center border-bottom py-3">
-                    <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                    <div class="w-100 ms-3">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-0">Jhon Doe</h6>
-                            <small>15 minutes ago</small>
-                        </div>
-                        <span>Short message goes here...</span>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center pt-3">
-                    <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                    <div class="w-100 ms-3">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-0">Jhon Doe</h6>
-                            <small>15 minutes ago</small>
-                        </div>
-                        <span>Short message goes here...</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-xl-4">
-            <div class="h-100 bg-light rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Calender</h6>
-                    <a href="">Show All</a>
-                </div>
-                <div id="calender"></div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-xl-4">
-            <div class="h-100 bg-light rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">To Do List</h6>
-                    <a href="">Show All</a>
-                </div>
-                <div class="d-flex mb-2">
-                    <input class="form-control bg-transparent" type="text" placeholder="Enter task">
-                    <button type="button" class="btn btn-primary ms-2">Add</button>
-                </div>
-                <div class="d-flex align-items-center border-bottom py-2">
-                    <input class="form-check-input m-0" type="checkbox">
-                    <div class="w-100 ms-3">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <span>Short task goes here...</span>
-                            <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center border-bottom py-2">
-                    <input class="form-check-input m-0" type="checkbox">
-                    <div class="w-100 ms-3">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <span>Short task goes here...</span>
-                            <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center border-bottom py-2">
-                    <input class="form-check-input m-0" type="checkbox" checked>
-                    <div class="w-100 ms-3">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <span><del>Short task goes here...</del></span>
-                            <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center border-bottom py-2">
-                    <input class="form-check-input m-0" type="checkbox">
-                    <div class="w-100 ms-3">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <span>Short task goes here...</span>
-                            <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center pt-2">
-                    <input class="form-check-input m-0" type="checkbox">
-                    <div class="w-100 ms-3">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <span>Short task goes here...</span>
-                            <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-<!-- Widgets End -->
+        headers: {
+
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        }
+
+    });
+    $(document).ready(function() {
+        chart30ngayqua();
+        $("#datepicker").datepicker({
+            prevText: "Tháng trước",
+            nextText: "Tháng sau",
+            dateFormat: "yy-mm-dd ",
+            dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"]
+        });
+        $("#datepicker2").datepicker({
+            prevText: "Tháng trước",
+            nextText: "Tháng sau",
+            dateFormat: "yy-mm-dd ",
+            dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"]
+        });
+        var chart = new Morris.Bar({
+            // ID of the element in which to draw the chart.
+            element: 'firstchart',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            lineColors: ['#819C79', '#fc8710', '#FF6541', '#FF6541'],
+            // pointFillColors:['#ffffff'],
+            // pointStrokeColors:['black'],
+            // fillOpacity:0.6,
+            // hideHover:'auto',
+            parseTime: false,
+            // The name of the data record attribute that contains x-values.
+            xkey: 'khoangngay',
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ['doanhthu', 'soluongdaban', 'tongdonhang'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            behaveLikeLine: true,
+            labels: ['Doanh thu', 'Số lượng đã bán','Tổng đơn hàng đã bán']
+        });
+        function chart30ngayqua(){
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: '/admin/rs30day',
+                type: 'POST',
+
+                data: {
+                    _token: _token
+                },
+                dataType: 'json',
+
+                // async: false,
+                // cache: false,
+                // enctype: 'multipart/form-data',
+                success: function(s) {
+                    console.log(s);
+                    chart.setData(s);
+
+                },
+            });
+        }
+        $("#btn-date-filter").click(function() {
+            var _token = $('input[name="_token"]').val();
+            var tungay = $("#datepicker").val();
+            var denngay = $("#datepicker2").val();
+            // alert(_token);
+            $.ajax({
+                url: '/admin/filter-date',
+                type: 'POST',
+
+                data: {
+                    tungay: tungay,
+                    denngay: denngay,
+                    _token: _token
+                },
+                dataType: 'json',
+
+                // async: false,
+                // cache: false,
+                // enctype: 'multipart/form-data',
+                success: function(s) {
+                    console.log(s);
+                    chart.setData(s);
+
+                },
+            });
+        });
+        $(".filter-date2").change(function() {
+            var _token = $('input[name="_token"]').val();
+            var value_select = $(this).val();
+         
+            // alert(value_select);
+            $.ajax({
+                url: '/admin/filter-date2',
+                type: 'POST',
+
+                data: {
+                    _token:_token,value_select:value_select
+                },
+                dataType: 'json',
+                success: function(s) {
+                    console.log(s);
+                    chart.setData(s);
+
+                },
+            });
+        });
+    });
+</script>
 @stop

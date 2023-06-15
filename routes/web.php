@@ -35,7 +35,9 @@ use Illuminate\Support\Facades\Route;
 route::middleware([ktAdmin::class])->group(function () {
     route::prefix('admin')->group(function () {
         route::get('/', [AdminController::class, 'index']);
-
+        route::post('/filter-date', [AdminController::class, 'filterdate']);
+        route::post('/filter-date2', [AdminController::class, 'filterdate2']);
+        route::post('/rs30day', [AdminController::class, 'rs30ngayqua']);
         route::get('/infoadmin', [UserController::class, 'infoadmin']);
         route::put('/updateadmin', [UserController::class, 'updateadmin']);
         route::middleware([ktSuperAdmin::class])->prefix('users')->group(function () {
