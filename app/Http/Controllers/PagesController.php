@@ -14,22 +14,46 @@ use App\Models\Thuonghieu;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Hash;
+
 class PagesController extends Controller
 {
     //
-    public function trangchu()
+    public function trangchu(Request $r)
     {
+        //seo
+        $meta_desc = 'Chuyên bán các mặt hàng laptop chất lượng cao với đầy đủ thương hiệu nổi tiếng';
+        $meta_keyword = "laptophaovan,website laptop haovan";
+        $meta_title = "CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp";
+        $url_canonical = $r->url();
+
+        //--seo
         $thuonghieu = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
-        $banner =Banner::all();
+        $banner = Banner::all();
         $sanphamhot = Sanpham::where('hot', 1)->where('trangthai', 1)->where('soluong', '>', 0)->take(6)->get();
         $sanphamkhuyenmai = Sanpham::whereColumn('gia', '>', 'giakhuyenmai')->where('trangthai', 1)->where('soluong', '>', 0)->take(6)->get();
 
-        return view('clients.index', ['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp, 'banner' => $banner,'sanphamhot' => $sanphamhot,'sanphamkhuyenmai' => $sanphamkhuyenmai]);
+        return view('clients.index', [
+            'thuonghieu' => $thuonghieu,
+            'cpu' => $cpu,
+            'loaisp' => $loaisp, 'banner' => $banner,
+            'sanphamhot' => $sanphamhot,
+            'sanphamkhuyenmai' => $sanphamkhuyenmai,
+            'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical
+        ]);
     }
     public function trangsanpham(Request $r)
     {
+        $meta_desc = 'Tất cả các loại laptop bao gồm thương hiệu và nhiều thông số khác';
+        $meta_keyword = "tatcalaptop,laptop ở công ty haovan";
+        $meta_title = "Laptop-giá rẻ-nhiều ưu đãi";
+        $url_canonical = $r->url();
+
+
         $thuonghieu = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
@@ -74,14 +98,19 @@ class PagesController extends Controller
         //         // ->whereNotBetween('chitietkhuyenmai.trangthaictkm',[2,0])
         //         // ->whereNotNull('chitietkhuyenmai.idsanpham');
         //         ->orWhereNull('chitietkhuyenmai.idsanpham');
-              
+
         // });
         $sanpham = $query->where('soluong', '>', 0)
             ->orderBy('idsanpham')
             ->paginate(12);
-        
+
         // $sanpham=Sanpham::with('chitietkm')->paginate(12);
-        return view('clients.home.sanpham', ['sanpham' => $sanpham, 'thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp, 'totalSanPham' => $sanpham->total()]);
+        return view('clients.home.sanpham', [
+            'sanpham' => $sanpham, 'thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp, 'totalSanPham' => $sanpham->total(), 'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical
+        ]);
     }
     function sanphamtheodanhmuc($slugdanhmuc, Request $r)
     {
@@ -126,52 +155,85 @@ class PagesController extends Controller
         //         ->where('chitietkhuyenmai.trangthaictkm','=', 1)
         //         ->whereNotNull('chitietkhuyenmai.idsanpham')
         //         ->orWhereNull('chitietkhuyenmai.idsanpham');
-                
+
         // });
         //Tim san pham theo danh muc Thuong hieu
         $thuonghieu = Thuonghieu::where('slug_thuonghieu', $slugdanhmuc)->first();
-        if ($thuonghieu) {
 
+        if ($thuonghieu) {
+            $meta_desc = $thuonghieu->motathuonghieu;
+            $meta_keyword = 'laptop' . $thuonghieu->tenthuonghieu;
+            $meta_title = 'Laptop ' . $thuonghieu->tenthuonghieu . '- Laptop ' . $thuonghieu->tenthuonghieu . ' giá rẻ';
+            $url_canonical = $r->url();
             $sptheobrand = $query->where('soluong', '>', 0)
                 ->where('idthuonghieu', $thuonghieu->idthuonghieu)
 
-                
+
 
                 ->paginate(12);
-            return view('clients.home.sanphamByBrand', ['sptheobrand' => $sptheobrand, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheobrand->total()]);
+            return view('clients.home.sanphamByBrand', [
+                'sptheobrand' => $sptheobrand, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheobrand->total(),
+                'meta_desc' => $meta_desc,
+                'meta_keyword' => $meta_keyword,
+                'meta_title' =>  $meta_title,
+                'url_canonical' => $url_canonical
+            ]);
         }
 
         //Tim san pham theo danh muc CPU
         $slugcpu = CPU::where('slug_CPU', $slugdanhmuc)->first();
         if ($slugcpu) {
+            $meta_desc = $slugcpu->mota_CPU;
+            $meta_keyword = 'laptop' . $slugcpu->tenCPU;
+            $meta_title = 'Laptop ' . $slugcpu->tenCPU . '- Laptop ' . $slugcpu->tenCPU . ' giá rẻ';
+            $url_canonical = $r->url();
             $sptheocpu = $query->where('soluong', '>', 0)
                 ->where('idCPU', $slugcpu->idCPU)
-                
+
                 ->paginate(12);
-            return view('clients.home.sanphamByCPU', ['sptheocpu' => $sptheocpu, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheocpu->total()]);
+            return view('clients.home.sanphamByCPU', [
+                'sptheocpu' => $sptheocpu, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheocpu->total(), 'meta_desc' => $meta_desc,
+                'meta_keyword' => $meta_keyword,
+                'meta_title' =>  $meta_title,
+                'url_canonical' => $url_canonical
+            ]);
         }
 
         //Tim san pham theo danh muc CPU
         $nhucau = Loaisp::where('slug_loai', $slugdanhmuc)->first();
         if ($nhucau) {
+            $meta_desc = $nhucau->motaloai;
+            $meta_keyword = 'laptop' . $nhucau->tenloai;
+            $meta_title = $nhucau->tenloai . '- ' . $nhucau->tenloai . ' giá rẻ';
+            $url_canonical = $r->url();
             $sptheonhucau = $query->where('soluong', '>', 0)
                 ->where('idloaisanpham', $nhucau->idloaisanpham)
-               
+
                 ->paginate(12);
-            return view('clients.home.sanphamByNC', ['sptheonhucau' => $sptheonhucau, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheonhucau->total()]);
+            return view('clients.home.sanphamByNC', [
+                'sptheonhucau' => $sptheonhucau, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheonhucau->total(),          'meta_desc' => $meta_desc,
+                'meta_keyword' => $meta_keyword,
+                'meta_title' =>  $meta_title,
+                'url_canonical' => $url_canonical
+            ]);
         }
     }
-    function chitiet($slugsanpham)
+    function chitiet($slugsanpham, Request $r)
     {
 
         $thuonghieusp = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
+
         $sanpham = Sanpham::where('soluong', '>', 0)
             ->where('slug_sanpham', $slugsanpham)
-            ->where('sanpham.soluong', '>', 0)
             ->get();
-        
+        foreach ($sanpham as $val) {
+            $meta_desc = $val->motasanpham;
+            $meta_keyword = $val->motasanpham;
+            $meta_title = $val->tensanpham . ' -HaoVan';
+            $url_canonical = $r->url();
+        }
         $thuonghieuIds = $sanpham->pluck('idthuonghieu')->toArray();
         $sanphamlienquan = Sanpham::whereIn('idthuonghieu', $thuonghieuIds)
             ->inRandomOrder()
@@ -179,7 +241,12 @@ class PagesController extends Controller
             ->where('soluong', '>', 0)
             ->take(3)
             ->get();
-        return view('clients.home.chitietsanpham', ['sanpham' => $sanpham, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'sanphamlienquan' => $sanphamlienquan]);
+        return view('clients.home.chitietsanpham', [
+            'sanpham' => $sanpham, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'sanphamlienquan' => $sanphamlienquan,     'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical
+        ]);
     }
     function history()
     {
@@ -187,14 +254,12 @@ class PagesController extends Controller
         $thuonghieusp = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
-        if(!auth()->check()){
+        if (!auth()->check()) {
             return redirect('/dangnhap');
-        }else{
-            $donhang = Donhang::where('idnguoidung',auth()->user()->idnguoidung)->orderBy('ngaydat', 'DESC')->paginate(10);
-            return view('clients.home.history', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,'donhang'=>$donhang]);
+        } else {
+            $donhang = Donhang::where('idnguoidung', auth()->user()->idnguoidung)->orderBy('ngaydat', 'DESC')->paginate(10);
+            return view('clients.home.history', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'donhang' => $donhang]);
         }
-        
-       
     }
     function chitiethistory($iddonhang)
     {
@@ -202,9 +267,9 @@ class PagesController extends Controller
         $thuonghieusp = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
-        if(!auth()->check()){
+        if (!auth()->check()) {
             return redirect('/dangnhap');
-        }else{
+        } else {
             $chitiet = Chitietdonhang::where('iddonhang', $iddonhang)->get();
             $donhang = Donhang::where('iddonhang', $iddonhang)->get();
             foreach ($chitiet as $or) {
@@ -213,17 +278,15 @@ class PagesController extends Controller
             // $coupon = Giamgia::where('codegiamgia', $coupon_code)->first();
             if ($coupon_code != 'no') {
                 $coupon = Giamgia::where('codegiamgia', $coupon_code)->first();
-    
+
                 $tinhnangma = $coupon->tinhnangma;
                 $sotiengiam = $coupon->sotiengiam;
             } else {
                 $tinhnangma = 1;
                 $sotiengiam = 0;
             }
-            return view('clients.home.viewhistory', ['chitietdonhang' => $chitiet, 'donhang' => $donhang,'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,'donhang'=>$donhang,'tinhnangma' => $tinhnangma, 'sotiengiam' => $sotiengiam]);
+            return view('clients.home.viewhistory', ['chitietdonhang' => $chitiet, 'donhang' => $donhang, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'donhang' => $donhang, 'tinhnangma' => $tinhnangma, 'sotiengiam' => $sotiengiam]);
         }
-        
-       
     }
     function infouser()
     {
@@ -231,47 +294,44 @@ class PagesController extends Controller
         $thuonghieusp = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
-        if(!auth()->check()){
+        if (!auth()->check()) {
             return redirect('/dangnhap');
-        }else{
-            $info=User::findOrFail(auth()->user()->idnguoidung);
+        } else {
+            $info = User::findOrFail(auth()->user()->idnguoidung);
             // dd($info->email);
-            return view('clients.home.infouser',['nguoidung'=>$info,'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp]);
-
+            return view('clients.home.infouser', ['nguoidung' => $info, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp]);
         }
-        
-       
     }
     function updateuser(Request $request)
     {
         // dd($request->email);
-        
-        $c=User::findOrFail(auth()->user()->idnguoidung);
-        if($request->changePassword =="on"){
+
+        $c = User::findOrFail(auth()->user()->idnguoidung);
+        if ($request->changePassword == "on") {
             $request->validate(
                 [
-                   
-                    
-                    'password2'=>'same:password',
-                 
-    
+
+
+                    'password2' => 'same:password',
+
+
                 ],
                 [
-                    
-                    
-                   'password2.same'=>'Không trùng khớp',
-                    
+
+
+                    'password2.same' => 'Không trùng khớp',
+
                 ]
             );
-            $c->password=Hash::make($request->password);
+            $c->password = Hash::make($request->password);
         }
-        $c->email=$request->email;
+        $c->email = $request->email;
         $c->tennguoidung = $request->tennguoidung;
-        $c->sdt= $request->sdt;
+        $c->sdt = $request->sdt;
         $c->diachi = $request->diachi;
-      
+
         $c->save();
-        session()->flash("mess","Cập nhật thành công");
+        session()->flash("mess", "Cập nhật thành công");
         return redirect("/info");
     }
 }

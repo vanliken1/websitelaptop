@@ -20,7 +20,7 @@ use Mail;
 class CartController extends Controller
 {
     //    
-    public function index()
+    public function index(Request $r)
     {
         //dd(Cart::content());
 
@@ -28,11 +28,18 @@ class CartController extends Controller
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
         $cartItems = Cart::content();
+        $meta_desc = 'Giỏ hàng của bạn';
+        $meta_keyword = 'haovancart,giỏ hàng website haovan';
+        $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
+        $url_canonical = $r->url();
         //Neu giỏ hàng trống thì xuất ra mess 
         if ($cartItems->isEmpty()) {
             $mess = "Giỏ hàng của bạn đang trống";
             Session::forget('coupon');
-            return view('clients.home.cart', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'mess' => $mess]);
+            return view('clients.home.cart', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'mess' => $mess, 'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical]);
         }
         // Kiểm tra xem sản phẩm trong giỏ hàng có tồn tại trong cơ sở dữ liệu hay không
         foreach ($cartItems as $item) {
@@ -52,7 +59,10 @@ class CartController extends Controller
                 ]);
             }
         }
-        return view('clients.home.cart', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp]);
+        return view('clients.home.cart', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'meta_desc' => $meta_desc,
+        'meta_keyword' => $meta_keyword,
+        'meta_title' =>  $meta_title,
+        'url_canonical' => $url_canonical]);
     }
     function add($id)
     {
@@ -118,14 +128,22 @@ class CartController extends Controller
         Cart::update($r->rowId, $r->qty);
         return response()->json(['n' => Cart::count()]);
     }
-    function trangthanhtoan()
+    function trangthanhtoan(Request $r)
     {
         // dd($r->all());
         $thuonghieusp = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
+        $meta_desc = 'Trang thanh toán sản phẩm';
+        $meta_keyword = 'thanhtoanhaovan,cổng thanh toán haovan';
+        $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
+        $url_canonical = $r->url();
 
-        return view('clients.home.thanhtoan', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp]);
+        return view('clients.home.thanhtoan', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,
+         'meta_desc' => $meta_desc,
+        'meta_keyword' => $meta_keyword,
+        'meta_title' =>  $meta_title,
+        'url_canonical' => $url_canonical]);
     }
 
     function check_coupon(Request $r)

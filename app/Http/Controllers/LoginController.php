@@ -18,12 +18,19 @@ use Mail;
 class LoginController extends Controller
 {
     //
-    function loginview()
+    function loginview(Request $r)
     {
         $thuonghieu = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
-        return view('clients.home.dangnhap', ['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp]);
+        $meta_desc = 'Đăng nhập,đăng ký';
+        $meta_keyword = 'dangnhapdangky,trang đăng nhập,đăng ký haovan';
+        $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
+        $url_canonical = $r->url();
+        return view('clients.home.dangnhap', ['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp,'meta_desc' => $meta_desc,
+        'meta_keyword' => $meta_keyword,
+        'meta_title' =>  $meta_title,
+        'url_canonical' => $url_canonical]);
     }
     function login(Request $r)
     {
