@@ -31,6 +31,8 @@ class Sanpham extends Model
         'iddohoa',
         'idCPU',
         'giakhuyenmai',
+        'hot',
+        'ngaytao',
         'trangthai'
     ];
     public function cpus(){

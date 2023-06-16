@@ -21,7 +21,7 @@ class SanphamController extends Controller
     //
     public function index()
     {
-        $sanpham = Sanpham::paginate(10);
+        $sanpham = Sanpham::orderBy('ngaytao', 'DESC')->paginate(10);
         // dd($sanpham);
         $thuonghieu = Thuonghieu::all();
         $loaisp = Loaisp::all();
@@ -48,8 +48,9 @@ class SanphamController extends Controller
             ]
         );
         if ($validator->passes()) {
+         
             $data = $r->all();
-            $ct = Chitietkhuyenmai::where('idsanpham', $data['idsanpham'])->first();
+            // $ct = Chitietkhuyenmai::where('idsanpham', $data['idsanpham'])->first();
             if ($r->img != null) {
                 $img = $data['idsanpham'] . '-' . $r->img->getClientOriginalName();
                 $data['img'] = $img;
@@ -59,6 +60,9 @@ class SanphamController extends Controller
             //     $data['giakhuyenmai'] = $data['gia'] - ($data['gia'] * ($ct->phantramkhuyenmai / 100));
             // }
             // $data['giakhuyenmai'] = $data['gia'];
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+            $data['ngaytao'] = date('Y-m-d H:i:s');
+            // dd($data['ngaytao']);
             $u = Sanpham::create($data);
             return response()->json($u);
             //return response()->json($u,['success'=>'Added new records.']);
@@ -118,6 +122,7 @@ class SanphamController extends Controller
                 $c->iddohoa = $request->iddohoa;
                 $c->idCPU = $request->idCPU;
                 $c->motasanpham = $request->motasanpham;
+                $c->hot=$request->hot;
                 $c->trangthai = $request->trangthai;
 
 
@@ -140,6 +145,7 @@ class SanphamController extends Controller
                 $c->iddohoa = $request->iddohoa;
                 $c->idCPU = $request->idCPU;
                 $c->motasanpham = $request->motasanpham;
+                $c->hot=$request->hot;
                 $c->trangthai = $request->trangthai;
                 $c->save();
             }

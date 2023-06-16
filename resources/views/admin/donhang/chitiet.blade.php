@@ -98,8 +98,8 @@
                                 <th scope="col">Mã sản phẩm</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Số lượng kho</th>
-                                <th>Giá gốc</th>
-                                <th>Giá bán</th>
+                                <th>Giá </th>
+                                <th>Giá khuyến mãi</th>
                                 <th>Mã coupon</th>
                                 <th>Số lượng</th>
                                 <th>Tổng tiền</th>

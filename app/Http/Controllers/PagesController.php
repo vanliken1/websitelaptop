@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Chitietdonhang;
 use App\Models\CPU;
 use App\Models\Dohoa;
@@ -21,7 +22,11 @@ class PagesController extends Controller
         $thuonghieu = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
-        return view('clients.index', ['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp]);
+        $banner =Banner::all();
+        $sanphamhot = Sanpham::where('hot', 1)->where('trangthai', 1)->where('soluong', '>', 0)->take(6)->get();
+        $sanphamkhuyenmai = Sanpham::whereColumn('gia', '>', 'giakhuyenmai')->where('trangthai', 1)->where('soluong', '>', 0)->take(6)->get();
+
+        return view('clients.index', ['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp, 'banner' => $banner,'sanphamhot' => $sanphamhot,'sanphamkhuyenmai' => $sanphamkhuyenmai]);
     }
     public function trangsanpham(Request $r)
     {

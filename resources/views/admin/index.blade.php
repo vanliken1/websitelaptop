@@ -40,8 +40,8 @@
             <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                 <i class="fa fa-chart-pie fa-3x text-primary"></i>
                 <div class="ms-3">
-                    <p class="mb-2">Total Revenue</p>
-                    <h6 class="mb-0">$1234</h6>
+                    <p class="mb-2">Tổng doanh thu</p>
+                    <h6 class="mb-0">{{number_format($totalRevenue,0,',','.')}}</h6>
                 </div>
             </div>
         </div>
@@ -65,11 +65,11 @@
                 <div class="col-md-2 mx-2">
                     <p>Lọc theo:
                         <select class="filter-date2 form-control">
-                        <option>--Chọn--</option>
-                        <option value="7ngay">7 ngày qua</option>
-                        <option value="thangtruoc">Tháng trước</option>
-                        <option value="thangnay">Tháng này</option>
-                        <option value="1nam">1 Năm qua</option>
+                            <option>--Chọn--</option>
+                            <option value="7ngay">7 ngày qua</option>
+                            <option value="thangtruoc">Tháng trước</option>
+                            <option value="thangnay">Tháng này</option>
+                            <option value="1nam">1 Năm qua</option>
                         </select>
                     </p>
                 </div>
@@ -88,70 +88,49 @@
 <div class="container-fluid pt-4 px-4">
     <div class="bg-light text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Recent Salse</h6>
-            <a href="">Show All</a>
+            <h6 class="mb-0">Đơn hàng gần đây</h6>
+            
         </div>
 
         <div class="table-responsive">
             <table class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
                     <tr class="text-dark">
-                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Invoice</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">ID đơn hàng</th>
+                        <th>Ngày đặt</th>
+
+
+                        <th>Trạng thái</th>
+                        <th>📄</th>
+                        
                     </tr>
                 </thead>
+                @foreach($donhangganday as $item)
                 <tbody>
                     <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>01 Jan 2045</td>
-                        <td>INV-0123</td>
-                        <td>Jhon Doe</td>
-                        <td>$123</td>
-                        <td>Paid</td>
-                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                        <td>{{$item->iddonhang}}</td>
+                        <td>{{$item->ngaydat}}</td>
+                        <td>
+                            @if($item->trangthai==1)
+                            <span style="color: green;">Đơn hàng mới</span>
+                            @elseif($item->trangthai==2)
+                            <span style="color: blue;">Đã xử lý</span>
+                            @elseif($item->trangthai==3)
+                            <span style="color: red;">Hủy-sau xử lý</span>
+                            @elseif($item->trangthai==4)
+                            <span style="color: SkyBlue;">Đang giao</span>
+                            @elseif($item->trangthai==5)
+                            <span style="color: cyan;">Đã giao</span>
+                            @else
+                            <span style="color: red;">Hủy-trước xử lý</span>
+                            @endif
+
+                        </td>
+                        <td><a class="btn btn-sm btn-primary" href="/admin/donhang/chitiet/{{$item->iddonhang}}">Detail</a></td>
                     </tr>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>01 Jan 2045</td>
-                        <td>INV-0123</td>
-                        <td>Jhon Doe</td>
-                        <td>$123</td>
-                        <td>Paid</td>
-                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                    </tr>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>01 Jan 2045</td>
-                        <td>INV-0123</td>
-                        <td>Jhon Doe</td>
-                        <td>$123</td>
-                        <td>Paid</td>
-                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                    </tr>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>01 Jan 2045</td>
-                        <td>INV-0123</td>
-                        <td>Jhon Doe</td>
-                        <td>$123</td>
-                        <td>Paid</td>
-                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                    </tr>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>01 Jan 2045</td>
-                        <td>INV-0123</td>
-                        <td>Jhon Doe</td>
-                        <td>$123</td>
-                        <td>Paid</td>
-                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                    </tr>
+
                 </tbody>
+                @endforeach
             </table>
         </div>
     </div>
@@ -184,16 +163,16 @@
             dateFormat: "yy-mm-dd ",
             dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"]
         });
-        var chart = new Morris.Bar({
+        var chart = new Morris.Area({
             // ID of the element in which to draw the chart.
             element: 'firstchart',
             // Chart data records -- each entry in this array corresponds to a point on
             // the chart.
-            lineColors: ['#819C79', '#fc8710', '#FF6541', '#FF6541'],
-            // pointFillColors:['#ffffff'],
-            // pointStrokeColors:['black'],
-            // fillOpacity:0.6,
-            // hideHover:'auto',
+            lineColors: ['#819C79', '#fc8710', '#FF6541'],
+            pointFillColors: ['#ffffff'],
+            pointStrokeColors: ['black'],
+            fillOpacity: 0.6,
+            hideHover: 'auto',
             parseTime: false,
             // The name of the data record attribute that contains x-values.
             xkey: 'khoangngay',
@@ -202,9 +181,11 @@
             // Labels for the ykeys -- will be displayed when you hover over the
             // chart.
             behaveLikeLine: true,
-            labels: ['Doanh thu', 'Số lượng đã bán','Tổng đơn hàng đã bán']
+            labels: ['Doanh thu', 'Số lượng đã bán', 'Tổng đơn hàng đã bán']
+
         });
-        function chart30ngayqua(){
+
+        function chart30ngayqua() {
             var _token = $('input[name="_token"]').val();
             $.ajax({
                 url: '/admin/rs30day',
@@ -254,14 +235,15 @@
         $(".filter-date2").change(function() {
             var _token = $('input[name="_token"]').val();
             var value_select = $(this).val();
-         
+
             // alert(value_select);
             $.ajax({
                 url: '/admin/filter-date2',
                 type: 'POST',
 
                 data: {
-                    _token:_token,value_select:value_select
+                    _token: _token,
+                    value_select: value_select
                 },
                 dataType: 'json',
                 success: function(s) {

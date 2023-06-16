@@ -7,10 +7,9 @@
       <div class="row">
         <div class="col-md-12">
           <div id="main-slider" class="owl-carousel owl-theme">
-            <div class="item"><img src="img/main-slider1.jpg" alt="" class="img-fluid"></div>
-            <div class="item"><img src="img/main-slider2.jpg" alt="" class="img-fluid"></div>
-            <div class="item"><img src="img/main-slider3.jpg" alt="" class="img-fluid"></div>
-            <div class="item"><img src="img/main-slider4.jpg" alt="" class="img-fluid"></div>
+            @foreach($banner as $item)
+            <div class="item"><img src="{{asset('storage/img/'.$item->img)}}" alt="" class="img-fluid"></div>
+            @endforeach
           </div>
           <!-- /#main-slider-->
         </div>
@@ -60,212 +59,69 @@
         <div class="container">
           <div class="row">
             <div class="col-md-12">
-              <h2 class="mb-0">Hot this week</h2>
+              <h2 class="mb-0">Sản phẩm HOT 🔥</h2>
             </div>
           </div>
         </div>
       </div>
       <div class="container">
         <div class="product-slider owl-carousel owl-theme">
+          @foreach($sanphamhot as $item)
           <div class="item">
+
             <div class="product">
               <div class="flip-container">
-                <div class="flipper">
-                  <div class="front"><a href="detail.html"><img src="img/product1.jpg" alt="" class="img-fluid"></a></div>
-                  <div class="back"><a href="detail.html"><img src="img/product1_2.jpg" alt="" class="img-fluid"></a></div>
+                <div>
+                  <div><img src="{{asset('storage/img/'.$item->img)}}" width="400px" height="200px" alt=""></div>
                 </div>
-              </div><a href="detail.html" class="invisible"><img src="img/product1.jpg" alt="" class="img-fluid"></a>
+              </div>
               <div class="text">
-                <h3><a href="detail.html">Fur coat with very but very very long name</a></h3>
+                <h3><a href="/chitiet/{{$item->slug_sanpham}}">{{$item->tensanpham}}</a></h3>
+                <?php $phantram = (($item->gia - $item->giakhuyenmai) / $item->gia) * 100 ?>
+                @if($phantram!=0)
                 <p class="price">
-                  <del></del>$143.00
+
+                  <del>{{ number_format($item->gia, 0, ',', '.') }} đ</del>
+                  <caption>-{{ $phantram }}%</caption>
+                <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                  {{ number_format($item->giakhuyenmai, 0, ',', '.') }} đ
+                </div>
+
                 </p>
-              </div>
-              <!-- /.text-->
-              <div class="ribbon sale">
-                <div class="theribbon">SALE</div>
-                <div class="ribbon-background"></div>
-              </div>
-              <!-- /.ribbon-->
-              <div class="ribbon new">
-                <div class="theribbon">NEW</div>
-                <div class="ribbon-background"></div>
-              </div>
-              <!-- /.ribbon-->
-              <div class="ribbon gift">
-                <div class="theribbon">GIFT</div>
-                <div class="ribbon-background"></div>
-              </div>
-              <!-- /.ribbon-->
-            </div>
-            <!-- /.product-->
-          </div>
-          <div class="item">
-            <div class="product">
-              <div class="flip-container">
-                <div class="flipper">
-                  <div class="front"><a href="detail.html"><img src="img/product2.jpg" alt="" class="img-fluid"></a></div>
-                  <div class="back"><a href="detail.html"><img src="img/product2_2.jpg" alt="" class="img-fluid"></a></div>
-                </div>
-              </div><a href="detail.html" class="invisible"><img src="img/product2.jpg" alt="" class="img-fluid"></a>
-              <div class="text">
-                <h3><a href="detail.html">White Blouse Armani</a></h3>
+                @else
                 <p class="price">
-                  <del>$280</del>$143.00
+
+                  <caption>...</caption>
+
+                <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                  {{ number_format($item->gia, 0, ',', '.') }} đ
+                </div>
+
                 </p>
-              </div>
-              <!-- /.text-->
-              <div class="ribbon sale">
-                <div class="theribbon">SALE</div>
-                <div class="ribbon-background"></div>
-              </div>
-              <!-- /.ribbon-->
-              <div class="ribbon new">
-                <div class="theribbon">NEW</div>
-                <div class="ribbon-background"></div>
-              </div>
-              <!-- /.ribbon-->
-              <div class="ribbon gift">
-                <div class="theribbon">GIFT</div>
-                <div class="ribbon-background"></div>
-              </div>
-              <!-- /.ribbon-->
-            </div>
-            <!-- /.product-->
-          </div>
-          <div class="item">
-            <div class="product">
-              <div class="flip-container">
-                <div class="flipper">
-                  <div class="front"><a href="detail.html"><img src="img/product3.jpg" alt="" class="img-fluid"></a></div>
-                  <div class="back"><a href="detail.html"><img src="img/product3_2.jpg" alt="" class="img-fluid"></a></div>
+                @endif
+
+
+                @if($item->soluong>0)
+                <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                  Còn hàng
                 </div>
-              </div><a href="detail.html" class="invisible"><img src="img/product3.jpg" alt="" class="img-fluid"></a>
-              <div class="text">
-                <h3><a href="detail.html">Black Blouse Versace</a></h3>
-                <p class="price">
-                  <del></del>$143.00
-                </p>
-              </div>
-              <!-- /.text-->
-            </div>
-            <!-- /.product-->
-          </div>
-          <div class="item">
-            <div class="product">
-              <div class="flip-container">
-                <div class="flipper">
-                  <div class="front"><a href="detail.html"><img src="img/product3.jpg" alt="" class="img-fluid"></a></div>
-                  <div class="back"><a href="detail.html"><img src="img/product3_2.jpg" alt="" class="img-fluid"></a></div>
-                </div>
-              </div><a href="detail.html" class="invisible"><img src="img/product3.jpg" alt="" class="img-fluid"></a>
-              <div class="text">
-                <h3><a href="detail.html">Black Blouse Versace</a></h3>
-                <p class="price">
-                  <del></del>$143.00
-                </p>
-              </div>
-              <!-- /.text-->
-            </div>
-            <!-- /.product-->
-          </div>
-          <div class="item">
-            <div class="product">
-              <div class="flip-container">
-                <div class="flipper">
-                  <div class="front"><a href="detail.html"><img src="img/product2.jpg" alt="" class="img-fluid"></a></div>
-                  <div class="back"><a href="detail.html"><img src="img/product2_2.jpg" alt="" class="img-fluid"></a></div>
-                </div>
-              </div><a href="detail.html" class="invisible"><img src="img/product2.jpg" alt="" class="img-fluid"></a>
-              <div class="text">
-                <h3><a href="detail.html">White Blouse Versace</a></h3>
-                <p class="price">
-                  <del></del>$143.00
-                </p>
-              </div>
-              <!-- /.text-->
-              <div class="ribbon new">
-                <div class="theribbon">NEW</div>
-                <div class="ribbon-background"></div>
-              </div>
-              <!-- /.ribbon-->
-            </div>
-            <!-- /.product-->
-          </div>
-          <div class="item">
-            <div class="product">
-              <div class="flip-container">
-                <div class="flipper">
-                  <div class="front"><a href="detail.html"><img src="img/product1.jpg" alt="" class="img-fluid"></a></div>
-                  <div class="back"><a href="detail.html"><img src="img/product1_2.jpg" alt="" class="img-fluid"></a></div>
-                </div>
-              </div><a href="detail.html" class="invisible"><img src="img/product1.jpg" alt="" class="img-fluid"></a>
-              <div class="text">
-                <h3><a href="detail.html">Fur coat</a></h3>
-                <p class="price">
-                  <del></del>$143.00
+                @endif
+                <p class="buttons">
+                  <a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a>
+                  <a class="btn btn-primary add-to-cart" data-id="{{$item->idsanpham}}"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                 </p>
               </div>
               <!-- /.text-->
               <div class="ribbon gift">
-                <div class="theribbon">GIFT</div>
+                <div class="theribbon">HOT</div>
                 <div class="ribbon-background"></div>
               </div>
-              <!-- /.ribbon-->
             </div>
+
             <!-- /.product-->
           </div>
-          <div class="item">
-            <div class="product">
-              <div class="flip-container">
-                <div class="flipper">
-                  <div class="front"><a href="detail.html"><img src="img/product2.jpg" alt="" class="img-fluid"></a></div>
-                  <div class="back"><a href="detail.html"><img src="img/product2_2.jpg" alt="" class="img-fluid"></a></div>
-                </div>
-              </div><a href="detail.html" class="invisible"><img src="img/product2.jpg" alt="" class="img-fluid"></a>
-              <div class="text">
-                <h3><a href="detail.html">White Blouse Armani</a></h3>
-                <p class="price">
-                  <del>$280</del>$143.00
-                </p>
-              </div>
-              <!-- /.text-->
-              <div class="ribbon sale">
-                <div class="theribbon">SALE</div>
-                <div class="ribbon-background"></div>
-              </div>
-              <!-- /.ribbon-->
-              <div class="ribbon new">
-                <div class="theribbon">NEW</div>
-                <div class="ribbon-background"></div>
-              </div>
-              <!-- /.ribbon-->
-              <div class="ribbon gift">
-                <div class="theribbon">GIFT</div>
-                <div class="ribbon-background"></div>
-              </div>
-              <!-- /.ribbon-->
-            </div>
-            <!-- /.product-->
-          </div>
-          <div class="item">
-            <div class="product">
-              <div class="flip-container">
-                <div class="flipper">
-                  <div class="front"><a href="detail.html"><img src="img/product3.jpg" alt="" class="img-fluid"></a></div>
-                  <div class="back"><a href="detail.html"><img src="img/product3_2.jpg" alt="" class="img-fluid"></a></div>
-                </div>
-              </div><a href="detail.html" class="invisible"><img src="img/product3.jpg" alt="" class="img-fluid"></a>
-              <div class="text">
-                <h3><a href="detail.html">Black Blouse Versace</a></h3>
-                <p class="price">
-                  <del></del>$143.00
-                </p>
-              </div>
-              <!-- /.text-->
-            </div>
-            <!-- /.product-->
-          </div>
+          @endforeach
+
           <!-- /.product-slider-->
         </div>
         <!-- /.container-->
@@ -273,64 +129,140 @@
       <!-- /#hot-->
       <!-- *** HOT END ***-->
     </div>
-    <!--
-        *** GET INSPIRED ***
-        _________________________________________________________
-        -->
-    <div class="container">
-      <div class="col-md-12">
-        <div class="box slideshow">
-          <h3>Get Inspired</h3>
-          <p class="lead">Get the inspiration from our world class designers</p>
-          <div id="get-inspired" class="owl-carousel owl-theme">
-            <div class="item"><a href="#"><img src="img/getinspired1.jpg" alt="Get inspired" class="img-fluid"></a></div>
-            <div class="item"><a href="#"><img src="img/getinspired2.jpg" alt="Get inspired" class="img-fluid"></a></div>
-            <div class="item"><a href="#"><img src="img/getinspired3.jpg" alt="Get inspired" class="img-fluid"></a></div>
+    <div id="hot">
+      <div class="box py-4">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="mb-0">Sản phẩm khuyến mãi 🎟️</h2>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- *** GET INSPIRED END ***-->
-    <!--
-        *** BLOG HOMEPAGE ***
-        _________________________________________________________
-        -->
-    <div class="box text-center">
       <div class="container">
-        <div class="col-md-12">
-          <h3 class="text-uppercase">From our blog</h3>
-          <p class="lead mb-0">What's new in the world of fashion? <a href="blog.html">Check our blog!</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="col-md-12">
-        <div id="blog-homepage" class="row">
-          <div class="col-sm-6">
-            <div class="post">
-              <h4><a href="post.html">Fashion now</a></h4>
-              <p class="author-category">By <a href="#">John Slim</a> in <a href="">Fashion and style</a></p>
-              <hr>
-              <p class="intro">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-              <p class="read-more"><a href="post.html" class="btn btn-primary">Continue reading</a></p>
+        <div class="product-slider owl-carousel owl-theme">
+          @foreach($sanphamkhuyenmai as $item)
+          <div class="item">
+
+            <div class="product">
+              <div class="flip-container">
+                <div>
+                  <div><img src="{{asset('storage/img/'.$item->img)}}" width="400px" height="200px" alt=""></div>
+                </div>
+              </div>
+              <div class="text">
+                <h3><a href="/chitiet/{{$item->slug_sanpham}}">{{$item->tensanpham}}</a></h3>
+                <?php $phantram = (($item->gia - $item->giakhuyenmai) / $item->gia) * 100 ?>
+                @if($phantram!=0)
+                <p class="price">
+
+                  <del>{{ number_format($item->gia, 0, ',', '.') }} đ</del>
+                  <caption>-{{ $phantram }}%</caption>
+                <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                  {{ number_format($item->giakhuyenmai, 0, ',', '.') }} đ
+                </div>
+
+                </p>
+                @else
+                <p class="price">
+
+                  <caption>...</caption>
+
+                <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                  {{ number_format($item->gia, 0, ',', '.') }} đ
+                </div>
+
+                </p>
+                @endif
+
+
+                @if($item->soluong>0)
+                <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
+                  Còn hàng
+                </div>
+                @endif
+                <p class="buttons">
+                  <a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a>
+                  <a class="btn btn-primary add-to-cart" data-id="{{$item->idsanpham}}"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                </p>
+              </div>
+              <!-- /.text-->
+              <div class="ribbon sale">
+                <div class="theribbon">SALES</div>
+                <div class="ribbon-background"></div>
+              </div>
             </div>
+
+            <!-- /.product-->
           </div>
-          <div class="col-sm-6">
-            <div class="post">
-              <h4><a href="post.html">Who is who - example blog post</a></h4>
-              <p class="author-category">By <a href="#">John Slim</a> in <a href="">About Minimal</a></p>
-              <hr>
-              <p class="intro">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-              <p class="read-more"><a href="post.html" class="btn btn-primary">Continue reading</a></p>
-            </div>
-          </div>
+          @endforeach
+
+          <!-- /.product-slider-->
         </div>
-        <!-- /#blog-homepage-->
+        <!-- /.container-->
       </div>
+      <!-- /#hot-->
+      <!-- *** HOT END ***-->
     </div>
-    <!-- /.container-->
-    <!-- *** BLOG HOMEPAGE END ***-->
   </div>
 </div>
 <!-- Widgets End -->
+@stop
+@section('script')
+<script>
+    $.ajaxSetup({
+
+        headers: {
+
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        }
+
+    });
+    $(document).ready(function() {
+        $('.add-to-cart').click(function(e) {
+            e.preventDefault();
+            var productId = $(this).data('id');
+            var url = "/cart/add/" + productId;
+            // alert('hehe')
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thêm vào giỏ hàng thành công',
+                            showConfirmButton: false,
+                            
+                            timer: 4000,
+                          
+
+                        });
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Sản phẩm đã tồn tại trong giỏ hàng',
+                            showConfirmButton: false,
+                           
+                            timer: 4000,
+                           
+
+                        });
+
+                    }
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+
+                },
+                // error: function(xhr, status, error) {
+                //     alert('An error occurred while adding the product to the cart.');
+                // }
+            });
+        });
+    });
+</script>
 @stop

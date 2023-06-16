@@ -18,11 +18,12 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Tên Sản phẩm</th>
-                                <th scope="col">Hình ảnh</th>
+                                <!-- <th scope="col">Hình ảnh</th> -->
                                 <th scope="col">Số lượng</th>
                                 <th scope="col">Gía</th>
                                 <th scope="col">Gía khuyến mãi</th>
-                                <th scope="col">Nội dung</th>
+                                <th scope="col">HOT</th>
+                                <th scope="col">Ngày tạo</th>
                                 <th>Trạng thái</th>
                                 <th>🗑️</th>
                                 <th>✏️</th>
@@ -33,15 +34,22 @@
                         <tbody>
                             <tr>
                                 <td>{{$item->idsanpham}}</td>
-                                <td>{{$item->tensanpham}}</td>
-                                <td><img src="{{asset('storage/img/'.$item->img)}}" style="width:250px;height:100px;" alt=""></td>
-                                <td>{{$item->soluong}}</td>
-                               
-                                <td>{{number_format($item->gia,0,',','.')}}</td>
-                                
-                                <td>{{number_format($item->giakhuyenmai,0,',','.') }}</td>
+                                <td>{{$item->tensanpham}} <img src="{{asset('storage/img/'.$item->img)}}" style="width:250px;height:100px;" alt=""></td>
 
-                                <td>{{$item->noidung}}</td>
+                                <td>{{$item->soluong}}</td>
+
+                                <td>{{number_format($item->gia,0,',','.')}}</td>
+
+                                <td>{{number_format($item->giakhuyenmai,0,',','.') }}</td>
+                                <td>
+                                    @if($item->hot==1)
+                                    {{'HOT'}}
+                                    @else
+                                    {{'Không'}}
+                                    @endif
+                                </td>
+
+                                <td>{{$item->ngaytao}}</td>
                                 <td>
                                     @if($item->trangthai==0)
                                     {{'Ẩn'}}
@@ -217,6 +225,23 @@
                             <label for="floatingInput">Số lượng</label>
                             <span class="text-danger error-text soluong_err"></span>
                         </div>
+                        <fieldset class="row mb-3">
+                            <legend class="col-form-label col-sm-2 pt-0">HOT</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="hot" id="gridRadios1" value="1">
+                                    <label class="form-check-label" for="gridRadios1">
+                                        Có
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="hot" id="gridRadios2" value="0" checked>
+                                    <label class="form-check-label" for="gridRadios2">
+                                        Không
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
                         <div class="form-floating mb-3">
 
                             <select type="number" name='trangthai' class='form-select mt-3'>
@@ -382,6 +407,23 @@
                             <label for="floatingInput">Số lượng</label>
                             <span class="text-danger error-text soluong_err"></span>
                         </div>
+                        <fieldset class="row mb-3">
+                            <legend class="col-form-label col-sm-2 pt-0">HOT</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="hot" id="hot" value="1">
+                                    <label class="form-check-label" for="gridRadios1">
+                                        Có
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="hot" id="hot" value="0">
+                                    <label class="form-check-label" for="gridRadios2">
+                                        Không
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
                         <div class="form-floating mb-3">
 
                             <select type="number" name='trangthai' id="trangthai" class='form-select mt-3'>
@@ -506,6 +548,12 @@
                             $('#modelId1 form #idCPU').val(data2.idCPU);
                             $('#modelId1 form #motasanpham').val(data2.motasanpham);
                             $('#modelId1 form #img1').attr('src', '/storage/img/' + data2.img);
+                            if (data2.hot == 1) {
+                                $('#modelId1 form input[name="hot"][value="1"]').prop('checked', true);
+                            } else if (data2.hot == 0) {
+                                $('#modelId1 form input[name="hot"][value="0"]').prop('checked', true);
+                            }
+
                             $('#modelId1 form #trangthai').val(data2.trangthai);
 
                         }

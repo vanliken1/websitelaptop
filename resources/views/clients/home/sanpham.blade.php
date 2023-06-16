@@ -182,11 +182,19 @@
                                 <!-- /.text-->
 
                                 <!-- /.ribbon-->
+                                @if($item->hot == 1)
                                 <div class="ribbon gift">
-                                    <div class="theribbon">GIFT</div>
+                                    <div class="theribbon">HOT</div>
                                     <div class="ribbon-background"></div>
                                 </div>
+                                @endif
 
+                                @if($item->gia > $item->giakhuyenmai)
+                                <div class="ribbon sale">
+                                    <div class="theribbon">SALES</div>
+                                    <div class="ribbon-background"></div>
+                                </div>
+                                @endif
                                 <!-- /.ribbon-->
                             </div>
                             <!-- /.product            -->
@@ -236,9 +244,9 @@
                             icon: 'success',
                             title: 'Thêm vào giỏ hàng thành công',
                             showConfirmButton: false,
-                            
+
                             timer: 4000,
-                          
+
 
                         });
 
@@ -247,9 +255,9 @@
                             icon: 'error',
                             title: 'Sản phẩm đã tồn tại trong giỏ hàng',
                             showConfirmButton: false,
-                           
+
                             timer: 4000,
-                           
+
 
                         });
 
