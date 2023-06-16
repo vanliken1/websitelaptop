@@ -248,25 +248,36 @@ class PagesController extends Controller
             'url_canonical' => $url_canonical
         ]);
     }
-    function history()
+    function history(Request $r)
     {
 
         $thuonghieusp = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
+        $meta_desc = 'Lịch sử đơn hàng';
+        $meta_keyword = '';
+        $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
+        $url_canonical = $r->url();
         if (!auth()->check()) {
             return redirect('/dangnhap');
         } else {
             $donhang = Donhang::where('idnguoidung', auth()->user()->idnguoidung)->orderBy('ngaydat', 'DESC')->paginate(10);
-            return view('clients.home.history', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'donhang' => $donhang]);
+            return view('clients.home.history', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'donhang' => $donhang,  'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical]);
         }
     }
-    function chitiethistory($iddonhang)
+    function chitiethistory($iddonhang,Request $r)
     {
 
         $thuonghieusp = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
+        $meta_desc = 'Chi tiết đơn hàng';
+        $meta_keyword = '';
+        $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
+        $url_canonical = $r->url();
         if (!auth()->check()) {
             return redirect('/dangnhap');
         } else {
@@ -285,21 +296,31 @@ class PagesController extends Controller
                 $tinhnangma = 1;
                 $sotiengiam = 0;
             }
-            return view('clients.home.viewhistory', ['chitietdonhang' => $chitiet, 'donhang' => $donhang, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'donhang' => $donhang, 'tinhnangma' => $tinhnangma, 'sotiengiam' => $sotiengiam]);
+            return view('clients.home.viewhistory', ['chitietdonhang' => $chitiet, 'donhang' => $donhang, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'donhang' => $donhang, 'tinhnangma' => $tinhnangma, 'sotiengiam' => $sotiengiam,'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical]);
         }
     }
-    function infouser()
+    function infouser(Request $r)
     {
 
         $thuonghieusp = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
+        $meta_desc = 'Thông tin khách hàng';
+        $meta_keyword = '';
+        $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
+        $url_canonical = $r->url();
         if (!auth()->check()) {
             return redirect('/dangnhap');
         } else {
             $info = User::findOrFail(auth()->user()->idnguoidung);
             // dd($info->email);
-            return view('clients.home.infouser', ['nguoidung' => $info, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp]);
+            return view('clients.home.infouser', ['nguoidung' => $info, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,  'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical]);
         }
     }
     function updateuser(Request $request)

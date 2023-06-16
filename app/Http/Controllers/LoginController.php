@@ -27,7 +27,8 @@ class LoginController extends Controller
         $meta_keyword = 'dangnhapdangky,trang đăng nhập,đăng ký haovan';
         $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
         $url_canonical = $r->url();
-        return view('clients.home.dangnhap', ['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp,'meta_desc' => $meta_desc,
+        return view('clients.home.dangnhap', ['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp,
+        'meta_desc' => $meta_desc,
         'meta_keyword' => $meta_keyword,
         'meta_title' =>  $meta_title,
         'url_canonical' => $url_canonical]);
@@ -165,11 +166,18 @@ class LoginController extends Controller
 
         return redirect('/');
     }
-    function quenmatkhau(){
+    function quenmatkhau(Request $r){
         $thuonghieu = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
-        return view('/clients/home/quenmatkhau',['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp]);
+        $meta_desc = 'Quên mật khẩu';
+        $meta_keyword = 'quenmatkhau,forgetpassword haovan';
+        $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
+        $url_canonical = $r->url();
+        return view('clients.home.quenmatkhau',['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp,'meta_desc' => $meta_desc,
+        'meta_keyword' => $meta_keyword,
+        'meta_title' =>  $meta_title,
+        'url_canonical' => $url_canonical]);
     }
     function khoiphucmatkhau(Request $r)
     {
@@ -213,11 +221,18 @@ class LoginController extends Controller
         
 
     }
-    function matkhaumoi(){
+    function matkhaumoi(Request $r){
         $thuonghieu = Thuonghieu::all();
         $cpu = CPU::all();
         $loaisp = Loaisp::all();
-        return view('/clients/home/newpass',['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp]);
+        $meta_desc = 'Mật khẩu mới';
+        $meta_keyword = '';
+        $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
+        $url_canonical = $r->url();
+        return view('clients.home.newpass',['thuonghieu' => $thuonghieu, 'cpu' => $cpu, 'loaisp' => $loaisp,  'meta_desc' => $meta_desc,
+        'meta_keyword' => $meta_keyword,
+        'meta_title' =>  $meta_title,
+        'url_canonical' => $url_canonical]);
     }
     function updatematkhaumoi(Request $r)
     {
