@@ -3,8 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Obaju : e-commerce template</title>
-    <meta name="description" content="">
+    <title>{{$meta_title}} </title>
+    <meta name="description" content="{{$meta_desc}} ">
+    <meta name="keywords" content="{{$meta_keyword}}"/>
+    <link  rel="canonical" href="{{$url_canonical}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
