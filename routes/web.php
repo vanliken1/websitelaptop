@@ -162,6 +162,7 @@ route::get('/', [PagesController::class, 'trangchu']);
 route::get('/laptop', [PagesController::class, 'trangsanpham']);
 route::get('/laptop/{slugdanhmuc}', [PagesController::class, 'sanphamtheodanhmuc']);
 route::get('/chitiet/{slugsanpham}', [PagesController::class, 'chitiet']);
+route::get('/search', [PagesController::class, 'search']);
 
 //Gio hang
 route::get('/cart', [CartController::class, 'index']);

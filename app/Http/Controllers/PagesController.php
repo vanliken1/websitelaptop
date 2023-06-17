@@ -211,7 +211,8 @@ class PagesController extends Controller
 
                 ->paginate(12);
             return view('clients.home.sanphamByNC', [
-                'sptheonhucau' => $sptheonhucau, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheonhucau->total(),          'meta_desc' => $meta_desc,
+                'sptheonhucau' => $sptheonhucau, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'slugdanhmuc' => $slugdanhmuc, 'totalSanPham' => $sptheonhucau->total(),   
+                'meta_desc' => $meta_desc,
                 'meta_keyword' => $meta_keyword,
                 'meta_title' =>  $meta_title,
                 'url_canonical' => $url_canonical
@@ -242,7 +243,7 @@ class PagesController extends Controller
             ->take(3)
             ->get();
         return view('clients.home.chitietsanpham', [
-            'sanpham' => $sanpham, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'sanphamlienquan' => $sanphamlienquan,     'meta_desc' => $meta_desc,
+            'sanpham' => $sanpham, 'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'sanphamlienquan' => $sanphamlienquan,'meta_desc' => $meta_desc,
             'meta_keyword' => $meta_keyword,
             'meta_title' =>  $meta_title,
             'url_canonical' => $url_canonical
@@ -354,5 +355,57 @@ class PagesController extends Controller
         $c->save();
         session()->flash("mess", "Cập nhật thành công");
         return redirect("/info");
+    }
+    function search(Request $r)
+    {
+
+        $thuonghieusp = Thuonghieu::all();
+        $cpu = CPU::all();
+        $loaisp = Loaisp::all();
+        $kw=$r->keyword;
+        $query = Sanpham::query();
+        if (isset($r->brand)) {
+            $query->whereHas('thuonghieu', function ($q) use ($r) {
+                $q->whereIn('slug_thuonghieu', $r->brand);
+            });
+        }
+
+        if (isset($r->cpu)) {
+
+            $query->whereHas('cpus', function ($q) use ($r) {
+                $q->whereIn('slug_CPU', $r->cpu);
+            });
+        }
+        if (isset($r->gia)) {
+
+            $query->where(function ($q) use ($r) {
+                if (in_array('under_10', $r->gia)) {
+                    $q->orWhere('giakhuyenmai', '<', 10000000);
+                }
+                if (in_array('10_to_15', $r->gia)) {
+                    $q->orWhereBetween('giakhuyenmai', [10000000, 15000000]);
+                }
+                if (in_array('15_to_20', $r->gia)) {
+                    $q->orWhereBetween('giakhuyenmai', [15000000, 20000000]);
+                }
+                if (in_array('20_to_25', $r->gia)) {
+                    $q->orWhereBetween('giakhuyenmai', [20000000, 25000000]);
+                }
+                if (in_array('over_25', $r->gia)) {
+                    $q->orWhere('giakhuyenmai', '>', 25000000);
+                }
+            });
+        }
+        // dd($kw);
+        $sanphamtimkiem=$query->whereFullText('tensanpham',"%$kw%")->paginate(12);
+        $meta_desc = 'Tìm kiếm ' .$kw;
+        $meta_keyword = $kw;
+        $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
+        $url_canonical = $r->url();
+        return view('clients.home.timkiem',['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,'sanphamtimkiem'=>$sanphamtimkiem,'totalSanPham' => $sanphamtimkiem->total(),'kw'=>$kw,
+        'meta_desc' => $meta_desc,
+        'meta_keyword' => $meta_keyword,
+        'meta_title' =>  $meta_title,
+        'url_canonical' => $url_canonical]);
     }
 }
