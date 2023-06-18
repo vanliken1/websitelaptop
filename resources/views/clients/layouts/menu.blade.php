@@ -37,7 +37,7 @@
                     @endforeach
                   </ul>
                 </div>
-             
+
                 <!-- <div class="col-md-6 col-lg-3">
                         <h5>Featured</h5>
                         <ul class="list-unstyled mb-3">
@@ -68,7 +68,7 @@
 </nav>
 <div id="search" class="collapse">
   <div class="container">
-    <form role="search" class="ml-auto" action="/search" method="GET">
+    <form role="search" class="ml-auto form-search" action="/search" method="GET">
       <div class="input-group">
         <input type="text" placeholder="Search" name="keyword" class="form-control">
         <div class="input-group-append">
@@ -78,4 +78,5 @@
     </form>
   </div>
 </div>
+
 </header>

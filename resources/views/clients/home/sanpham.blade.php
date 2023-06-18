@@ -104,19 +104,24 @@
 
                     <div class="box info-bar">
                         <div class="row">
-                            <div class="col-md-12 col-lg-4 products-showing"><strong>Hiển thị tổng {{ $totalSanPham }} sản phẩm</strong></div>
-                            <div class="col-md-12 col-lg-7 products-number-sort">
-                                <form class="form-inline d-block d-lg-flex justify-content-between flex-column flex-md-row">
-                                    <div class="products-number"><strong>Show</strong><a href="#" class="btn btn-sm btn-primary">12</a><a href="#" class="btn btn-outline-secondary btn-sm">24</a><a href="#" class="btn btn-outline-secondary btn-sm">All</a><span>products</span></div>
-                                    <div class="products-sort-by mt-2 mt-lg-0"><strong>Sort by</strong>
-                                        <select name="sort-by" class="form-control">
-                                            <option>Price</option>
-                                            <option>Name</option>
-                                            <option>Sales first</option>
-                                        </select>
-                                    </div>
-                                </form>
-                            </div>
+                            <div class="col-md-12 col-lg-9 products-showing"><strong>Hiển thị tổng {{ $totalSanPham }} sản phẩm</strong></div>
+
+
+
+                            <form class="form-inline d-block d-lg-flex justify-content-between flex-column">
+                                <!-- <div class="products-number"><strong>Show</strong><a href="#" class="btn btn-sm btn-primary">12</a><a href="#" class="btn btn-outline-secondary btn-sm">24</a><a href="#" class="btn btn-outline-secondary btn-sm">All</a><span>products</span></div> -->
+                                @csrf
+                                <div class="products-sort-by ml-auto">
+                                    
+                                    <select name="sort-by" id="sort" class="form-control">
+                                        <option>--Lọc theo--</option>
+                                        <option>--Giá tăng dần--</option>
+                                        <option>--Giá giảm dần--</option>
+                                        <option>--Hot--</option>
+                                    </select>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
                     <div class="row products">
@@ -272,6 +277,7 @@
                 // }
             });
         });
+   
     });
 </script>
 @stop
