@@ -39,19 +39,19 @@
                 </div>
 
                 <!-- <div class="col-md-6 col-lg-3">
-                        <h5>Featured</h5>
-                        <ul class="list-unstyled mb-3">
-                          <li class="nav-item"><a href="category.html" class="nav-link">Trainers</a></li>
-                          <li class="nav-item"><a href="category.html" class="nav-link">Sandals</a></li>
-                          <li class="nav-item"><a href="category.html" class="nav-link">Hiking shoes</a></li>
-                        </ul>
-                        <h5>Looks and trends</h5>
-                        <ul class="list-unstyled mb-3">
-                          <li class="nav-item"><a href="category.html" class="nav-link">Trainers</a></li>
-                          <li class="nav-item"><a href="category.html" class="nav-link">Sandals</a></li>
-                          <li class="nav-item"><a href="category.html" class="nav-link">Hiking shoes</a></li>
-                        </ul>
-                      </div> -->
+                  <h5>Featured</h5>
+                  <ul class="list-unstyled mb-3">
+                    <li class="nav-item"><a href="category.html" class="nav-link">Trainers</a></li>
+                    <li class="nav-item"><a href="category.html" class="nav-link">Sandals</a></li>
+                    <li class="nav-item"><a href="category.html" class="nav-link">Hiking shoes</a></li>
+                  </ul>
+                  <h5>Looks and trends</h5>
+                  <ul class="list-unstyled mb-3">
+                    <li class="nav-item"><a href="category.html" class="nav-link">Trainers</a></li>
+                    <li class="nav-item"><a href="category.html" class="nav-link">Sandals</a></li>
+                    <li class="nav-item"><a href="category.html" class="nav-link">Hiking shoes</a></li>
+                  </ul>
+                </div> -->
               </div>
             </li>
           </ul>

@@ -12,117 +12,34 @@
                             <li aria-current="page" class="breadcrumb-item active">Ladies</li>
                         </ol>
                     </nav>
-                </div>
-                <div class="col-lg-3">
-                    <!--
-              *** MENUS AND FILTERS ***
-              _________________________________________________________
-              -->
-                    <form action="/laptop" method="get">
-                        <div class="card sidebar-menu mb-4">
-                            <div class="card-header">
-                                <h3 class="h4 card-title">Thương hiệu</h3>
+                    <!-- <div class="box info-bar">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-8 products-showing"><strong>Hiển thị tổng {{ $totalSanPham }} sản phẩm</strong></div>
+                            <div class="col-md-12 col-lg-4 products-number-sort">
+                                <form class="form-inline d-block d-lg-flex justify-content-between flex-column flex-md-row">
+                                    <div class="products-number ml-auto"><span>Tìm kiếm theo</span> <strong>"{{$kw}}"</strong></div>
+
+                                </form>
                             </div>
-                            <div class="card-body">
-
-                                <div class="form-group">
-                                    @foreach($thuonghieu as $item)
-                                    <div class="checkbox">
-
-                                        <label>
-                                            <input type="checkbox" name="brand[]" value="{{$item->slug_thuonghieu}}"> {{$item->tenthuonghieu}}
-                                        </label>
-
-                                    </div>
-                                    @endforeach
-
-                                </div>
-
-                            </div>
-                            <div class="card-header">
-                                <h3 class="h4 card-title">CPU</h3>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="form-group">
-                                    @foreach($cpu as $item)
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="cpu[]" value="{{$item->slug_CPU}}">{{$item->tenCPU}}
-                                        </label>
-                                    </div>
-                                    @endforeach
-
-                                </div>
-
-                            </div>
-
-                            <div class="card-header">
-                                <h3 class="h4 card-title">Mức giá</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="gia[]" value="under_10"> Dưới 10 triệu
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="gia[]" value="10_to_15"> 10-15 triệu
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="gia[]" value="15_to_20"> 15-20 triệu
-                                        </label>
-                                    </div>
-
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="gia[]" value="20_to_25"> 20-25 triệu
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="gia[]" value="over_25"> Trên 25 triệu
-                                        </label>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Lọc</button>
 
                         </div>
-
-                    </form>
-                    <!-- *** MENUS AND FILTERS END ***-->
-                </div>
-                <div class="col-lg-9">
-
+                    </div> -->
                     <div class="box info-bar">
                         <div class="row">
-                            <div class="col-md-12 col-lg-4 products-showing"><strong>Hiển thị tổng {{ $totalSanPham }} sản phẩm</strong></div>
-                            <div class="col-md-12 col-lg-7 products-number-sort">
+                            <div class="col-md-12 col-lg-5 products-showing">Hiển thị tổng <strong>{{ $totalSanPham }} </strong>sản phẩm</div>
+
+
+                            <div class="col-md-12 col-lg-3 products-number-sort">
                                 <form class="form-inline d-block d-lg-flex justify-content-between flex-column flex-md-row">
-                                    
                                     <div class="products-number"><span>Tìm kiếm theo</span> <strong>"{{$kw}}"</strong></div>
-                                    <div class="products-sort-by mt-2 mt-lg-0"><strong>Sort by</strong>
-                                        <select name="sort-by" class="form-control">
-                                            <option>Price</option>
-                                            <option>Name</option>
-                                            <option>Sales first</option>
-                                        </select>
-                                    </div>
+                              
                                 </form>
                             </div>
                         </div>
                     </div>
                     <div class="row products">
                         @foreach($sanphamtimkiem as $item)
-                        <div class="col-lg-4 col-md-6">
+                        <div class="col-lg-3 col-md-4">
                             <div class="product">
                                 <div>
                                     <div>
@@ -216,6 +133,7 @@
         </div>
     </div>
 </div>
+
 
 @stop
 @section('script')

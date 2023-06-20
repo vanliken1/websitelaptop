@@ -542,6 +542,7 @@
                             $('#modelId1 form #slug_sanpham').val(data2.slug_sanpham);
                             $('#modelId1 form #idthuonghieu').val(data2.idthuonghieu);
                             $('#modelId1 form #idram').val(data2.idram);
+                            $('#modelId1 form #iddohoa').val(data2.iddohoa);
                             $('#modelId1 form #idmanhinh').val(data2.idmanhinh);
                             $('#modelId1 form #idluutru').val(data2.idluutru);
                             $('#modelId1 form #idloaisanpham').val(data2.idloaisanpham);

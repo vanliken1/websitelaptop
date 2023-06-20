@@ -13,11 +13,8 @@
                         </ol>
                     </nav>
                 </div>
+
                 <div class="col-lg-3">
-                    <!--
-              *** MENUS AND FILTERS ***
-              _________________________________________________________
-              -->
                     <form action="/laptop" method="get">
                         <div class="card sidebar-menu mb-4">
                             <div class="card-header">
@@ -30,7 +27,7 @@
                                     <div class="checkbox">
 
                                         <label>
-                                            <input type="checkbox" name="brand[]" value="{{$item->slug_thuonghieu}}"> {{$item->tenthuonghieu}}
+                                            <input type="checkbox" name="brand[]" value="{{$item->slug_thuonghieu}}" {{ in_array($item->slug_thuonghieu, $selectedBrands) ? 'checked' : '' }} onchange="this.form.submit()"> {{$item->tenthuonghieu}}
                                         </label>
 
                                     </div>
@@ -48,7 +45,91 @@
                                     @foreach($cpu as $item)
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="cpu[]" value="{{$item->slug_CPU}}">{{$item->tenCPU}}
+                                            <input type="checkbox" name="cpu[]" {{ in_array($item->slug_CPU, $selectedCPUs) ? 'checked' : '' }} onchange="this.form.submit()" value="{{$item->slug_CPU}}">{{$item->tenCPU}}
+                                        </label>
+                                    </div>
+                                    @endforeach
+
+                                </div>
+
+                            </div>
+                            <div class="card-header">
+                                <h3 class="h4 card-title">RAM</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    @foreach($ram as $item)
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="ram[]" {{ in_array($item->slug_ram, $selectedRAMs) ? 'checked' : '' }} onchange="this.form.submit()" value="{{$item->slug_ram}}">{{$item->tenram}}
+                                        </label>
+                                    </div>
+                                    @endforeach
+
+                                </div>
+
+                            </div>
+                            <div class="card-header">
+                                <h3 class="h4 card-title">Lưu trữ</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    @foreach($luutru as $item)
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="luutru[]" {{ in_array($item->slug_luutru, $selectedLTs) ? 'checked' : '' }} onchange="this.form.submit()" value="{{$item->slug_luutru}}">{{$item->tenluutru}}
+                                        </label>
+                                    </div>
+                                    @endforeach
+
+                                </div>
+
+                            </div>
+                            <div class="card-header">
+                                <h3 class="h4 card-title">Đồ họa</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    @foreach($dohoa as $item)
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="dohoa[]" {{ in_array($item->slug_dohoa, $selectedDHs) ? 'checked' : '' }} onchange="this.form.submit()" value="{{$item->slug_dohoa}}">{{$item->tendohoa}}
+                                        </label>
+                                    </div>
+                                    @endforeach
+
+                                </div>
+
+                            </div>
+                            <div class="card-header">
+                                <h3 class="h4 card-title">Nhu cầu</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    @foreach($loaisp as $item)
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="nhucau[]" {{ in_array($item->slug_loai, $selectedNCs) ? 'checked' : '' }} onchange="this.form.submit()" value="{{$item->slug_loai}}">{{$item->tenloai}}
+                                        </label>
+                                    </div>
+                                    @endforeach
+
+                                </div>
+                            </div>
+                            <div class="card-header">
+                                <h3 class="h4 card-title">Kích thước màn hình</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    @foreach($manhinh as $item)
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="manhinh[]" {{ in_array($item->slug_manhinh, $selectedMHs) ? 'checked' : '' }} onchange="this.form.submit()" value="{{$item->slug_manhinh}}">{{$item->tenmanhinh}}
                                         </label>
                                     </div>
                                     @endforeach
@@ -64,28 +145,28 @@
                                 <div class="form-group">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="gia[]" value="under_10"> Dưới 10 triệu
+                                            <input type="checkbox" {{ in_array('under_10', $selectedPrices) ? 'checked' : '' }} name="gia[]" onchange="this.form.submit()" value="under_10"> Dưới 10 triệu
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="gia[]" value="10_to_15"> 10-15 triệu
+                                            <input type="checkbox" {{ in_array('10_to_15', $selectedPrices) ? 'checked' : '' }} name="gia[]" onchange="this.form.submit()" value="10_to_15"> 10-15 triệu
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="gia[]" value="15_to_20"> 15-20 triệu
+                                            <input type="checkbox" {{ in_array('15_to_20', $selectedPrices) ? 'checked' : '' }} name="gia[]" onchange="this.form.submit()" value="15_to_20"> 15-20 triệu
                                         </label>
                                     </div>
 
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="gia[]" value="20_to_25"> 20-25 triệu
+                                            <input type="checkbox" {{ in_array('20_to_25', $selectedPrices) ? 'checked' : '' }} name="gia[]" onchange="this.form.submit()" value="20_to_25"> 20-25 triệu
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="gia[]" value="over_25"> Trên 25 triệu
+                                            <input type="checkbox" {{ in_array('over_25', $selectedPrices) ? 'checked' : '' }} name="gia[]" onchange="this.form.submit()" value="over_25"> Trên 25 triệu
                                         </label>
                                     </div>
 
@@ -93,13 +174,16 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Lọc</button>
+                            <!-- <button type="submit" class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Lọc</button> -->
 
                         </div>
 
-                    </form>
-                    <!-- *** MENUS AND FILTERS END ***-->
+
+                        <!-- *** MENUS AND FILTERS END ***-->
+
                 </div>
+
+
                 <div class="col-lg-9">
 
                     <div class="box info-bar">
@@ -108,22 +192,28 @@
 
 
 
-                            <form class="form-inline d-block d-lg-flex justify-content-between flex-column">
-                                <!-- <div class="products-number"><strong>Show</strong><a href="#" class="btn btn-sm btn-primary">12</a><a href="#" class="btn btn-outline-secondary btn-sm">24</a><a href="#" class="btn btn-outline-secondary btn-sm">All</a><span>products</span></div> -->
-                                @csrf
-                                <div class="products-sort-by ml-auto">
-                                    
-                                    <select name="sort-by" id="sort" class="form-control">
-                                        <option>--Lọc theo--</option>
-                                        <option>--Giá tăng dần--</option>
-                                        <option>--Giá giảm dần--</option>
-                                        <option>--Hot--</option>
-                                    </select>
-                                </div>
-                            </form>
+
+                            <!-- <div class="products-number"><strong>Show</strong><a href="#" class="btn btn-sm btn-primary">12</a><a href="#" class="btn btn-outline-secondary btn-sm">24</a><a href="#" class="btn btn-outline-secondary btn-sm">All</a><span>products</span></div> -->
+
+                            <div class="products-sort-by ml-auto">
+
+                                <select name="sort" id="sort" class="form-control" onchange="this.form.submit()">
+                                    <option value="all" selected>--Tất cả--</option>
+
+                                    <option value="tangdan" <?php if (isset($_GET['sort']) && $_GET['sort'] === 'tangdan') echo 'selected'; ?>>--Giá tăng dần--</option>
+                                    <option value="giamdan" <?php if (isset($_GET['sort']) && $_GET['sort'] === 'giamdan') echo 'selected'; ?>>--Giá giảm dần--</option>
+                                    <option value="hot" <?php if (isset($_GET['sort']) && $_GET['sort'] === 'hot') echo 'selected'; ?>>--Hot--</option>
+
+                                </select>
+
+                            </div>
+
+
 
                         </div>
+                        </form>
                     </div>
+
                     <div class="row products">
                         @foreach($sanpham as $item)
                         <div class="col-lg-4 col-md-6">
@@ -202,6 +292,7 @@
                                 @endif
                                 <!-- /.ribbon-->
                             </div>
+                           
                             <!-- /.product            -->
                         </div>
                         @endforeach
@@ -277,7 +368,7 @@
                 // }
             });
         });
-   
+
     });
 </script>
 @stop
