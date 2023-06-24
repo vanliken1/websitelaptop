@@ -7,6 +7,12 @@
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý Màn hình</h6>
                 <p><button class='addmh btn btn-primary'>Thêm</button></p>
+                <form class="col-sm-6 mb-4" action="/admin/manhinh" method="GET">
+                    <div class="form-group">
+                        <input class="form-control-sm" type="search" name="keyword" placeholder="Search" required>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
                     {{session('mess')}}
@@ -51,6 +57,8 @@
                         @endforeach
 
                     </table>
+                    <div class="" style="float: right;"> {{$manhinh->appends(Request::all())->links()}}</div>
+
                 </div>
             </div>
         </div>

@@ -6,7 +6,84 @@
         <div class="col-md-12">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý Sản phẩm</h6>
-                <p><button class='addSanpham btn btn-primary'>Thêm</button></p>
+                <!-- <p><button class='addSanpham btn btn-primary'>Thêm</button></p> -->
+                <p><a href="/admin/product/create" class="btn btn-primary">Thêm</a></p>
+                <div class="row">
+                    <form class="col-sm-20 mb-4" action="/admin/product" method="GET">
+
+                        <select multiple="" class="form-control-sm selectbrand" id="selectbrand" name="brand[]" style="width: 180px;" data-allow-clear="false">
+
+                            @foreach($thuonghieu as $item)
+                            <option value="{{$item->idthuonghieu}}" {{ in_array($item->idthuonghieu, $selectedBrands) ? 'selected' : '' }}>{{$item->tenthuonghieu}}</option>
+
+                            @endforeach
+
+                        </select>
+
+                        <select multiple="" class="form-control-sm selectcpu " name="cpu[]" style="width: 180px;" data-allow-clear="false">
+                            @foreach($cpu as $item)
+                            <option value="{{$item->idCPU}}" {{ in_array($item->idCPU, $selectedCPUs) ? 'selected' : '' }}>{{$item->tenCPU}}</option>
+
+                            @endforeach
+
+                        </select>
+                        <select multiple="" class="form-control-sm selectram " name="ram[]" style="width: 180px;" data-allow-clear="false">
+
+                            @foreach($ram as $item)
+                            <option value="{{$item->idram}}" {{ in_array($item->idram, $selectedRAMs) ? 'selected' : '' }}>{{$item->tenram}}</option>
+
+                            @endforeach
+
+                        </select>
+                        <select multiple="" class="form-control-sm selectluutru " name="luutru[]" style="width: 180px;" data-allow-clear="false">
+
+                            @foreach($luutru as $item)
+                            <option value="{{$item->idluutru}}" {{ in_array($item->idluutru, $selectedLTs) ? 'selected' : '' }}>{{$item->tenluutru}}</option>
+
+                            @endforeach
+
+                        </select>
+                        <select multiple="" class="form-control-sm selectdohoa " name="dohoa[]" style="width: 180px;" data-allow-clear="false">
+                            @foreach($dohoa as $item)
+                            <option value="{{$item->iddohoa}}" {{ in_array($item->iddohoa, $selectedDHs) ? 'selected' : '' }}>{{$item->tendohoa}}</option>
+
+                            @endforeach
+
+                        </select>
+                        <select multiple="" class="form-control-sm selectnhucau " name="nhucau[]" style="width: 180px;" data-allow-clear="false">
+                            @foreach($loaisp as $item)
+                            <option value="{{$item->idloaisanpham}}" {{ in_array($item->idloaisanpham, $selectedNCs) ? 'selected' : '' }}>{{$item->tenloai}}</option>
+
+                            @endforeach
+
+                        </select>
+                        <select multiple="" class="form-control-sm selectmanhinh " name="manhinh[]" style="width: 180px;" data-allow-clear="false">
+                            @foreach($manhinh as $item)
+                            <option value="{{$item->idmanhinh}}" {{ in_array($item->idmanhinh, $selectedMHs) ? 'selected' : '' }}>{{$item->tenmanhinh}}</option>
+
+                            @endforeach
+
+                        </select>
+                        <select multiple="" class="form-control-sm selectgia " name="gia[]" style="width: 180px;" data-allow-clear="false">
+                            <option value="under_10" {{ in_array('under_10', $selectedPrices) ? 'selected' : '' }}>Dưới 10 triệu</option>
+                            <option value="10_to_15" {{ in_array('10_to_15', $selectedPrices) ? 'selected' : '' }}>Từ 10-15 triệu</option>
+                            <option value="15_to_20" {{ in_array('15_to_20', $selectedPrices) ? 'selected' : '' }}>Từ 15-20 triệu</option>
+                            <option value="20_to_25" {{ in_array('20_to_25', $selectedPrices) ? 'selected' : '' }}>Từ 20-25 triệu</option>
+                            <option value="over_25" {{ in_array('over_25', $selectedPrices) ? 'selected' : '' }}>Trên 25 triệu</option>
+
+
+                        </select>
+                        <input class="form-control-sm" style="margin-top: 10px;width:180px;" type="search" name="keyword" placeholder="Search">
+
+
+
+
+
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+
+
+                    </form>
+                </div>
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
                     {{session('mess')}}
@@ -65,7 +142,9 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <button class='editSanpham btn btn-success' data-id='{{$item->idsanpham}}'>Sửa</button>
+                                    <!-- <button class='editSanpham btn btn-success' data-id='{{$item->idsanpham}}'>Sửa</button> -->
+                                    <a href="/admin/product/edit/{{$item->idsanpham}}" class="btn btn-success">Sửa</a>
+
                                 </td>
 
                             </tr>
@@ -73,14 +152,14 @@
                         @endforeach
 
                     </table>
-                    <div class="" style="float: right;"> {{$sanpham->links()}}</div>
+                    <div class="" style="float: right;"> {{$sanpham->appends(Request::all())->links()}}</div>
                 </div>
             </div>
         </div>
 
     </div>
 </div>
-<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<!-- <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -205,11 +284,25 @@
                             <label for="floatingInput">Mô tả</label>
                             <span class="text-danger error-text motasanpham_err"></span>
                         </div>
-                        <div class="form-floating mb-3">
+                         <div class="form-floating mb-3">
+                            <label>Nội dung</label>
+                            <textarea style="height: 200px;" name="noidung" id="noidung" class='form-control'></textarea>
 
-                            <textarea style="height: 150px;" name="noidung" id="noidung" class='form-control'></textarea>
-                            <label for="floatingInput">Nội dung</label>
+
+
+                            <script>
+                                CKEDITOR.replace('noidung');
+                            </script>
                             <span class="text-danger error-text noidung_err"></span>
+                        </div> 
+                        <div class="mb-3">
+                            <label class="form-label">Nội dung</label>
+                            <textarea style="height: 150px;" name="noidung" id="noidung" class='form-control'></textarea>
+                            <script>
+                                CKEDITOR.replace('noidung');
+                            </script>
+                            <span class="text-danger error-text noidung_err"></span>
+
                         </div>
                         <div class="form-floating mb-3">
 
@@ -262,27 +355,20 @@
 
         </div>
     </div>
-</div>
-<div class="modal fade" id="modelId1" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+</div> -->
+<!-- <div class="modal fade" id="modelId1" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Sửa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+
             </div>
 
             <div class="modal-body">
                 <div class="container-fluid">
                     <form method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="idsanpham" name="idsanpham" readonly>
-                            <label for="floatingInput">Mã</label>
-                            <span class="text-danger error-text idsanpham_err"></span>
-
-                        </div>
+                 
                         <div class="form-floating mb-3">
 
                             <input type="text" name='tensanpham' id="tensanpham" class='form-control mt-3'>
@@ -389,11 +475,21 @@
                             <label for="floatingInput">Mô tả</label>
                             <span class="text-danger error-text motasanpham_err"></span>
                         </div>
-                        <div class="form-floating mb-3">
+                         <div class="form-floating mb-3">
 
                             <textarea style="height: 150px;" name="noidung" id="noidung" class='form-control'></textarea>
+
                             <label for="floatingInput">Nội dung</label>
                             <span class="text-danger error-text noidung_err"></span>
+                        </div> 
+                        <div class="mb-3">
+                            <label class="form-label">Nội dung</label>
+                            <textarea style="height: 150px;" name="noidung" id="noidung1" class='form-control'></textarea>
+                            <script>
+                                CKEDITOR.replace('noidung1')
+                            </script>
+                            <span class="text-danger error-text noidung_err"></span>
+
                         </div>
                         <div class="form-floating mb-3">
 
@@ -445,7 +541,7 @@
 
         </div>
     </div>
-</div>
+</div> -->
 <!-- Table End -->
 @stop
 @section('script')
@@ -461,145 +557,210 @@
     });
     $(document).ready(
         function() {
-
-            $('button.addSanpham').click(
-                function() {
-                    $('#modelId').modal('show');
-                }
-            );
-
-            $('button.storeSanpham').click(function() {
-
-                let data = new FormData($('#modelId form')[0]); // you can consider this as 'data bag'
-                //  files.append('fileName', $('#img')[0].files[0]);
-                // let formData = new FormData();
-                // formData.append('img', $('#img')[0].files[0]);
-                // alert('hello');
-                // e.preventDefault();
-                //var ten = $("#ten").val();
-                $.ajax({
-                    url: '/admin/product/store',
-                    type: 'POST',
-                    //  data: $('#modelId form').serializeArray(),files,
-                    data: data,
-                    dataType: 'json',
-                    processData: false, // tell jQuery not to process the data
-                    contentType: false, // tell jQuery not to set contentType
-                    // async: false,
-                    // cache: false,
-                    // enctype: 'multipart/form-data',
-                    success: function(s) {
-                        console.log(s);
-                        if ($.isEmptyObject(s.error)) {
-                            alert("Thêm thành công");
-                            location.reload();
-                            $('#modelId').modal('hide');
-                        } else {
-                            printErrorMsg(s.error);
-                            // $.each( s.error , function(k,v){
-                            //     alert(k+'->'+v);
-                            // })
-                        }
-                        //$('#modelId form #ten2').val(s.error);
-                        //location.reload();
-                        // location.reload();
-                        // $('#modelId').modal('hide');
-                    },
-
-                });
-
-                function printErrorMsg(msg) {
-                    $.each(msg, function(key, value) {
-                        console.log(key);
-                        $('.' + key + '_err').text(value);
-                    });
-                }
+            $('.selectbrand').select2({
+                closeOnSelect: false,
+                allowClear: false,
+                placeholder: "--Chọn thương hiệu--"
             });
-
-        }
-    );
-    $(document).ready(
-        function() {
-            $('button.editSanpham').click(
-                function() {
-                    //let data = new FormData( $('#modelId form')[0] );
-
-                    $('#modelId1').modal('show');
-                    $.ajax({
-                        url: '/admin/product/edit/' + $(this).data('id'),
-                        type: 'get',
-                        data: {
-                            id: 1
-                        },
-                        dataType: 'json',
-                        success: function(data2) {
-                            console.log(data2);
-                            $('#modelId1 form #tensanpham').val(data2.tensanpham);
-                            $('#modelId1 form #idsanpham').val(data2.idsanpham);
-                            $('#modelId1 form #gia').val(data2.gia);
-                            $('#modelId1 form #soluong').val(data2.soluong);
-                            $('#modelId1 form #noidung').val(data2.noidung);
-                            $('#modelId1 form #slug_sanpham').val(data2.slug_sanpham);
-                            $('#modelId1 form #idthuonghieu').val(data2.idthuonghieu);
-                            $('#modelId1 form #idram').val(data2.idram);
-                            $('#modelId1 form #iddohoa').val(data2.iddohoa);
-                            $('#modelId1 form #idmanhinh').val(data2.idmanhinh);
-                            $('#modelId1 form #idluutru').val(data2.idluutru);
-                            $('#modelId1 form #idloaisanpham').val(data2.idloaisanpham);
-                            $('#modelId1 form #idCPU').val(data2.idCPU);
-                            $('#modelId1 form #motasanpham').val(data2.motasanpham);
-                            $('#modelId1 form #img1').attr('src', '/storage/img/' + data2.img);
-                            if (data2.hot == 1) {
-                                $('#modelId1 form input[name="hot"][value="1"]').prop('checked', true);
-                            } else if (data2.hot == 0) {
-                                $('#modelId1 form input[name="hot"][value="0"]').prop('checked', true);
-                            }
-
-                            $('#modelId1 form #trangthai').val(data2.trangthai);
-
-                        }
-                    })
-                }
-            );
-            $('button.updateSanpham').click(function() {
-                // alert('update');
-                //     let data = {_token: $('input[name="_token"]:eq(0)').val() };//new FormData( $('#modelId1 form')[0] );
-                //  console.log(data);
-                // return;
-                let data = new FormData($('#modelId1 form')[0])
-                $.ajax({
-                    url: '/admin/product/update',
-                    type: 'POST',
-                    data: data,
-                    dataType: 'json',
-                    processData: false, // tell jQuery not to process the data
-                    contentType: false,
-                    success: function(s) {
-                        console.log(s);
-                        if ($.isEmptyObject(s.error)) {
-                            alert("Sua thanh cong");
-                            location.reload();
-                            $('#modelId1').modal('hide');
-                        } else {
-                            printErrorMsg(s.error);
-                            // $.each( s.error , function(k,v){
-                            //     alert(k+'->'+v);
-                            // })
-                        }
-                    },
-                    // error: function(mess) {
-                    //     console.log(mess);
-                    // }
-
-                });
-
-                function printErrorMsg(msg) {
-                    $.each(msg, function(key, value) {
-                        console.log(key);
-                        $('.' + key + '_err').text(value);
-                    });
-                }
+            // new MultiSelectTag('selectbrand', {
+            //     rounded: true, // default true
+            //     shadow: true, // default false
+            //     placeholder: 'Search', // default Search...
+            //     onChange: function(values) {
+            //         console.log(values)
+            //     }
+            // })
+            $('.selectcpu').select2({
+                closeOnSelect: false,
+                allowClear: false,
+                placeholder: "--Chọn CPU--"
             });
+            $('.selectram').select2({
+                closeOnSelect: false,
+                allowClear: false,
+                placeholder: "--Chọn RAM--"
+            });
+            $('.selectluutru').select2({
+                closeOnSelect: false,
+                allowClear: false,
+                placeholder: "--Chọn Ổ cứng--"
+            });
+            $('.selectdohoa').select2({
+                closeOnSelect: false,
+                allowClear: false,
+                placeholder: "--Chọn Card Đồ Họa--"
+            });
+            $('.selectnhucau').select2({
+                closeOnSelect: false,
+                allowClear: false,
+                placeholder: "--Chọn Nhu Cầu--"
+            });
+            $('.selectmanhinh').select2({
+                closeOnSelect: false,
+                allowClear: false,
+                placeholder: "--Chọn Kích thước--"
+            });
+            $('.selectgia').select2({
+                closeOnSelect: false,
+                allowClear: false,
+                placeholder: "--Chọn mức giá--"
+            });
+            // $('.select2').on('select2:unselecting', function(e) {
+            //     if (e.params.args.data.id === '') {
+            //         e.preventDefault(); // Ngăn người dùng xóa tùy chọn "--Chọn thương hiệu--"
+            //     }
+            // });
+
+
+            // $('button.addSanpham').click(
+            //     function() {
+            //         $('#modelId').modal('show');
+
+            //     }
+            // );
+
+            // $('button.storeSanpham').click(function() {
+
+            //     for (const instance in CKEDITOR.instances) {
+            //         CKEDITOR.instances[instance].updateElement();
+            //     }
+            //     let data = new FormData($('#modelId form')[0]); // you can consider this as 'data bag'
+
+            //     //  files.append('fileName', $('#img')[0].files[0]);
+            //     // let formData = new FormData();
+            //     // formData.append('img', $('#img')[0].files[0]);
+            //     // alert('hello');
+            //     // e.preventDefault();
+            //     //var ten = $("#ten").val();
+            //     $.ajax({
+            //         url: '/admin/product/store',
+            //         type: 'POST',
+            //         //  data: $('#modelId form').serializeArray(),files,
+            //         data: data,
+            //         dataType: 'json',
+            //         processData: false, // tell jQuery not to process the data
+            //         contentType: false, // tell jQuery not to set contentType
+            //         // async: false,
+            //         // cache: false,
+            //         // enctype: 'multipart/form-data',
+            //         success: function(s) {
+            //             console.log(s);
+            //             if ($.isEmptyObject(s.error)) {
+            //                 alert("Thêm thành công");
+            //                 location.reload();
+            //                 $('#modelId').modal('hide');
+            //             } else {
+            //                 printErrorMsg(s.error);
+            //                 // $.each( s.error , function(k,v){
+            //                 //     alert(k+'->'+v);
+            //                 // })
+            //             }
+            //             //$('#modelId form #ten2').val(s.error);
+            //             //location.reload();
+            //             // location.reload();
+            //             // $('#modelId').modal('hide');
+            //         },
+
+            //     });
+
+            //     function printErrorMsg(msg) {
+            //         $.each(msg, function(key, value) {
+            //             console.log(key);
+            //             $('.' + key + '_err').text(value);
+
+            //         });
+            //     }
+            // });
+            // $('button.editSanpham').click(
+            //     function() {
+            //         //let data = new FormData( $('#modelId form')[0] );
+
+            //         $('#modelId1').modal('show');
+            //         $.ajax({
+            //             url: '/admin/product/edit/' + $(this).data('id'),
+            //             type: 'get',
+            //             data: {
+            //                 id: 1
+            //             },
+            //             dataType: 'json',
+            //             success: function(data2) {
+            //                 console.log(data2);
+            //                 $('#modelId1 form #tensanpham').val(data2.tensanpham);
+            //                 $('#modelId1 form #idsanpham').val(data2.idsanpham);
+            //                 $('#modelId1 form #gia').val(data2.gia);
+            //                 $('#modelId1 form #soluong').val(data2.soluong);
+            //                 // $('#modelId1 form #noidung1').val(data2.noidung);
+            //                 CKEDITOR.instances['noidung1'].setData(data2.noidung);
+
+            //                 $('#modelId1 form #slug_sanpham').val(data2.slug_sanpham);
+            //                 $('#modelId1 form #idthuonghieu').val(data2.idthuonghieu);
+            //                 $('#modelId1 form #idram').val(data2.idram);
+            //                 $('#modelId1 form #iddohoa').val(data2.iddohoa);
+            //                 $('#modelId1 form #idmanhinh').val(data2.idmanhinh);
+            //                 $('#modelId1 form #idluutru').val(data2.idluutru);
+            //                 $('#modelId1 form #idloaisanpham').val(data2.idloaisanpham);
+            //                 $('#modelId1 form #idCPU').val(data2.idCPU);
+            //                 $('#modelId1 form #motasanpham').val(data2.motasanpham);
+            //                 $('#modelId1 form #img1').attr('src', '/storage/img/' + data2.img);
+            //                 if (data2.hot == 1) {
+            //                     $('#modelId1 form input[name="hot"][value="1"]').prop('checked', true);
+            //                 } else if (data2.hot == 0) {
+            //                     $('#modelId1 form input[name="hot"][value="0"]').prop('checked', true);
+            //                 }
+
+            //                 $('#modelId1 form #trangthai').val(data2.trangthai);
+
+            //             }
+            //         })
+
+            //     }
+
+            // );
+
+
+            // $('button.updateSanpham').click(function() {
+            //     // alert('update');
+            //     //     let data = {_token: $('input[name="_token"]:eq(0)').val() };//new FormData( $('#modelId1 form')[0] );
+            //     //  console.log(data);
+            //     // return;
+            //     for (const instance in CKEDITOR.instances) {
+            //         CKEDITOR.instances[instance].updateElement();
+            //     }
+            //     let data = new FormData($('#modelId1 form')[0])
+            //     $.ajax({
+            //         url: '/admin/product/update',
+            //         type: 'POST',
+            //         data: data,
+            //         dataType: 'json',
+            //         processData: false, // tell jQuery not to process the data
+            //         contentType: false,
+            //         success: function(s) {
+            //             console.log(s);
+            //             if ($.isEmptyObject(s.error)) {
+            //                 alert("Sua thanh cong");
+            //                 location.reload();
+            //                 $('#modelId1').modal('hide');
+            //             } else {
+            //                 printErrorMsg(s.error);
+            //                 // $.each( s.error , function(k,v){
+            //                 //     alert(k+'->'+v);
+            //                 // })
+            //             }
+            //         },
+            //         // error: function(mess) {
+            //         //     console.log(mess);
+            //         // }
+
+            //     });
+
+            //     function printErrorMsg(msg) {
+            //         $.each(msg, function(key, value) {
+            //             console.log(key);
+            //             $('.' + key + '_err').text(value);
+            //         });
+            //     }
+            // });
+
         }
     );
 </script>

@@ -198,8 +198,7 @@
                             <div class="products-sort-by ml-auto">
 
                                 <select name="sort" id="sort" class="form-control" onchange="this.form.submit()">
-                                    <option value="all" selected>--Tất cả--</option>
-
+                                    <option value="all" >--Tất cả--</option>
                                     <option value="tangdan" <?php if (isset($_GET['sort']) && $_GET['sort'] === 'tangdan') echo 'selected'; ?>>--Giá tăng dần--</option>
                                     <option value="giamdan" <?php if (isset($_GET['sort']) && $_GET['sort'] === 'giamdan') echo 'selected'; ?>>--Giá giảm dần--</option>
                                     <option value="hot" <?php if (isset($_GET['sort']) && $_GET['sort'] === 'hot') echo 'selected'; ?>>--Hot--</option>
@@ -292,7 +291,7 @@
                                 @endif
                                 <!-- /.ribbon-->
                             </div>
-                           
+
                             <!-- /.product            -->
                         </div>
                         @endforeach
@@ -370,5 +369,7 @@
         });
 
     });
+
+
 </script>
 @stop

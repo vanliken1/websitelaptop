@@ -7,12 +7,20 @@
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý thương hiệu</h6>
                 <p><button class='addBrand btn btn-primary'>Thêm</button></p>
+                <form class="col-sm-6 mb-4" action="/admin/brand" method="GET">
+                    <div class="form-group">
+                        <input class="form-control-sm" type="search" name="keyword" placeholder="Search" required>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
                 @if(session()->has('mess'))
-                <p class="alert alert-primary sm-4">
+                <div class="alert alert-primary sm-4">
                     {{session('mess')}}
-                </p>
+                </div>
                 @endif
+
                 <div class="table-responsive">
+
                     <table class="table">
                         <thead>
                             <tr>
@@ -23,8 +31,10 @@
                                 <th>✏️</th>
                             </tr>
                         </thead>
+
                         @foreach($thuonghieu as $item)
                         <tbody>
+
                             <tr>
                                 <td>{{$item->idthuonghieu}}</td>
                                 <td>{{$item->tenthuonghieu}}</td>
@@ -50,6 +60,9 @@
                         </tbody>
                         @endforeach
                     </table>
+
+                    <div class="" style="float: right;"> {{$thuonghieu->appends(Request::all())->links()}}</div>
+
                 </div>
             </div>
         </div>

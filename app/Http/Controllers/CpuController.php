@@ -8,8 +8,15 @@ use Validator;
 
 class CpuController extends Controller
 {
-    public function index(){
-        $cpu = CPU::all();
+    public function index(Request $r){
+        $query = CPU::query();
+        if (isset($r->keyword)) {
+            $query->where(function ($query) use ($r) {
+                $query->whereFullText('tenCPU', "\%" . $r->keyword . "\%")
+                    ->orWhere('tenCPU', 'LIKE', "%" . $r->keyword . "%");
+            });
+        }
+        $cpu = $query->orderBy('idCPU','DESC')->paginate(5);
         return view('admin.cpu.index',['cpu'=>$cpu]); 
     }
     public function store(Request $r)

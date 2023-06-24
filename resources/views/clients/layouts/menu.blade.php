@@ -70,7 +70,7 @@
   <div class="container">
     <form role="search" class="ml-auto form-search" action="/search" method="GET">
       <div class="input-group">
-        <input type="text" placeholder="Search" name="keyword" class="form-control">
+        <input type="text" placeholder="Search" maxlength="40" name="keyword" class="form-control" required>
         <div class="input-group-append">
           <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
         </div>

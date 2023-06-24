@@ -8,8 +8,16 @@ use Validator;
 class LoaiSPController extends Controller
 {
     //
-    public function index(){
-        $loaisp=Loaisp::all();
+    public function index(Request $r){
+        
+        $query = Loaisp::query();
+        if (isset($r->keyword)) {
+            $query->where(function ($query) use ($r) {
+                $query->whereFullText('tenloai', "\%" . $r->keyword . "\%")
+                    ->orWhere('tenloai', 'LIKE', "%" . $r->keyword . "%");
+            });
+        }
+        $loaisp = $query->orderBy('idloaisanpham','DESC')->paginate(5);
         return view('admin.Loaisp.index',['loaisp'=>$loaisp]); 
     }
     public function store(Request $r)

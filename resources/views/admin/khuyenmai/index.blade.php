@@ -7,6 +7,13 @@
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý khuyến mãi</h6>
                 <p><button class='addkhuyenmai btn btn-primary'>Thêm</button></p>
+                <form class="form-inline mb-10" action="/admin/khuyenmai" method="GET">
+
+                    <input class="form-control-sm" type="search" name="keyword" placeholder="Search">
+                    Ngày: <input type="date" id="datepicker" class="form-control-sm" name="tu_ngay" value="{{ $selectedDays }}">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+
+                </form>
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
                     {{session('mess')}}
@@ -14,39 +21,39 @@
                 @endif
                 @if(session()->has('errors'))
                 <?php
-                    $mess = session()->get('errors');
-                    foreach ($mess as $i){
-                        ?>
-                        <p class="alert alert-danger sm-4">
-                            <?php echo $i?> trùng ngày nên không thêm đc 
-                        </p>
-                        <?php
-                    }
+                $mess = session()->get('errors');
+                foreach ($mess as $i) {
+                ?>
+                    <p class="alert alert-danger sm-4">
+                        <?php echo $i ?> trùng ngày nên không thêm đc
+                    </p>
+                <?php
+                }
                 ?>
                 @endif
                 <form action="/admin/khuyenmai/capnhat" method="POST">
                     @csrf
                     @foreach($khuyenmai as $item)
                     @if($item->ngaybatdau <= $today && $item->ngayketthuc >= $today && $item->trangthaictkm == 0 )
-                        <input type="text" name="idkhuyenmai[]" value="{{$item->idkhuyenmai}}">
+                        <input type="hidden" name="idkhuyenmai[]" value="{{$item->idkhuyenmai}}">
                         <!-- <input type="text"   name="idsanpham[]" value="{{$item->idsanpham}}"> -->
                         @endif
 
                         @endforeach
-                        <input type="submit">
+                        <!-- <input type="submit"> -->
                 </form>
                 <form id="them" method="POST">
                     @csrf
                     @foreach($khuyenmai as $item)
                     @if($item->ngaybatdau <= $today && $item->ngayketthuc >= $today && $item->trangthaictkm == 0 )
-                        <input type="text" name="idkhuyenmai[]" value="{{$item->idkhuyenmai}}">
+                        <input type="hidden" name="idkhuyenmai[]" value="{{$item->idkhuyenmai}}">
                         <!-- <input type="text"   name="idsanpham[]" value="{{$item->idsanpham}}"> -->
                         @endif
 
                         @endforeach
 
                 </form>
-                <button class="btn btn-primary btn_ajax"> AJAX</button>
+                <!-- <button class="btn btn-primary btn_ajax"> AJAX</button> -->
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -87,7 +94,7 @@
                                 <td>
                                     <a class='btn btn-warning' href='/admin/khuyenmai/editform/{{$item->idkhuyenmai}}'>Sửa</button>
                                 </td>
-                                
+
                                 <td>
                                     <a href="/admin/khuyenmai/them/{{$item->idkhuyenmai}}" class="btn btn-primary"> Thêm chi tiết </a>
                                 </td>
@@ -104,7 +111,7 @@
                                 <td>
                                     <button disabled class="btn btn-primary">Thêm chi tiết</button>
                                 </td>
-                                
+
                                 @endif
 
                             </tr>
@@ -112,6 +119,8 @@
                         @endforeach
 
                     </table>
+                    <div class="" style="float: right;"> {{$khuyenmai->appends(Request::all())->links()}}</div>
+
                 </div>
             </div>
         </div>
@@ -232,89 +241,85 @@
         }
 
     });
-    $(document).ready(
+    $(document).ready(function() {
+        // $('button.btn_ajax').click(function() {
+        //     //var a = [];
+        //     // $("input[name='idkhuyenmai']").each(function() {
+        //     //     a.push($(this).val());
+        //     // });
+        //     // console.log(a);
+        //     var data = $('#them').serializeArray()
+        //     console.log(data)
+        //     $.ajax({
+        //         url: '/admin/khuyenmai/capnhat',
+        //         type: 'POST',
+        //         data: data,
+        //         dataType: 'json',
+        //         success: function(s) {
+        //             console.log(s)
 
+        //         },
+        //         error: function(s) {
+        //             console.log(s)
+        //         }
+        //     })
+        // })
 
-        function() {
-            $('button.btn_ajax').click(function() {
-                //var a = [];
-                // $("input[name='idkhuyenmai']").each(function() {
-                //     a.push($(this).val());
-                // });
-                // console.log(a);
-                var data = $('#them').serializeArray()
-                console.log(data)
-                $.ajax({
-                    url: '/admin/khuyenmai/capnhat',
-                    type: 'POST',
-                    data: data,
-                    dataType: 'json',
-                    success: function(s) {
-                        console.log(s)
+        $('button.addkhuyenmai').click(
+            function() {
+                $('#modelId').modal('show');
+            }
+        );
 
-                    },
-                    error: function(s) {
-                        console.log(s)
+        $('button.storekhuyenmai').click(function() {
+
+            let data = new FormData($('#modelId form')[0]); // you can consider this as 'data bag'
+            //  files.append('fileName', $('#img')[0].files[0]);
+            // let formData = new FormData();
+            // formData.append('img', $('#img')[0].files[0]);
+            // alert('hello');
+            // e.preventDefault();
+            //var ten = $("#ten").val();
+            $.ajax({
+                url: '/admin/khuyenmai/store',
+                type: 'POST',
+                //  data: $('#modelId form').serializeArray(),files,
+                data: data,
+                dataType: 'json',
+                processData: false, // tell jQuery not to process the data
+                contentType: false, // tell jQuery not to set contentType
+                // async: false,
+                // cache: false,
+                // enctype: 'multipart/form-data',
+                success: function(s) {
+                    console.log(s);
+                    if ($.isEmptyObject(s.error)) {
+                        alert("Thêm thành công");
+                        location.reload();
+                        $('#modelId').modal('hide');
+                    } else {
+                        printErrorMsg(s.error);
+                        // $.each( s.error , function(k,v){
+                        //     alert(k+'->'+v);
+                        // })
                     }
-                })
-            })
+                    //$('#modelId form #ten2').val(s.error);
+                    //location.reload();
+                    // location.reload();
+                    // $('#modelId').modal('hide');
+                },
 
-            $('button.addkhuyenmai').click(
-                function() {
-                    $('#modelId').modal('show');
-                }
-            );
-
-            $('button.storekhuyenmai').click(function() {
-
-                let data = new FormData($('#modelId form')[0]); // you can consider this as 'data bag'
-                //  files.append('fileName', $('#img')[0].files[0]);
-                // let formData = new FormData();
-                // formData.append('img', $('#img')[0].files[0]);
-                // alert('hello');
-                // e.preventDefault();
-                //var ten = $("#ten").val();
-                $.ajax({
-                    url: '/admin/khuyenmai/store',
-                    type: 'POST',
-                    //  data: $('#modelId form').serializeArray(),files,
-                    data: data,
-                    dataType: 'json',
-                    processData: false, // tell jQuery not to process the data
-                    contentType: false, // tell jQuery not to set contentType
-                    // async: false,
-                    // cache: false,
-                    // enctype: 'multipart/form-data',
-                    success: function(s) {
-                        console.log(s);
-                        if ($.isEmptyObject(s.error)) {
-                            alert("Thêm thành công");
-                            location.reload();
-                            $('#modelId').modal('hide');
-                        } else {
-                            printErrorMsg(s.error);
-                            // $.each( s.error , function(k,v){
-                            //     alert(k+'->'+v);
-                            // })
-                        }
-                        //$('#modelId form #ten2').val(s.error);
-                        //location.reload();
-                        // location.reload();
-                        // $('#modelId').modal('hide');
-                    },
-
-                });
-
-                function printErrorMsg(msg) {
-                    $.each(msg, function(key, value) {
-                        console.log(key);
-                        $('.' + key + '_err').text(value);
-                    });
-                }
             });
 
-        }
-    );
+            function printErrorMsg(msg) {
+                $.each(msg, function(key, value) {
+                    console.log(key);
+                    $('.' + key + '_err').text(value);
+                });
+            }
+        });
+
+    });
     $(document).ready(
         function() {
             $('button.editkhuyenmai').click(
@@ -335,7 +340,7 @@
                             $('#modelId1 form #tenkhuyenmai').val(data2.tenkhuyenmai);
                             $('#modelId1 form #ngaybatdau').val(data2.ngaybatdau);
                             $('#modelId1 form #ngayketthuc').val(data2.ngayketthuc);
-                           
+
 
                         }
                     })
@@ -363,7 +368,7 @@
                             $('#modelId1').modal('hide');
                         } else {
                             printErrorMsg(s.error);
-                           
+
                             // $.each( s.error , function(k,v){
                             //     alert(k+'->'+v);
                             // })

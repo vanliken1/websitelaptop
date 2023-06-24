@@ -8,8 +8,15 @@ use Validator;
 
 class DohoaController extends Controller
 {
-    public function index(){
-        $dohoa=Dohoa::all();
+    public function index(Request $r){
+        $query = Dohoa::query();
+        if (isset($r->keyword)) {
+            $query->where(function ($query) use ($r) {
+                $query->whereFullText('tendohoa', "\%" . $r->keyword . "\%")
+                    ->orWhere('tendohoa', 'LIKE', "%" . $r->keyword . "%");
+            });
+        }
+        $dohoa = $query->orderBy('iddohoa','DESC')->paginate(5);
         return view('admin.dohoa.index',['dohoa'=>$dohoa]); 
     }
     public function store(Request $r)

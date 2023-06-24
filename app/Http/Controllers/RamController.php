@@ -14,9 +14,17 @@ class RamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $r)
     {
-        $ram=Ram::all();
+        
+        $query = Ram::query();
+        if (isset($r->keyword)) {
+            $query->where(function ($query) use ($r) {
+                $query->whereFullText('tenram', "\%" . $r->keyword . "\%")
+                    ->orWhere('tenram', 'LIKE', "%" . $r->keyword . "%");
+            });
+        }
+        $ram = $query->orderBy('idram','DESC')->paginate(5);
         return view('admin.ram.index',['ram'=>$ram]); 
     }
 

@@ -8,8 +8,15 @@ use Validator;
 
 class ManhinhController extends Controller
 {
-    public function index(){
-        $manhinh=Manhinh::all();
+    public function index(Request $r){
+        $query = Manhinh::query();
+        if (isset($r->keyword)) {
+            $query->where(function ($query) use ($r) {
+                $query->whereFullText('tenmanhinh', "\%" . $r->keyword . "\%")
+                    ->orWhere('tenmanhinh', 'LIKE', "%" . $r->keyword . "%");
+            });
+        }
+        $manhinh = $query->orderBy('idmanhinh','DESC')->paginate(5);
         return view('admin.manhinh.index',['manhinh'=>$manhinh]); 
     }
     public function store(Request $r)

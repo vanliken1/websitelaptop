@@ -34,7 +34,11 @@
     <link href="/asset/admin/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+    <script src="/asset/admin/ckeditor/ckeditor.js"></script>
+    <script src="/asset/admin/ckfinder/ckfinder.js"></script>
+    <!-- <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script> -->
 </head>
 
 <body>

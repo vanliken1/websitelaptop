@@ -7,6 +7,32 @@
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý giảm giá</h6>
                 <p><button class='addgiamgia btn btn-primary'>Thêm</button></p>
+                <form class="form-inline mb-10" action="/admin/giamgia" method="GET">
+
+                    <input class="form-control-sm" type="search" name="keyword" placeholder="Search">
+                    <select class="form-control-sm " id="dieukiengiamgia" name="dieukiengiamgia" style="text-align: center;" onchange="this.form.submit()">
+                        <option value="" selected disabled>--Chọn điều kiện giảm giá--</option>
+                        <option value="all"  >--Tất cả--</option>
+                        <option value="phantram" <?php if (isset($_GET['dieukiengiamgia']) && $_GET['dieukiengiamgia'] === 'phantram') echo 'selected'; ?>>Giảm theo phần trăm</option>
+                        <option value="tien" <?php if (isset($_GET['dieukiengiamgia']) && $_GET['dieukiengiamgia'] === 'tien') echo 'selected'; ?>>Giảm theo tiền</option>
+                    </select>
+                    <select class="form-control-sm " id="tinhtrang" name="tinhtrang" style="text-align: center;" onchange="this.form.submit()">
+                        <option value="" selected disabled>--Chọn tình trạng--</option>
+                        <option value="all"  >--Tất cả--</option>
+                        <option value="hethan" <?php if (isset($_GET['tinhtrang']) && $_GET['tinhtrang'] === 'hethan') echo 'selected'; ?>>Hết hạn</option>
+                        <option value="conhan" <?php if (isset($_GET['tinhtrang']) && $_GET['tinhtrang'] === 'conhan') echo 'selected'; ?>>Còn hạn</option>
+                    </select>
+                    <select class="form-control-sm " id="trangthailoc" name="trangthailoc" style="text-align: center;" onchange="this.form.submit()">
+                        <option value="" selected disabled>--Chọn trạng thái--</option>
+                        <option value="all"  >--Tất cả--</option>
+                        <option value="kichhoat" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'kichhoat') echo 'selected'; ?>>Kích hoạt</option>
+                        <option value="khoa" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'khoa') echo 'selected'; ?>>Khóa</option>
+                    </select>
+
+                    
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+
+                </form>
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
                     {{session('mess')}}
@@ -84,6 +110,8 @@
                         @endforeach
 
                     </table>
+                    <div class="" style="float: right;"> {{$coupon->appends(Request::all())->links()}}</div>
+
                 </div>
             </div>
         </div>
@@ -285,6 +313,7 @@
                     $('#modelId').modal('show');
                 }
             );
+
 
             $('button.storegiamgia').click(function() {
 

@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Luutru;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Validator;
 
 class LuutruController extends Controller
 {
-    public function index(){
-        $luutru=Luutru::all();
+    public function index(Request $r){
+        $query = Luutru::query();
+        if (isset($r->keyword)) {
+            $query->where(function ($query) use ($r) {
+                $query->whereFullText('tenluutru', "\%" . $r->keyword . "\%")
+                    ->orWhere('tenluutru', 'LIKE', "%" . $r->keyword . "%");
+            });
+        }
+        $luutru = $query->orderBy('idluutru','DESC')->paginate(5);
         return view('admin.luutru.index',['luutru'=>$luutru]); 
     }
     public function store(Request $r)

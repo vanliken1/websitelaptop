@@ -488,14 +488,22 @@ class PagesController extends Controller
         $kw = $r->keyword;
         // dd($kw);
         $kw = str_replace('-', '\-', $kw);
-     
-        $sanphamtimkiem = Sanpham::whereFullText('tensanpham', "\%$kw\%")
+        // $characters = str_split($kw);
+        $sanphamtimkiem = Sanpham::whereFullText('tensanpham', "\%" . $kw . "\%")
+            ->orWhere('tensanpham', 'LIKE', '%' . $kw . '%')
+
+            // whereFullText('tensanpham', "\%".$kw."\%")
 
             ->where('soluong', '>', 0)
             ->where('trangthai', 1)
 
             ->paginate(12);
+        // $sanphamtimkiem = Sanpham::where('tensanpham','LIKE', "%".$kw."%")
 
+        //     ->where('soluong', '>', 0)
+        //     ->where('trangthai', 1)
+
+        //     ->paginate(12);
         $meta_desc = 'Tìm kiếm ' . $kw;
         $meta_keyword = $kw;
         $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';

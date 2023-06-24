@@ -59,6 +59,15 @@
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Admin quản lý</h6>
                 <p><button class='addadmin btn btn-primary'>Thêm</button></p>
+
+
+                <form class="col-sm-6 mb-4" action="/admin/users" method="GET">
+                    <div class="form-group">
+                        <input class="form-control-sm" type="search" name="keyword" placeholder="Search" required>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
                     {{session('mess')}}
@@ -134,6 +143,7 @@
                         </tbody>
                         @endforeach
                     </table>
+                    <div class="" style="float: right;"> {{$adminql->appends(Request::all())->links()}}</div>
                 </div>
             </div>
 
@@ -161,13 +171,13 @@
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='tennguoidung' id="tennguoidung" class='form-control mt-3'>
+                            <input type="text" name='tennguoidung' id="tennguoidung" class='form-control mt-3' >
                             <label for="floatingInput">Tên người dùng</label>
                             <span class="text-danger error-text tennguoidung_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='email' id="email" class='form-control mt-3'>
+                            <input type="text" name='email' id="email" class='form-control mt-3' required="required">
                             <label for="floatingInput">Email</label>
                             <span class="text-danger error-text email_err"></span>
                         </div>
@@ -255,8 +265,8 @@
                             <select type="number" name='trangthai' id="trangthai" class='form-select mt-3' required>
                                 <option value="1">Đang hoạt động</option>
                                 <option value="0">Đã khóa</option>
-                             
-                          
+
+
                             </select>
                             <label for="floatingInput">Trạng thái</label>
                             <span class="text-danger error-text trangthai_err"></span>
@@ -279,6 +289,12 @@
         <div class="col-md-12">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Người dùng(Khách hàng)</h6>
+                <form class="col-sm-6 " action="/admin/users" method="GET">
+                    <div class="form-group">
+                        <input class="form-control-sm" type="search" name="keyword2" placeholder="Search" required>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
                     {{session('mess')}}
@@ -316,6 +332,8 @@
                         </tbody>
                         @endforeach
                     </table>
+                    <div class="" style="float: right;"> {{$users->appends(Request::all())->links()}}</div>
+
                 </div>
             </div>
 

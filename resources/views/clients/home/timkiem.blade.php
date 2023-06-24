@@ -29,7 +29,7 @@
                             <div class="col-md-12 col-lg-5 products-showing">Hiển thị tổng <strong>{{ $totalSanPham }} </strong>sản phẩm</div>
 
 
-                            <div class="col-md-12 col-lg-3 products-number-sort">
+                            <div class="col-md-12 col-lg-7 products-number-sort">
                                 <form class="form-inline d-block d-lg-flex justify-content-between flex-column flex-md-row">
                                     <div class="products-number"><span>Tìm kiếm theo</span> <strong>"{{$kw}}"</strong></div>
                               

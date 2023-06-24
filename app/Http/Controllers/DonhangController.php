@@ -15,9 +15,26 @@ use App\Models\Thongke;
 class DonhangController extends Controller
 {
     //
-    public function index()
+    public function index(Request $r)
     {
-        $donhang = Donhang::orderBy('ngaydat', 'DESC')->get();
+        $query = Donhang::query();
+        if (isset($r->tungay)&&isset($r->denngay)) {
+            $query->whereBetween('ngaytinhdoanhthu', [$r->tungay, $r->denngay]);
+        }
+        if (isset($r->trangthailoc)&&$r->trangthailoc == 'chuaxuly') {
+            $query->where('trangthai', 1);
+        } elseif (isset($r->trangthailoc)&&$r->trangthailoc == 'daxuly') {
+            $query->where('trangthai', 2);
+        } elseif (isset($r->trangthailoc)&&$r->trangthailoc == 'huytruocxuly') {
+            $query->where('trangthai', 6);
+        } elseif (isset($r->trangthailoc)&&$r->trangthailoc == 'huysauxuly') {
+            $query->where('trangthai', 3);
+        }  elseif (isset($r->trangthailoc)&&$r->trangthailoc == 'danggiao') {
+            $query->where('trangthai', 4);
+        } elseif (isset($r->trangthailoc)&&$r->trangthailoc == 'dagiao') {
+            $query->where('trangthai', 5);
+        } 
+        $donhang = $query->orderBy('ngaydat', 'DESC')->paginate(10);
         return view('admin.donhang.index', ['donhang' => $donhang]);
     }
     public function chitietdonhang($iddonhang)

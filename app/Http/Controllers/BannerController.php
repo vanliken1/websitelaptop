@@ -8,8 +8,15 @@ use Validator;
 use Illuminate\Support\Facades\Storage;
 class BannerController extends Controller
 {
-    public function index(){
-        $banner = Banner::all();
+    public function index(Request $r){
+        $query = Banner::query();
+        if (isset($r->keyword)) {
+            $query->where(function ($query) use ($r) {
+                $query->whereFullText('tenbanner', "\%" . $r->keyword . "\%")
+                    ->orWhere('tenbanner', 'LIKE', "%" . $r->keyword . "%");
+            });
+        }
+        $banner = $query->where('trangthai', 1)->orderBy('idbanner','DESC')->paginate(5);
         return view('admin.banner.index',['banner'=>$banner]); 
     }
     public function store(Request $r)

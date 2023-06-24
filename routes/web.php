@@ -111,10 +111,12 @@ route::middleware([ktAdmin::class])->group(function () {
         });
         route::middleware([ktAdminsp::class])->prefix('product')->group(function () {
             route::get('/', [SanphamController::class, 'index']);
+            route::get('/create', [SanphamController::class, 'create']);
             route::post('store', [SanphamController::class, 'store']);
             route::delete('destroy/{id}', [SanphamController::class, 'destroy']);
             route::get('edit/{id}', [SanphamController::class, 'edit']);
-            route::post('update', [SanphamController::class, 'update']);
+            // route::post('update', [SanphamController::class, 'update']);
+            route::put('update', [SanphamController::class, 'update']);
             Route::get('lockm', [KhuyenmaiController::class, 'lockm']);
         });
         route::middleware([ktAdmingg::class])->prefix('giamgia')->group(function () {

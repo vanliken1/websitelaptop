@@ -215,7 +215,7 @@
                             </table>
                         </div>
                         <h4>Mô tả sản phẩm</h4>
-                        <p>{{$item->noidung}}</p>
+                        <p>{!!$item->noidung!!}</p>
 
                         <hr>
                         <div class="social">

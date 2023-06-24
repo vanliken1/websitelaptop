@@ -15,10 +15,37 @@ class GiamgiaController extends Controller
      */
 
     //
-    public function index()
+    public function index(Request $r)
     {
         $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
-        $coupon = Giamgia::all();
+        $query = Giamgia::query();
+        //Theo ten và code giam gia
+        if (isset($r->keyword)) {
+            $query->where(function ($query) use ($r) {
+                $query->whereFullText('tengiamgia', "\%" . $r->keyword . "\%")
+                    ->orWhere('tengiamgia', 'LIKE', "%" . $r->keyword . "%")
+                    ->orWhere('codegiamgia', 'LIKE', "%" . $r->keyword . "%");
+            });
+        }
+        //Dieu kien
+        if (isset($r->dieukiengiamgia)&&$r->dieukiengiamgia == 'phantram') {
+            $query->where('tinhnangma', 0);
+        } elseif (isset($r->dieukiengiamgia)&&$r->dieukiengiamgia == 'tien') {
+            $query->where('tinhnangma', 1);
+        } 
+        //Tinh trang
+        if (isset($r->tinhtrang)&&$r->tinhtrang == 'hethan') {
+            $query->where('ngayketthuc','<', $today);
+        } elseif (isset($r->tinhtrang)&&$r->tinhtrang == 'conhan') {
+            $query->where('ngayketthuc','>=', $today);
+        } 
+        //Trang thai
+        if (isset($r->trangthailoc)&&$r->trangthailoc == 'kichhoat') {
+            $query->where('trangthai', 1);
+        } elseif (isset($r->trangthailoc)&&$r->trangthailoc == 'khoa') {
+            $query->where('trangthai', 0);
+        } 
+        $coupon = $query->orderBy('idgiamgia','DESC')->paginate(5);
         return view('admin.giamgia.index', ['coupon' => $coupon,'today'=>$today]);
     }
     public function store(Request $r)

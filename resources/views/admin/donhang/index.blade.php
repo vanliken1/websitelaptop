@@ -6,6 +6,26 @@
         <div class="col-md-12">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý đơn hàng</h6>
+                <form class="form-inline mb-10" action="/admin/donhang" method="GET">
+                    <div class="form-group">
+                        Từ ngày:<input class="form-control-sm" type="date" name="tungay">
+                        Đến ngày:<input class="form-control-sm" type="date" name="denngay">
+                        <select class="form-control-sm " id="trangthailoc" name="trangthailoc" style="text-align: center;" onchange="this.form.submit()">
+                            <option value="" selected disabled>--Chọn tình trạng--</option>
+                            <option value="all">--Tất cả--</option>
+                            <option value="chuaxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'chuaxuly') echo 'selected'; ?>>Chưa xử lý</option>
+                            <option value="daxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'daxuly') echo 'selected'; ?>>Đã xử lý</option>
+                            <option value="huytruocxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'huytruocxuly') echo 'selected'; ?>>Hủy trước xử lý</option>
+                            <option value="huysauxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'huysauxuly') echo 'selected'; ?>>Hủy sau xử lý</option>
+                            <option value="danggiao" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'danggiao') echo 'selected'; ?>>Đang giao</option>
+                            <option value="dagiao" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'dagiao') echo 'selected'; ?>>Đã giao</option>
+
+                        </select>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+
+                </form>
+
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
                     {{session('mess')}}
@@ -17,8 +37,8 @@
                             <tr>
                                 <th scope="col">ID đơn hàng</th>
                                 <th>Ngày đặt</th>
-                                
-                                
+
+
                                 <th>Trạng thái</th>
                                 <th>📄</th>
                                 <th>✏️</th>
@@ -55,10 +75,10 @@
                                         <input onclick="return confirm('Ban thuc su muon xoa ?')" type="submit" value="xóa" class="btn btn-danger">
                                     </form>
                                 </td>
-                               
+
 
                             </tr>
-                            
+
                         </tbody>
                         @endforeach
 

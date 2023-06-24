@@ -12,7 +12,7 @@ use Carbon\Carbon;
 
 class KhuyenmaiController extends Controller
 {
-    public function index()
+    public function index(Request $r)
     {
         $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d ');
         // $loc = Khuyenmai::join('chitietkhuyenmai', 'khuyenmai.idkhuyenmai', '=', 'chitietkhuyenmai.idkhuyenmai')
@@ -22,8 +22,28 @@ class KhuyenmaiController extends Controller
         //     dd($item->trangthaictkm);
         // }
         //dd($loc);    
-        $khuyenmai = Khuyenmai::all();
-        return view('admin.khuyenmai.index', ['khuyenmai' => $khuyenmai, 'today' => $today]);
+        $query = Khuyenmai::query();
+        $selectedDays = null;
+        if (isset($r->keyword)) {
+            $query->where(function ($query) use ($r) {
+                $query->whereFullText('tenkhuyenmai', "\%" . $r->keyword . "\%")
+                    ->orWhere('tenkhuyenmai', 'LIKE', "%" . $r->keyword . "%");
+            });
+           
+        }
+        if (isset($r->tu_ngay)) {
+            $selectedDays=$r->tu_ngay;
+            $query->where(function ($query) use ($r) {
+                $query->where('ngaybatdau', '<=', $r->tu_ngay)
+                    ->where('ngayketthuc', '>=', $r->tu_ngay);
+            });
+        }
+        $khuyenmai = $query->orderBy('idkhuyenmai', 'DESC')->paginate(5);
+     
+     
+    
+
+        return view('admin.khuyenmai.index', ['khuyenmai' => $khuyenmai, 'today' => $today,'selectedDays'=>$selectedDays]);
     }
     public function storekm(Request $r)
     {
@@ -305,8 +325,9 @@ class KhuyenmaiController extends Controller
     {
         $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d ');
         // dd($id);
-        $data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
         $km = Khuyenmai::find($id);
+        $data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
+
         //dd($km->ngayketthuc);
         //lay danh sach gia tri cot idsanpham sau do chuyen thanh mang
         // $existingValues = Chitietkhuyenmai::pluck('idsanpham')->toArray();
