@@ -5,21 +5,20 @@
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="/storage/img/chihaone.jpg" alt="" style="width: 40px; height: 40px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">Jhon Doe</h6>
                         <span>Admin</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="/admin" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/admin" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
-                    <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-table"></i>Quản lý Users</a>
+                    <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-users"></i>Quản lý Users</a>
 
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop"></i>Quản lý danh mục</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-cubes"></i>Quản lý danh mục</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="/admin/brand" class="dropdown-item">Thương hiệu</a>
                             <a href="/admin/category" class="dropdown-item">Loại sản phẩm theo nhu cầu</a>
@@ -31,13 +30,13 @@
                         </div>
 
                     </div>
-                    <a href="/admin/product" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Sản phẩm</a>
+                    <a href="/admin/product" class="nav-item nav-link"><i class="fa fa-laptop"></i>Quản lý Sản phẩm</a>
 
-                    <a href="/admin/banner" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Banner</a>
-                    <a href="/admin/khuyenmai" class="nav-item nav-link"><i class="fa fa-table"></i>Quản lý khuyến mãi</a>
+                    <a href="/admin/banner" class="nav-item nav-link"><i class="fa fa-clone"></i>Quản lý Banner</a>
+                    <a href="/admin/khuyenmai" class="nav-item nav-link"><i class="fa fa-percent"></i>Quản lý khuyến mãi</a>
 
-                    <a href="/admin/giamgia" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Giảm giá</a>
-                    <a href="/admin/donhang" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Quản lý Đơn hàng</a>
+                    <a href="/admin/giamgia" class="nav-item nav-link"><i class="fa fa-bolt"></i>Quản lý Giảm giá</a>
+                    <a href="/admin/donhang" class="nav-item nav-link"><i class="fa fa-shopping-bag"></i>Quản lý Đơn hàng</a>
 
                     
 

@@ -180,9 +180,54 @@ class SanphamController extends Controller
         // }
 
         // return response()->json(['error' => $validator->errors()]);
+        $r->validate(
+            [
+                'idsanpham' => 'required|unique:sanpham|min:3|max:255',
+                'tensanpham'=>'required|min:3|max:255',
+                'slug_sanpham' => 'required|max:255',
+                'idthuonghieu'=>'required',
+                'idCPU'=>'required',
+                'idram'=>'required',
+                'iddohoa'=>'required',
+                'idluutru'=>'required',
+                'idmanhinh'=>'required',
+                'idloaisanpham'=>'required',
+                'img' => 'required|mimes:jpeg,png,svg',
+                'motasanpham' => 'required|max:255',
+                'noidung' => 'required',
+                'gia'=>'numeric|min:10000',
+                'soluong'=>'numeric|min:1',
+            ],
+            [
+                'idsanpham.required' => 'Vui lòng nhập mã',
+                'idsanpham.min'=>'Mã tối thiểu 3 ký tự',
+                'idsanpham.max'=>'Mã đã đạt tối đa ký tự',
+                'idsanpham.unique'=>'Mã đã tồn tại',
+                'tensanpham.required'=>'Vui lòng nhập tên sản phẩm',
+                'tensanpham.min'=>'Tên tối thiểu 3 ký tự',
+                'tensanpham.max'=>'Tên quá dài',
+                'slug_sanpham.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_sanpham.max' => 'Đường dẫn SEO quá dài',
+                'idthuonghieu.required'=>'Vui lòng chọn thương hiệu',
+                'idCPU.required'=>'Vui lòng chọn CPU',
+                'idram.required'=>'Vui lòng chọn RAM',
+                'iddohoa.required'=>'Vui lòng chọn Card đồ họa',
+                'idluutru.required'=>'Vui lòng chọn Ổ cứng',
+                'idmanhinh.required'=>'Vui lòng chọn kích thước',
+                'idloaisanpham.required'=>'Vui lòng chọn nhu cầu sử dụng',
+                'img.required'=>'Vui lòng chọn hình ảnh',
+                'img.mimes'=>'Định dạng hình không hợp lệ',
+                'motasanpham.required' => 'Vui lòng nhập mô tả',
+                'motasanpham.max' => 'Mô tả quá dài',
+                'noidung.required' => 'Vui lòng nhập nội dung',
+                'gia.min'=>'Giá tối thiểu là 10000đ',
+                'soluong.min' => 'Số lượng tối thiểu là 1',
 
+
+            ]
+        );
         $data = $r->all();
-
+    
         // $ct = Chitietkhuyenmai::where('idsanpham', $data['idsanpham'])->first();
         if ($r->img != null) {
             $img = $data['idsanpham'] . '-' . $r->img->getClientOriginalName();
@@ -292,6 +337,32 @@ class SanphamController extends Controller
         // }
 
         // return response()->json(['error' => $validator->errors()]);
+        $request->validate(
+            [
+                'tensanpham'=>'required|min:3|max:255',
+                'slug_sanpham' => 'required|max:255',
+                'img' => 'mimes:jpeg,png,svg',
+                'motasanpham' => 'required|max:255',
+                'noidung' => 'required',
+                'gia'=>'numeric|min:10000',
+                'soluong'=>'numeric|min:1',
+            ],
+            [
+                'tensanpham.required'=>'Vui lòng nhập tên sản phẩm',
+                'tensanpham.min'=>'Tên tối thiểu 3 ký tự',
+                'tensanpham.max'=>'Tên quá dài',
+                'slug_sanpham.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_sanpham.max' => 'Đường dẫn SEO quá dài',
+                'img.mimes'=>'Định dạng hình không hợp lệ',
+                'motasanpham.required' => 'Vui lòng nhập mô tả',
+                'motasanpham.max' => 'Mô tả quá dài',
+                'noidung.required' => 'Vui lòng nhập nội dung',
+                'gia.min'=>'Giá tối thiểu là 10000đ',
+                'soluong.min' => 'Số lượng tối thiểu là 1',
+
+
+            ]
+        );
         $c = Sanpham::findorfail($request->idsanpham);
         // dd($c);
         $ct = Chitietkhuyenmai::where('idsanpham', $c['idsanpham'])->first();

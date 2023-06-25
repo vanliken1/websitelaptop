@@ -26,12 +26,19 @@ class LuutruController extends Controller
         $validator = Validator::make(
             $r->all(),
             [
-                'tenluutru' => 'required',
-      
+                'tenluutru' => 'required|max:255|min:3',
+                'slug_luutru' => 'required|max:255',
+                'motaluutru' => 'required|max:255',
             ],
             [
                 
-                'tenluutru.required' => 'Chưa nhập tên',
+                'tenluutru.required' => 'Vui lòng nhập tên',
+                'tenluutru.max' => 'Tên quá dài',
+                'tenluutru.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_luutru.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_luutru.max' => 'Đường dẫn SEO quá dài',
+                'motaluutru.required' => 'Vui lòng nhập mô tả',
+                'motaluutru.max' => 'Mô tả quá dài',
             ]
         );
         if ($validator->passes()) {
@@ -61,13 +68,20 @@ class LuutruController extends Controller
             $request->all(),
             [
                 
-                'tenluutru' => 'required',
+                'tenluutru' => 'required|max:255|min:3',
+                'slug_luutru' => 'required|max:255',
+                'motaluutru' => 'required|max:255',
         
             ],
             [
                 
-
-                'tenluutru.required' => 'Chưa nhập tên',
+                'tenluutru.required' => 'Vui lòng nhập tên',
+                'tenluutru.max' => 'Tên quá dài',
+                'tenluutru.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_luutru.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_luutru.max' => 'Đường dẫn SEO quá dài',
+                'motaluutru.required' => 'Vui lòng nhập mô tả',
+                'motaluutru.max' => 'Mô tả quá dài',
                 
             ]
         );

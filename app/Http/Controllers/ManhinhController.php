@@ -25,12 +25,20 @@ class ManhinhController extends Controller
         $validator = Validator::make(
             $r->all(),
             [
-                'tenmanhinh' => 'required',
+                'tenmanhinh' => 'required|max:255|min:3',
+                'slug_manhinh' => 'required|max:255',
+                'motamanhinh' => 'required|max:255',
       
             ],
             [
                 
-                'tenmanhinh.required' => 'Chưa nhập tên',
+                'tenmanhinh.required' => 'Vui lòng nhập tên',
+                'tenmanhinh.max' => 'Tên quá dài',
+                'tenmanhinh.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_manhinh.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_manhinh.max' => 'Đường dẫn SEO quá dài',
+                'motamanhinh.required' => 'Vui lòng nhập mô tả',
+                'motamanhinh.max' => 'Mô tả quá dài',
             ]
         );
         if ($validator->passes()) {
@@ -60,13 +68,20 @@ class ManhinhController extends Controller
             $request->all(),
             [
                 
-                'tenmanhinh' => 'required',
+                'tenmanhinh' => 'required|max:255|min:3',
+                'slug_manhinh' => 'required|max:255',
+                'motamanhinh' => 'required|max:255',
         
             ],
             [
                 
-
-                'tenmanhinh.required' => 'Chưa nhập tên',
+                'tenmanhinh.required' => 'Vui lòng nhập tên',
+                'tenmanhinh.max' => 'Tên quá dài',
+                'tenmanhinh.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_manhinh.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_manhinh.max' => 'Đường dẫn SEO quá dài',
+                'motamanhinh.required' => 'Vui lòng nhập mô tả',
+                'motamanhinh.max' => 'Mô tả quá dài',
                 
             ]
         );

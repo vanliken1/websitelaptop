@@ -8,123 +8,148 @@
                 <form action="/admin/product/store" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="idsanpham" name="idsanpham">
+                        <input type="text" class="form-control mt-3" id="idsanpham" name="idsanpham" value="{{old('idsanpham')}}">
                         <label for="floatingInput">Mã</label>
-                        <!-- <span class="text-danger error-text idsanpham_err"></span> -->
+                        @error('idsanpham')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
 
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="text" name='tensanpham' id="tensanpham" class='form-control mt-3'>
+                        <input type="text" name='tensanpham' id="tensanpham" class='form-control mt-3' value="{{old('tensanpham')}}">
                         <label for="floatingInput">Tên Sản phẩm</label>
-                        @error('idcat')
-                        <p class="alert alert-danger">{{$message}}</p>
+                        @error('tensanpham')
+                        <span style="color: red;">{{$message}}</span>
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="text" name='slug_sanpham' id="slug_sanpham" class='form-control mt-3'>
+                        <input type="text" name='slug_sanpham' id="slug_sanpham" class='form-control mt-3' value="{{old('slug_sanpham')}}">
                         <label for="floatingInput">Slug</label>
-                        <span class="text-danger error-text slug_sanpham_err"></span>
+                        @error('slug_sanpham')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
 
-                        <select name='idthuonghieu' id="idthuonghieu" class='form-select mb-3' required>
+                        <select name='idthuonghieu' id="idthuonghieu" class='form-select mb-3'>
+                            <option value="">--Chọn thương hiệu--</option>
+
                             @foreach($thuonghieu as $item)
-                            <option value="{{$item->idthuonghieu}}">{{$item->tenthuonghieu}}</option>
+                            <option value="{{$item->idthuonghieu}}" @if(old('idthuonghieu')==$item->idthuonghieu) selected @endif>{{$item->tenthuonghieu}}</option>
                             @endforeach
                         </select>
                         <label for="floatingInput">Thương hiệu(*)</label>
-                        <span class="text-danger error-text trangthai_err"></span>
+                        @error('idthuonghieu')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
 
                         <select name='idCPU' id="idCPU" class='form-select mb-3'>
-
+                            <option value="">--Chọn CPU--</option>
                             @foreach($cpu as $item)
-                            <option value="{{$item->idCPU}}">{{$item->tenCPU}}</option>
+                            <option value="{{$item->idCPU}}" @if(old('idCPU')==$item->idCPU) selected @endif>{{$item->tenCPU}}</option>
                             @endforeach
                         </select>
                         <label for="floatingInput">CPU(*)</label>
-                        <span class="text-danger error-text idCPU_err"></span>
+                        @error('idCPU')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
 
                         <select name='idram' id="idram" class='form-select mb-3'>
-
+                            <option value="">--Chọn RAM--</option>
 
                             @foreach($ram as $item)
-                            <option value="{{$item->idram}}">{{$item->tenram}}</option>
+                            <option value="{{$item->idram}}" @if(old('idram')==$item->idram) selected @endif>{{$item->tenram}}</option>
                             @endforeach
                         </select>
                         <label for="floatingInput">Ram(*)</label>
-                        <span class="text-danger error-text idCPU_err"></span>
+                        @error('idram')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
 
                         <select name='iddohoa' id="iddohoa" class='form-select mb-3'>
-
+                            <option value="">--Chọn Card Đồ Họa--</option>
 
                             @foreach($dohoa as $item)
-                            <option value="{{$item->iddohoa}}">{{$item->tendohoa}}</option>
+                            <option value="{{$item->iddohoa}}" @if(old('iddohoa')==$item->iddohoa) selected @endif>{{$item->tendohoa}}</option>
                             @endforeach
                         </select>
                         <label for="floatingInput">Card đồ họa(*)</label>
-                        <span class="text-danger error-text iddohoa_err"></span>
+                        @error('iddohoa')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
 
                         <select name='idluutru' id="idluutru" class='form-select mb-3'>
+                            <option value="">--Chọn Ổ cứng--</option>
 
 
                             @foreach($luutru as $item)
-                            <option value="{{$item->idluutru}}">{{$item->tenluutru}}</option>
+                            <option value="{{$item->idluutru}}" @if(old('idluutru')==$item->idluutru) selected @endif>{{$item->tenluutru}}</option>
                             @endforeach
                         </select>
                         <label for="floatingInput">Ổ cứng(*)</label>
-                        <span class="text-danger error-text idluutru_err"></span>
+                        @error('idluutru')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
 
                         <select name='idmanhinh' id="idmanhinh" class='form-select mb-3'>
 
-
+                            <option value="">--Chọn Kích thước màn hình--</option>
                             @foreach($manhinh as $item)
-                            <option value="{{$item->idmanhinh}}">{{$item->tenmanhinh}}</option>
+                            <option value="{{$item->idmanhinh}}" @if(old('idmanhinh')==$item->idmanhinh) selected @endif>{{$item->tenmanhinh}}</option>
                             @endforeach
                         </select>
                         <label for="floatingInput">Màn hình(*)</label>
-                        <span class="text-danger error-text idmanhinh_err"></span>
+                        @error('idmanhinh')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
 
                         <select name='idloaisanpham' id="idloaisanpham" class='form-select mb-3'>
 
-
+                            <option value="">--Chọn Nhu cầu sử dụng--</option>
                             @foreach($loaisp as $item)
-                            <option value="{{$item->idloaisanpham}}">{{$item->tenloai}}</option>
+                            <option value="{{$item->idloaisanpham}}" @if(old('idloaisanpham')==$item->idloaisanpham) selected @endif>{{$item->tenloai}}</option>
                             @endforeach
                         </select>
                         <label for="floatingInput">Nhu cầu(*)</label>
-                        <span class="text-danger error-text idloaisanpham_err"></span>
+                        @error('idloaisanpham')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
 
                         <input type="file" name='img' class='form-control mt-3'>
 
                         <label for="floatingInput">Hình ảnh</label>
-                        <span class="text-danger error-text img_err"></span>
+                        @error('img')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
 
-                        <textarea style="height: 150px;" name="motasanpham" id="motasanpham" class='form-control'></textarea>
+                        <textarea style="height: 150px;" name="motasanpham" id="motasanpham" class='form-control'> {{old('motasanpham')}}</textarea>
                         <label for="floatingInput">Mô tả</label>
-                        <span class="text-danger error-text motasanpham_err"></span>
+                        @error('motasanpham')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Nội dung</label>
-                        <textarea style="height: 150px;" name="noidung" id="noidung" class='form-control'></textarea>
+                        <textarea style="height: 150px;" name="noidung" id="noidung" class='form-control'>{{old('noidung')}}</textarea>
                         <script>
                             CKEDITOR.replace('noidung', {
                                 filebrowserBrowseUrl: '/asset/admin/ckfinder/ckfinder.html',
@@ -137,22 +162,28 @@
                                 filebrowserWindowHeight: '700'
                             });
                         </script>
-                        <span class="text-danger error-text noidung_err"></span>
+                        @error('noidung')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
 
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="text" name='gia' id="gia" class='form-control mt-3'>
+                        <input type="number" min="1" step="1" value="{{old('gia')}}"  name='gia' class='form-control mt-3' required>
                         <label for="floatingInput">Giá</label>
-                        <span class="text-danger error-text gia_err"></span>
+                        @error('gia')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
 
 
                     <div class="form-floating mb-3">
 
-                        <input type="number" min="1" value="1" name='soluong' id="soluong" class='form-control mt-3'>
+                        <input type="number" min="1" value="{{ old('soluong', 1) }}" name='soluong' id="soluong" class='form-control mt-3'>
                         <label for="floatingInput">Số lượng</label>
-                        <span class="text-danger error-text soluong_err"></span>
+                        @error('soluong')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
                     </div>
                     <fieldset class="row mb-3">
                         <legend class="col-form-label col-sm-2 pt-0">HOT</legend>
@@ -175,7 +206,7 @@
 
                         <select type="number" name='trangthai' class='form-select mt-3'>
                             <option value="0">Ẩn</option>
-                            <option value="1">Hiện</option>
+                            <option value="1" selected>Hiện</option>
                         </select>
                         <label for="floatingInput">Trạng thái</label>
                         <span class="text-danger error-text trangthai_err"></span>

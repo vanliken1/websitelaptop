@@ -9,7 +9,7 @@
                 <p><button class='addBrand btn btn-primary'>Thêm</button></p>
                 <form class="col-sm-6 mb-4" action="/admin/brand" method="GET">
                     <div class="form-group">
-                        <input class="form-control-sm" type="search" name="keyword" placeholder="Search" required>
+                        <input class="form-control-sm" type="search" name="keyword" maxlength="255" placeholder="Search" required>
                         <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                     </div>
                 </form>
@@ -109,7 +109,7 @@
 
                             <select type="number" name='trangthai' class='form-select mt-3'>
                                 <option value="0">Ẩn</option>
-                                <option value="1">Hiện</option>
+                                <option value="1" selected>Hiện</option>
                             </select>
                             <label for="floatingInput">Trạng thái</label>
                             <span class="text-danger error-text trangthai_err"></span>

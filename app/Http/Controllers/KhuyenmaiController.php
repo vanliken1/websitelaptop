@@ -29,21 +29,20 @@ class KhuyenmaiController extends Controller
                 $query->whereFullText('tenkhuyenmai', "\%" . $r->keyword . "\%")
                     ->orWhere('tenkhuyenmai', 'LIKE', "%" . $r->keyword . "%");
             });
-           
         }
         if (isset($r->tu_ngay)) {
-            $selectedDays=$r->tu_ngay;
+            $selectedDays = $r->tu_ngay;
             $query->where(function ($query) use ($r) {
                 $query->where('ngaybatdau', '<=', $r->tu_ngay)
                     ->where('ngayketthuc', '>=', $r->tu_ngay);
             });
         }
         $khuyenmai = $query->orderBy('idkhuyenmai', 'DESC')->paginate(5);
-     
-     
-    
 
-        return view('admin.khuyenmai.index', ['khuyenmai' => $khuyenmai, 'today' => $today,'selectedDays'=>$selectedDays]);
+
+
+
+        return view('admin.khuyenmai.index', ['khuyenmai' => $khuyenmai, 'today' => $today, 'selectedDays' => $selectedDays]);
     }
     public function storekm(Request $r)
     {
@@ -232,14 +231,14 @@ class KhuyenmaiController extends Controller
             $request->all(),
             [
 
-                'idkhuyenmai' => 'required',
-                'idsanpham' => 'required',
+                'phantramkhuyenmai' => 'required|numeric|min:5|max:100',
             ],
             [
 
 
-                'idkhuyenmai.required' => 'Chưa nhập tên',
-                'idsanpham.required' => 'Không tồn tại sản phẩm',
+                'phantramkhuyenmai.required' => 'Vui lòng nhập phần trăm khuyến mãi',
+                'phantramkhuyenmai.min' => 'Phần trăm giảm tối thiểu là 5',
+                'phantramkhuyenmai.max' => 'Phần trăm giảm tối đa là 100',
 
             ]
         );
@@ -285,12 +284,21 @@ class KhuyenmaiController extends Controller
         $validator = Validator::make(
             $r->all(),
             [
-                'tenkhuyenmai' => 'required',
-
+                'tenkhuyenmai' => 'required|min:3|max:255',
+                'ngaybatdau' => 'required|after_or_equal:today',
+                'ngayketthuc' => 'required|after:ngaybatdau',
             ],
             [
 
-                'tenkhuyenmai.required' => 'Chưa nhập tên',
+                'tenkhuyenmai.required' => 'Vui lòng nhập tên khuyến mãi',
+                'tenkhuyenmai.min' => 'Tên tối thiểu 3 ký tự',
+                'tenkhuyenmai.max' => 'Tên quá dài',
+                'ngaybatdau.required' => 'Vui lòng nhập ngày bắt đầu khuyến mãi',
+                'ngayketthuc.required' => 'Vui lòng nhập ngày kết thúc khuyến mãi',
+                'ngaybatdau.after_or_equal' => 'Ngày bắt đầu phải là ngày hiện tại hoặc sau đó',
+                'ngayketthuc.after' => 'Ngày kết thúc phải sau ngày bắt đầu'
+
+
             ]
         );
         if ($validator->passes()) {
@@ -321,12 +329,20 @@ class KhuyenmaiController extends Controller
         return response()->json($data);
     }
 
-    public function chitiet($id)
+    public function chitiet($id,Request $r)
     {
         $today = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d ');
         // dd($id);
+
         $km = Khuyenmai::find($id);
-        $data = Chitietkhuyenmai::where('idkhuyenmai', $id)->get();
+        $query=Chitietkhuyenmai::query()->join('sanpham', 'chitietkhuyenmai.idsanpham', '=', 'sanpham.idsanpham');
+        if (isset($r->keyword)) {
+            $query->where(function ($query) use ($r) {
+                $query->whereFullText('sanpham.tensanpham', "\%" . $r->keyword . "\%")
+                    ->orWhere('sanpham.tensanpham', 'LIKE', "%" . $r->keyword . "%");
+            });
+        }
+        $data = $query->where('chitietkhuyenmai.idkhuyenmai', $id)->paginate(10);
 
         //dd($km->ngayketthuc);
         //lay danh sach gia tri cot idsanpham sau do chuyen thanh mang
@@ -403,6 +419,19 @@ class KhuyenmaiController extends Controller
     }
     public function themstore(Request $r)
     {
+        $r->validate(
+            [
+                'phantramkhuyenmai' => 'numeric|min:5|max:100',
+
+            ],
+            [
+                'phantramkhuyenmai.min' => 'Phần trăm giảm tối thiểu là 5',
+                'phantramkhuyenmai.max' => 'Phần trăm giảm tối đa là 100',
+
+
+
+            ]
+        );
         $d = $r->sanpham;
         //for($i=0;$i<count($d);$i++)
         //$f=Chitietkhuyenmai::find([$d]);
@@ -652,7 +681,7 @@ class KhuyenmaiController extends Controller
             } elseif ($item['check'] == 'addNew') {
                 Chitietkhuyenmai::create([
                     'idkhuyenmai' => $r->idkhuyenmai,
-                    'phantramkhuyenmai' => "30",
+                    'phantramkhuyenmai' => $r->phantramkhuyenmai,
                     'idsanpham' => $item['idsanpham'],
                     'trangthaictkm' => 2
                 ]);
@@ -664,7 +693,7 @@ class KhuyenmaiController extends Controller
                 if ($ktra == null) {
                     Chitietkhuyenmai::create([
                         'idkhuyenmai' => $km->idkhuyenmai,
-                        'phantramkhuyenmai' => "30",
+                        'phantramkhuyenmai' => $r->phantramkhuyenmai,
                         'idsanpham' => $item['idsanpham'],
                         'trangthaictkm' => 2
                     ]);
@@ -748,15 +777,19 @@ class KhuyenmaiController extends Controller
         $request->validate(
             [
 
-                'tenkhuyenmai' => 'required',
-                'ngaybatdau' => 'after_or_equal:today',
-                'ngayketthuc' => 'after:ngaybatdau',
+                'tenkhuyenmai' => 'required|min:3|max:255',
+                'ngaybatdau' => 'required|after_or_equal:today',
+                'ngayketthuc' => 'required|after:ngaybatdau',
 
             ],
             [
 
-
-                'tenkhuyenmai.required' => 'Chưa nhập tên',
+                'tenkhuyenmai.required' => 'Vui lòng nhập tên khuyến mãi',
+                'tenkhuyenmai.min' => 'Tên tối thiểu 3 ký tự',
+                'tenkhuyenmai.max' => 'Tên quá dài',
+                'tenkhuyenmai.required' => 'Vui lòng nhập tên',
+                'ngaybatdau.required' => 'Vui lòng nhập ngày bắt đầu khuyến mãi',
+                'ngayketthuc.required' => 'Vui lòng nhập ngày kết thúc khuyến mãi',
                 'ngaybatdau.after_or_equal' => 'Ngày bắt đầu phải là ngày hiện tại hoặc sau đó',
                 'ngayketthuc.after' => 'Ngày kết thúc phải sau ngày bắt đầu và ngày hôm nay'
 

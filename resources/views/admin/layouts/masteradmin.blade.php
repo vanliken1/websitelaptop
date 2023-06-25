@@ -12,7 +12,7 @@
     @yield('meta')
 
     <!-- Favicon -->
-    <link href="../admin1/img/favicon.icon" rel="icon">
+    <link href="/asset/admin/img/haovan.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

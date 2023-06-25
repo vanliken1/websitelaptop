@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý đơn hàng</h6>
-                <form class="form-inline mb-10" action="/admin/donhang" method="GET">
+                <form class="col-sm-20 mb-4" action="/admin/donhang" method="GET">
                     <div class="form-group">
                         Từ ngày:<input class="form-control-sm" type="date" name="tungay">
                         Đến ngày:<input class="form-control-sm" type="date" name="denngay">
@@ -41,7 +41,7 @@
 
                                 <th>Trạng thái</th>
                                 <th>📄</th>
-                                <th>✏️</th>
+                             
                             </tr>
                         </thead>
                         @foreach($donhang as $item)
@@ -68,13 +68,7 @@
                                 <td>
                                     <a href="/admin/donhang/chitiet/{{$item->iddonhang}}" class="btn btn-info"> Chi tiet</a>
                                 </td>
-                                <td>
-                                    <form action="/admin/donhang/destroy/{{$item->iddonhang}}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="_method" value="delete">
-                                        <input onclick="return confirm('Ban thuc su muon xoa ?')" type="submit" value="xóa" class="btn btn-danger">
-                                    </form>
-                                </td>
+                        
 
 
                             </tr>

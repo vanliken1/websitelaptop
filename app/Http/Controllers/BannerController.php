@@ -25,12 +25,21 @@ class BannerController extends Controller
         $validator = Validator::make(
             $r->all(),
             [
-                'tenbanner' => 'required',
+                'tenbanner' => 'required|max:255|min:3',
+                'img' => 'required|mimes:jpeg,png,svg',
+                'motabanner' => 'required|max:255',
+                
       
             ],
             [
                 
-                'tenbanner.required' => 'Chưa nhập tên',
+                'tenbanner.required' => 'Vui lòng nhập tên',
+                'tenbanner.max' => 'Tên quá dài',
+                'tenbanner.min' => 'Tên tối thiểu 3 ký tự',
+                'img.required' => 'Vui lòng nhập hình',
+                'img.mimes' => 'Định dạng hình không hợp lệ',
+                'motabanner.required' => 'Vui lòng nhập mô tả',
+                'motabanner.max' => 'Mô tả quá dài',
             ]
         );
         if ($validator->passes()) {
@@ -62,13 +71,22 @@ class BannerController extends Controller
             $request->all(),
             [
                 
-                'tenbanner' => 'required',
+               
+                'tenbanner' => 'required|max:255|min:3',
+                'img' => 'required|mimes:jpeg,png,svg',
+                'motabanner' => 'required|max:255',
         
             ],
             [
                 
 
-                'tenbanner.required' => 'Chưa nhập tên',
+                'tenbanner.required' => 'Vui lòng nhập tên',
+                'tenbanner.max' => 'Tên quá dài',
+                'tenbanner.min' => 'Tên tối thiểu 3 ký tự',
+                'img.required' => 'Vui lòng nhập hình',
+                'img.mimes' => 'Định dạng hình không hợp lệ',
+                'motabanner.required' => 'Vui lòng nhập mô tả',
+                'motabanner.max' => 'Mô tả quá dài',
                 
             ]
         );

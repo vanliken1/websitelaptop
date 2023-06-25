@@ -29,12 +29,19 @@ class ThuonghieuController extends Controller
         $validator = Validator::make(
             $r->all(),
             [
-                'tenthuonghieu' => 'required',
-
+                'tenthuonghieu' => 'required|max:255|min:3',
+                'slug_thuonghieu' => 'required|max:255',
+                'motathuonghieu' => 'required|max:255',
             ],
             [
 
-                'tenthuonghieu.required' => 'Chưa nhập tên',
+                'tenthuonghieu.required' => 'Vui lòng nhập tên',
+                'tenthuonghieu.max' => 'Tên quá dài',
+                'tenthuonghieu.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_thuonghieu.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_thuonghieu.max' => 'Đường dẫn SEO quá dài',
+                'motathuonghieu.required' => 'Vui lòng nhập mô tả',
+                'motathuonghieu.max' => 'Mô tả quá dài',
             ]
         );
         if ($validator->passes()) {
@@ -63,12 +70,18 @@ class ThuonghieuController extends Controller
             [
 
                 'tenthuonghieu' => 'required',
+                'slug_thuonghieu' => 'required|max:255',
+                'motathuonghieu' => 'required|max:255',
 
             ],
             [
 
 
-                'tenthuonghieu.required' => 'Chưa nhập tên',
+                'tenthuonghieu.required' => 'Vui lòng nhập tên',
+                'slug_thuonghieu.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_thuonghieu.max' => 'Đường dẫn SEO quá dài',
+                'motathuonghieu.required' => 'Vui lòng nhập mô tả',
+                'motathuonghieu.max' => 'Mô tả quá dài',
 
             ]
         );

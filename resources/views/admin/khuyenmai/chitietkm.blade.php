@@ -7,78 +7,81 @@
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý chi tiết Khuyến Mãi</h6>
                 <!-- <p><button class='addkm btn btn-primary'>Thêm</button></p> -->
+                <form class="col-sm-12 mb-4" action="/admin/khuyenmai/chitiet/{{$id}}" method="GET">
+
+                    <input class="form-control-sm" type="search" name="keyword" maxlength="255" placeholder="Search" >
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+
+                </form>
                 @if(session()->has('loi'))
                 <?php
-                    $mess = session()->get('loi');
-                    foreach ($mess as $i){
-                        ?>
-                        <p class="alert alert-danger sm-4">
-                            <?php echo $i?> lỗi trùng ngày nên không thêm đc 
-                        </p>
-                        <?php
-                    }
+                $mess = session()->get('loi');
+                foreach ($mess as $i) {
+                ?>
+                    <p class="alert alert-danger sm-4">
+                        <?php echo $i ?> lỗi trùng ngày nên không thêm đc
+                    </p>
+                <?php
+                }
                 ?>
                 @endif
                 @if(session()->has('themthanhcong'))
                 <?php
-                    $mess = session()->get('themthanhcong');
-                
-                    foreach ($mess as $i){
-                        ?>
-                        <p class="alert alert-primary sm-4">
-                            <?php echo $i?> thêm thành công
-                        </p>
-                        <?php
-                    }
+                $mess = session()->get('themthanhcong');
+
+                foreach ($mess as $i) {
+                ?>
+                    <p class="alert alert-primary sm-4">
+                        <?php echo $i ?> thêm thành công
+                    </p>
+                <?php
+                }
                 ?>
                 @endif
                 @if(session()->has('them'))
                 <?php
-                    $mess = session()->get('them');
-                    foreach ($mess as $i){
-                        ?>
-                        <p class="alert alert-primary sm-4">
-                            <?php echo $i?> thêm thành công
-                        </p>
-                        <?php
-                    }
+                $mess = session()->get('them');
+                foreach ($mess as $i) {
+                ?>
+                    <p class="alert alert-primary sm-4">
+                        <?php echo $i ?> thêm thành công
+                    </p>
+                <?php
+                }
                 ?>
                 @endif
                 @if(session()->has('kiemtra'))
                 <?php
-                    $mess = session()->get('kiemtra');
-                    //var_dump($mess);
-                    foreach ($mess as $i){
+                $mess = session()->get('kiemtra');
+                //var_dump($mess);
+                foreach ($mess as $i) {
 
-                        if($i['check']=='addNew'|| $i['check']=='true'){
-                       
-                        }else
-                        if($i['check']=='false')
-                        {
-                            if($i['trangthaictkm']==0){
-                                ?>
-                                <p class="alert alert-danger sm-4">
-                                    <?php echo $i['idsanpham']?> Không thêm được
-                                </p>
-                                <?php
-                            }
-                
-                        }elseif($i['check']=='truonghopmoi'){
-                            if($i['trangthaictkm']==1){
-                                ?>
-                                <p class="alert alert-danger sm-4">
-                                    <?php echo $i['idsanpham']?> khong them duoc-truonghopmoi
-                                </p>
-                                <?php
-                            }
-                        }else{
-                            ?>
+                    if ($i['check'] == 'addNew' || $i['check'] == 'true') {
+                    } else
+                        if ($i['check'] == 'false') {
+                        if ($i['trangthaictkm'] == 0) {
+                ?>
                             <p class="alert alert-danger sm-4">
-                                <?php echo $i['idsanpham']?> khong them duoc do ngay
+                                <?php echo $i['idsanpham'] ?> Không thêm được
                             </p>
-                            <?php
+                        <?php
                         }
+                    } elseif ($i['check'] == 'truonghopmoi') {
+                        if ($i['trangthaictkm'] == 1) {
+                        ?>
+                            <p class="alert alert-danger sm-4">
+                                <?php echo $i['idsanpham'] ?> khong them duoc-truonghopmoi
+                            </p>
+                        <?php
+                        }
+                    } else {
+                        ?>
+                        <p class="alert alert-danger sm-4">
+                            <?php echo $i['idsanpham'] ?> khong them duoc do ngay
+                        </p>
+                <?php
                     }
+                }
                 ?>
                 @endif
                 <div class="table-responsive">
@@ -86,7 +89,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Mã sản phẩm</th>
+                                <th scope="col">Tên sản phẩm</th>
                                 <th>%</th>
                                 <th>Trạng thái</th>
                                 <th>🗑️</th>
@@ -97,16 +100,18 @@
                         <tbody>
                             <tr>
                                 <td>{{$item->idkhuyenmai}}</td>
-                                <td>{{$item->idsanpham}}</td>
+                                <td>{{$item->products->tensanpham}}</td>
                                 <td>{{$item->phantramkhuyenmai}}</td>
                                 <td>
                                     @if($item->trangthaictkm==0)
-                                    {{'Ẩn'}}
+                                    {{'Hết hạn'}}
+                                    @elseif($item->trangthaictkm==1)
+                                    {{'Đang hoạt động'}}
                                     @else
-                                    {{'Hiện'}}
+                                    {{'Sắp hoạt động'}}
                                     @endif
                                 </td>
-                                
+
                                 @if($khuyenmai->ngayketthuc >= $today)
                                 <td>
                                     <form action="/admin/khuyenmai/destroykm/{{$item->idsanpham}}" method="POST">
@@ -118,11 +123,11 @@
                                 </td>
                                 <td>
                                     <!-- <input type="text" id="idkhuyenmai" value="{{$item->idkhuyenmai}}"> -->
-                                    <button class='editkm btn btn-success' data-idkhuyenmai="{{$item->idkhuyenmai}}"  data-id='{{$item->idsanpham}}'>Sửa</button>
+                                    <button class='editkm btn btn-success' data-idkhuyenmai="{{$item->idkhuyenmai}}" data-id='{{$item->idsanpham}}'>Sửa</button>
                                 </td>
                                 @else
-                                <td >
-                                    <button disabled class='btn btn-danger' >Xóa</button>
+                                <td>
+                                    <button disabled class='btn btn-danger'>Xóa</button>
                                 </td>
                                 <td>
                                     <!-- <input type="text" id="idkhuyenmai" value="{{$item->idkhuyenmai}}"> -->
@@ -135,6 +140,7 @@
                         @endforeach
 
                     </table>
+                    <div class="" style="float: right;"> {{$data->appends(Request::all())->links()}}</div>
                 </div>
             </div>
         </div>
@@ -165,7 +171,7 @@
 
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='phantramkhuyenmai' id="phantramkhuyenmai" class='form-control mt-3'>
+                            <input type="number" min="1" step="1" name='phantramkhuyenmai' id="phantramkhuyenmai" class='form-control mt-3'>
                             <label for="floatingInput">Phần trăm khuyến mãi</label>
                             <span class="text-danger error-text phantramkhuyenmai_err"></span>
                         </div>
@@ -175,15 +181,7 @@
                             <label for="floatingInput">Mã sp </label>
                             <span class="text-danger error-text idsanpham_err"></span>
                         </div>
-                        <div class="form-floating mb-3">
 
-                            <select type="number" name='trangthai' id="trangthai" class='form-select mt-3'>
-                                <option value="0">Ẩn</option>
-                                <option value="1">Hiện</option>
-                            </select>
-                            <label for="floatingInput">Trạng thái</label>
-                            <span class="text-danger error-text trangthai_err"></span>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -283,8 +281,8 @@
                         type: 'get',
                         data: {
                             idkhuyenmai: idKhuyenMai
-                        //     // id: $(this).data('id')
-                         },
+                            //     // id: $(this).data('id')
+                        },
                         dataType: 'json',
                         success: function(data2) {
                             console.log(data2);

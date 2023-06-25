@@ -25,12 +25,21 @@ class CpuController extends Controller
         $validator = Validator::make(
             $r->all(),
             [
-                'tenCPU' => 'required',
+                'tenCPU' => 'required|max:255|min:3',
+                'slug_CPU' => 'required|max:255',
+                'mota_CPU' => 'required|max:255',
       
             ],
             [
                 
-                'tenCPU.required' => 'Chưa nhập tên',
+                              
+                'tenCPU.required' => 'Vui lòng nhập tên',
+                'tenCPU.max' => 'Tên quá dài',
+                'tenCPU.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_CPU.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_CPU.max' => 'Đường dẫn SEO quá dài',
+                'mota_CPU.required' => 'Vui lòng nhập mô tả',
+                'mota_CPU.max' => 'Mô tả quá dài',
             ]
         );
         if ($validator->passes()) {
@@ -60,13 +69,21 @@ class CpuController extends Controller
             $request->all(),
             [
                 
-                'tenCPU' => 'required',
+                'tenCPU' => 'required|max:255|min:3',
+                'slug_CPU' => 'required|max:255',
+                'mota_CPU' => 'required|max:255',
         
             ],
             [
                 
 
-                'tenCPU.required' => 'Chưa nhập tên',
+                'tenCPU.required' => 'Vui lòng nhập tên',
+                'tenCPU.max' => 'Tên quá dài',
+                'tenCPU.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_CPU.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_CPU.max' => 'Đường dẫn SEO quá dài',
+                'mota_CPU.required' => 'Vui lòng nhập mô tả',
+                'mota_CPU.max' => 'Mô tả quá dài',
                 
             ]
         );

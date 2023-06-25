@@ -7,9 +7,9 @@
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý giảm giá</h6>
                 <p><button class='addgiamgia btn btn-primary'>Thêm</button></p>
-                <form class="form-inline mb-10" action="/admin/giamgia" method="GET">
+                <form class="col-sm-12 mb-4" action="/admin/giamgia" method="GET">
 
-                    <input class="form-control-sm" type="search" name="keyword" placeholder="Search">
+                    <input class="form-control-sm" type="search" name="keyword" maxlength="255" placeholder="Search">
                     <select class="form-control-sm " id="dieukiengiamgia" name="dieukiengiamgia" style="text-align: center;" onchange="this.form.submit()">
                         <option value="" selected disabled>--Chọn điều kiện giảm giá--</option>
                         <option value="all"  >--Tất cả--</option>
@@ -42,16 +42,16 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Tên giảm giá</th>
-                                <th>Mã code giảm giá</th>
-                                <th>Ngày bắt đầu</th>
-                                <th>Ngày kết thúc</th>
-                                <th>Số lượng</th>
-                                <th>Điều kiện giảm giá</th>
-                                <th>Số giảm</th>
-                                <th>Hết hạn</th>
-                                <th>Trạng thái</th>
+                                <th scope="col" class="text-center">ID</th>
+                                <th scope="col" class="text-center">Tên giảm giá</th>
+                                <th scope="col" class="text-center">Mã code giảm giá</th>
+                                <th scope="col" class="text-center">Hạn kết thúc</th>
+                                <th scope="col" class="text-center">Số lượng</th>
+                                <th scope="col" class="text-center">Điều kiện</th>
+                                <th scope="col" class="text-center">Số giảm</th>
+                                <th scope="col" class="text-center">Hết hạn</th>
+                                <th scope="col" class="text-center">Đã sử dụng</th>
+                                <th scope="col" class="text-center">Trạng thái</th>
                                 <th>🗑️</th>
                                 <th>✏️</th>
                             </tr>
@@ -62,7 +62,6 @@
                                 <td>{{$item->idgiamgia}}</td>
                                 <td>{{$item->tengiamgia}}</td>
                                 <td>{{$item->codegiamgia}}</td>
-                                <td>{{$item->ngaybatdau}}</td>
                                 <td>{{$item->ngayketthuc}}</td>
                                 <td>{{$item->soluong}}</td>
                                 <td>@if($item->tinhnangma==0)
@@ -73,12 +72,12 @@
                                 </td>
                                 <td>
                                     @if($item->tinhnangma==0)
-                                    {{'Giảm' .$item->sotiengiam. '%'}}
+                                    {{'Giảm ' .$item->sotiengiam. '%'}}
                                     @else
-                                    {{'Giảm' .$item->sotiengiam. 'đ'}}
+                                    {{'Giảm ' .$item->sotiengiam. 'đ'}}
                                     @endif
                                 </td>
-
+                            
                                 <td>
                                     @if($item->ngayketthuc>=$today)
                                     <span style="color: green;">Còn hạn</span>
@@ -86,6 +85,7 @@
                                     <span style="color: red;">Hết hạn</span>
                                     @endif
                                 </td>
+                                <td>{{$item->soluongDasudung}}</td>
                                 <td>
                                     @if($item->trangthai==1)
                                     <span style="color: green;">Đang kích hoạt</span>
@@ -150,19 +150,13 @@
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="date" name='ngaybatdau' id="ngaybatdau" class='form-control mt-3'>
-                            <label for="floatingInput">Ngày bắt đầu</label>
-                            <span class="text-danger error-text ngaybatdau_err"></span>
-                        </div>
-                        <div class="form-floating mb-3">
-
                             <input type="date" name='ngayketthuc' id="ngayketthuc" class='form-control mt-3'>
                             <label for="floatingInput">Ngày kết thúc</label>
                             <span class="text-danger error-text ngayketthuc_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='soluong' id="soluong" class='form-control mt-3'>
+                            <input type="number" min="1" step="1" value="1" name='soluong' id="soluong" class='form-control mt-3'>
                             <label for="floatingInput">Số lượng giảm giá</label>
                             <span class="text-danger error-text soluong_err"></span>
                         </div>
@@ -177,7 +171,7 @@
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='sotiengiam' id="sotiengiam" class='form-control mt-3'>
+                            <input type="number" min="1" step="1" value="1" name='sotiengiam' id="sotiengiam" class='form-control mt-3'>
                             <label for="floatingInput">Nhập số hoặc phần trăm giảm giá</label>
                             <span class="text-danger error-text sotiengiam_err"></span>
                         </div>
@@ -185,7 +179,7 @@
 
                             <select type="number" name='trangthai' class='form-select mt-3'>
                                 <option value="0">Đã khóa</option>
-                                <option value="1">Kích hoạt</option>
+                                <option value="1" selected>Kích hoạt</option>
                             </select>
                             <label for="floatingInput">Trạng thái</label>
                             <span class="text-danger error-text trangthai_err"></span>
@@ -238,19 +232,13 @@
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="date" name='ngaybatdau' id="ngaybatdau" class='form-control mt-3'>
-                            <label for="floatingInput">Ngày bắt đầu</label>
-                            <span class="text-danger error-text ngaybatdau_err"></span>
-                        </div>
-                        <div class="form-floating mb-3">
-
                             <input type="date" name='ngayketthuc' id="ngayketthuc" class='form-control mt-3'>
                             <label for="floatingInput">Ngày kết thúc</label>
                             <span class="text-danger error-text ngayketthuc_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='soluong' id="soluong" class='form-control mt-3'>
+                            <input type="number" min="1" step="1" value="1" name='soluong' id="soluong" class='form-control mt-3'>
                             <label for="floatingInput">Số lượng giảm giá</label>
                             <span class="text-danger error-text soluong_err"></span>
                         </div>
@@ -265,7 +253,7 @@
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='sotiengiam' id="sotiengiam" class='form-control mt-3'>
+                            <input type="number" min="1" step="1" value="1" name='sotiengiam' id="sotiengiam" class='form-control mt-3'>
                             <label for="floatingInput">Nhập số hoặc phần trăm giảm giá</label>
                             <span class="text-danger error-text sotiengiam_err"></span>
                         </div>
@@ -383,7 +371,6 @@
                             console.log(data2);
                             $('#modelId1 form #idgiamgia').val(data2.idgiamgia);
                             $('#modelId1 form #tengiamgia').val(data2.tengiamgia);
-                            $('#modelId1 form #ngaybatdau').val(data2.ngaybatdau);
                             $('#modelId1 form #ngayketthuc').val(data2.ngayketthuc);
                             $('#modelId1 form #codegiamgia').val(data2.codegiamgia);
                             $('#modelId1 form #soluong').val(data2.soluong);

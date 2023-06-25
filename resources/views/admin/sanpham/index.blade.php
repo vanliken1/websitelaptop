@@ -8,10 +8,12 @@
                 <h6 class="mb-4">Quản lý Sản phẩm</h6>
                 <!-- <p><button class='addSanpham btn btn-primary'>Thêm</button></p> -->
                 <p><a href="/admin/product/create" class="btn btn-primary">Thêm</a></p>
-                <div class="row">
-                    <form class="col-sm-20 mb-4" action="/admin/product" method="GET">
 
-                        <select multiple="" class="form-control-sm selectbrand" id="selectbrand" name="brand[]" style="width: 180px;" data-allow-clear="false">
+                <div class="row">
+
+                    <form class="col-sm-12 mb-4" action="/admin/product" method="GET">
+
+                        <select multiple="" class="form-control-sm selectbrand" id="selectbrand" name="brand[]" style="margin-top: 10px;width: 180px;" data-allow-clear="false">
 
                             @foreach($thuonghieu as $item)
                             <option value="{{$item->idthuonghieu}}" {{ in_array($item->idthuonghieu, $selectedBrands) ? 'selected' : '' }}>{{$item->tenthuonghieu}}</option>
@@ -20,14 +22,14 @@
 
                         </select>
 
-                        <select multiple="" class="form-control-sm selectcpu " name="cpu[]" style="width: 180px;" data-allow-clear="false">
+                        <select multiple="" class="form-control-sm selectcpu " name="cpu[]" style="margin-top: 10px;width: 180px;" data-allow-clear="false">
                             @foreach($cpu as $item)
                             <option value="{{$item->idCPU}}" {{ in_array($item->idCPU, $selectedCPUs) ? 'selected' : '' }}>{{$item->tenCPU}}</option>
 
                             @endforeach
 
                         </select>
-                        <select multiple="" class="form-control-sm selectram " name="ram[]" style="width: 180px;" data-allow-clear="false">
+                        <select multiple="" class="form-control-sm selectram " name="ram[]" style="margin-top: 10px;width: 180px;" data-allow-clear="false">
 
                             @foreach($ram as $item)
                             <option value="{{$item->idram}}" {{ in_array($item->idram, $selectedRAMs) ? 'selected' : '' }}>{{$item->tenram}}</option>
@@ -35,7 +37,7 @@
                             @endforeach
 
                         </select>
-                        <select multiple="" class="form-control-sm selectluutru " name="luutru[]" style="width: 180px;" data-allow-clear="false">
+                        <select multiple="" class="form-control-sm selectluutru " name="luutru[]" style="margin-top: 10px;width: 180px;" data-allow-clear="false">
 
                             @foreach($luutru as $item)
                             <option value="{{$item->idluutru}}" {{ in_array($item->idluutru, $selectedLTs) ? 'selected' : '' }}>{{$item->tenluutru}}</option>
@@ -43,28 +45,28 @@
                             @endforeach
 
                         </select>
-                        <select multiple="" class="form-control-sm selectdohoa " name="dohoa[]" style="width: 180px;" data-allow-clear="false">
+                        <select multiple="" class="form-control-sm selectdohoa " name="dohoa[]" style="margin-top: 10px;width: 180px;" data-allow-clear="false">
                             @foreach($dohoa as $item)
                             <option value="{{$item->iddohoa}}" {{ in_array($item->iddohoa, $selectedDHs) ? 'selected' : '' }}>{{$item->tendohoa}}</option>
 
                             @endforeach
 
                         </select>
-                        <select multiple="" class="form-control-sm selectnhucau " name="nhucau[]" style="width: 180px;" data-allow-clear="false">
+                        <select multiple="" class="form-control-sm selectnhucau " name="nhucau[]" style="margin-top: 10px;width: 180px;" data-allow-clear="false">
                             @foreach($loaisp as $item)
                             <option value="{{$item->idloaisanpham}}" {{ in_array($item->idloaisanpham, $selectedNCs) ? 'selected' : '' }}>{{$item->tenloai}}</option>
 
                             @endforeach
 
                         </select>
-                        <select multiple="" class="form-control-sm selectmanhinh " name="manhinh[]" style="width: 180px;" data-allow-clear="false">
+                        <select multiple="" class="form-control-sm selectmanhinh " name="manhinh[]" style="margin-top: 10px;width: 180px;" data-allow-clear="false">
                             @foreach($manhinh as $item)
                             <option value="{{$item->idmanhinh}}" {{ in_array($item->idmanhinh, $selectedMHs) ? 'selected' : '' }}>{{$item->tenmanhinh}}</option>
 
                             @endforeach
 
                         </select>
-                        <select multiple="" class="form-control-sm selectgia " name="gia[]" style="width: 180px;" data-allow-clear="false">
+                        <select multiple="" class="form-control-sm selectgia " name="gia[]" style="margin-top: 10px;width: 180px;" data-allow-clear="false">
                             <option value="under_10" {{ in_array('under_10', $selectedPrices) ? 'selected' : '' }}>Dưới 10 triệu</option>
                             <option value="10_to_15" {{ in_array('10_to_15', $selectedPrices) ? 'selected' : '' }}>Từ 10-15 triệu</option>
                             <option value="15_to_20" {{ in_array('15_to_20', $selectedPrices) ? 'selected' : '' }}>Từ 15-20 triệu</option>
@@ -83,7 +85,9 @@
 
 
                     </form>
+
                 </div>
+
                 @if(session()->has('mess'))
                 <p class="alert alert-primary sm-4">
                     {{session('mess')}}
@@ -95,10 +99,10 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Tên Sản phẩm</th>
-                                <!-- <th scope="col">Hình ảnh</th> -->
+                                <th scope="col">Hình ảnh</th>
                                 <th scope="col">Số lượng</th>
-                                <th scope="col">Gía</th>
-                                <th scope="col">Gía khuyến mãi</th>
+                                <th scope="col">Giá</th>
+                                <th scope="col">Giá khuyến mãi</th>
                                 <th scope="col">HOT</th>
                                 <th scope="col">Ngày tạo</th>
                                 <th>Trạng thái</th>
@@ -111,8 +115,8 @@
                         <tbody>
                             <tr>
                                 <td>{{$item->idsanpham}}</td>
-                                <td>{{$item->tensanpham}} <img src="{{asset('storage/img/'.$item->img)}}" style="width:250px;height:100px;" alt=""></td>
-
+                                <td>{{$item->tensanpham}} </td>
+                                <td><img src="{{asset('storage/img/'.$item->img)}}" style="width:100px;height:100px" alt=""></td>
                                 <td>{{$item->soluong}}</td>
 
                                 <td>{{number_format($item->gia,0,',','.')}}</td>

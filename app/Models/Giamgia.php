@@ -17,7 +17,6 @@ class Giamgia extends Model
     protected $fillable = [
         'idgiamgia',
         'tengiamgia',
-        'ngaybatdau',
         'ngayketthuc',
         'codegiamgia',
         'soluong',

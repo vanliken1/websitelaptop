@@ -25,12 +25,20 @@ class DohoaController extends Controller
         $validator = Validator::make(
             $r->all(),
             [
-                'tendohoa' => 'required',
+                'tendohoa' => 'required|max:255|min:3',
+                'slug_dohoa' => 'required|max:255',
+                'motadohoa' => 'required|max:255',
       
             ],
             [
                 
-                'tendohoa.required' => 'Chưa nhập tên',
+                'tendohoa.required' => 'Vui lòng nhập tên',
+                'tendohoa.max' => 'Tên quá dài',
+                'tendohoa.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_dohoa.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_dohoa.max' => 'Đường dẫn SEO quá dài',
+                'motadohoa.required' => 'Vui lòng nhập mô tả',
+                'motadohoa.max' => 'Mô tả quá dài',
             ]
         );
         if ($validator->passes()) {
@@ -60,13 +68,20 @@ class DohoaController extends Controller
             $request->all(),
             [
                 
-                'tendohoa' => 'required',
+                'tendohoa' => 'required|max:255|min:3',
+                'slug_dohoa' => 'required|max:255',
+                'motadohoa' => 'required|max:255',
         
             ],
             [
                 
-
-                'tendohoa.required' => 'Chưa nhập tên',
+                'tendohoa.required' => 'Vui lòng nhập tên',
+                'tendohoa.max' => 'Tên quá dài',
+                'tendohoa.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_dohoa.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_dohoa.max' => 'Đường dẫn SEO quá dài',
+                'motadohoa.required' => 'Vui lòng nhập mô tả',
+                'motadohoa.max' => 'Mô tả quá dài',
                 
             ]
         );

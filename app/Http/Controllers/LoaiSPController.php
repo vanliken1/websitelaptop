@@ -26,14 +26,21 @@ class LoaiSPController extends Controller
         $validator = Validator::make(
             $r->all(),
             [
-                'tenloai' => 'required',
+                'tenloai' => 'required|max:255|min:3',
+                'slug_loai' => 'required|max:255',
+                'motaloai' => 'required|max:255',
       
 
 
             ],
             [
-                
-                'tenloai.required' => 'Chưa nhập tên',
+                'tenloai.required' => 'Vui lòng nhập tên',
+                'tenloai.max' => 'Tên quá dài',
+                'tenthuonghieu.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_loai.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_loai.max' => 'Đường dẫn SEO quá dài',
+                'motaloai.required' => 'Vui lòng nhập mô tả',
+                'motaloai.max' => 'Mô tả quá dài',
             ]
         );
         if ($validator->passes()) {
@@ -61,7 +68,9 @@ class LoaiSPController extends Controller
             $request->all(),
             [
                 
-                'tenloai' => 'required',
+                'tenloai' => 'required|max:255|min:3',
+                'slug_loai' => 'required|max:255',
+                'motaloai' => 'required|max:255',
                 
 
 
@@ -69,7 +78,13 @@ class LoaiSPController extends Controller
             [
                 
                 
-                'tenloai.required' => 'Chưa nhập tên',
+                'tenloai.required' => 'Vui lòng nhập tên',
+                'tenloai.max' => 'Tên quá dài',
+                'tenthuonghieu.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_loai.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_loai.max' => 'Đường dẫn SEO quá dài',
+                'motaloai.required' => 'Vui lòng nhập mô tả',
+                'motaloai.max' => 'Mô tả quá dài',
                 
             ]
         );

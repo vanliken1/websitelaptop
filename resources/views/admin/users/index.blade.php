@@ -63,7 +63,7 @@
 
                 <form class="col-sm-6 mb-4" action="/admin/users" method="GET">
                     <div class="form-group">
-                        <input class="form-control-sm" type="search" name="keyword" placeholder="Search" required>
+                        <input class="form-control-sm" type="search" name="keyword" maxlength="255" placeholder="Search" required>
                         <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                     </div>
                 </form>
@@ -291,7 +291,7 @@
                 <h6 class="mb-4">Người dùng(Khách hàng)</h6>
                 <form class="col-sm-6 " action="/admin/users" method="GET">
                     <div class="form-group">
-                        <input class="form-control-sm" type="search" name="keyword2" placeholder="Search" required>
+                        <input class="form-control-sm" type="search" name="keyword2" maxlength="255" placeholder="Search" required>
                         <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                     </div>
                 </form>

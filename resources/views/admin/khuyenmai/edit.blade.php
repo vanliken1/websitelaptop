@@ -12,47 +12,33 @@
                         <label for="inputEmail3" class="col-sm-2 col-form-label">ID khuyến mãi </label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="inputEmail3" name="idkhuyenmai" value="{{$km->idkhuyenmai}}" readonly>
-                            @error('idkhuyenmai')
-                            <p class="alert alert-danger">{{$message}}</p>
-                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Tên khuyến mãi</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputPassword3" name="tenkhuyenmai" value="{{$km->tenkhuyenmai}}">
+                            <input type="text" class="form-control" id="inputPassword3" name="tenkhuyenmai" value="{{old('tenkhuyenmai') ?? $km->tenkhuyenmai}}">
                             @error('tenkhuyenmai')
-                            <p class="alert alert-danger">{{$message}}</p>
+                            <span style="color: red;">{{$message}}</span>
                             @enderror
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="inputPassword3" class="col-sm-2 col-form-label">Tên khuyến mãi</label>
-                        <div class="col-sm-10">
-                            <textarea type="text" class="form-control" id="inputPassword3" name="tenkhuyenmai" value="{{$km->tenkhuyenmai}}"></textarea>
-                            <script>
-                                CKEDITOR.replace('tenkhuyenmai');
-                            </script>
-                        </div>
-                    </div>
-              
-              
 
                     <div class="row mb-3">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Ngày bắt đầu</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" id="inputPassword3" name="ngaybatdau" value="{{$km->ngaybatdau}}">
+                            <input type="date" class="form-control" id="inputPassword3" name="ngaybatdau" value="{{old('ngaybatdau') ??$km->ngaybatdau}}">
                             @error('ngaybatdau')
-                            <p class="alert alert-danger">{{$message}}</p>
+                            <span style="color: red;">{{$message}}</span>
                             @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Ngày kết thúc</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" id="inputPassword3" name="ngayketthuc" value="{{$km->ngayketthuc}}">
+                            <input type="date" class="form-control" id="inputPassword3" name="ngayketthuc" value="{{old('ngaykethuc') ??$km->ngayketthuc}}">
                             @error('ngayketthuc')
-                            <p class="alert alert-danger">{{$message}}</p>
+                            <span style="color: red;">{{$message}}</span>
                             @enderror
                         </div>
                     </div>

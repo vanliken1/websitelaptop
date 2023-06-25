@@ -49,11 +49,20 @@ class RamController extends Controller
         $validator = Validator::make(
             $r->all(),
             [
-                'tenram' => 'required',
+                           
+                'tenram' => 'required|max:255|min:3',
+                'slug_ram' => 'required|max:255',
+                'motaram' => 'required|max:255',
       
             ],
             [
-                'tenram.required' => 'Chưa nhập tên',
+                'tenram.required' => 'Vui lòng nhập tên',
+                'tenram.max' => 'Tên quá dài',
+                'tenram.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_ram.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_ram.max' => 'Đường dẫn SEO quá dài',
+                'motaram.required' => 'Vui lòng nhập mô tả',
+                'motaram.max' => 'Mô tả quá dài',
             ]
         );
         if ($validator->passes()) {
@@ -81,13 +90,21 @@ class RamController extends Controller
             $request->all(),
             [
                 
-                'tenram' => 'required',
+                'tenram' => 'required|max:255|min:3',
+                'slug_ram' => 'required|max:255',
+                'motaram' => 'required|max:255',
         
             ],
             [
                 
 
-                'tenram.required' => 'Chưa nhập tên',
+                'tenram.required' => 'Vui lòng nhập tên',
+                'tenram.max' => 'Tên quá dài',
+                'tenram.min' => 'Tên tối thiểu 3 ký tự',
+                'slug_ram.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_ram.max' => 'Đường dẫn SEO quá dài',
+                'motaram.required' => 'Vui lòng nhập mô tả',
+                'motaram.max' => 'Mô tả quá dài',
                 
             ]
         );

@@ -7,9 +7,9 @@
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Quản lý khuyến mãi</h6>
                 <p><button class='addkhuyenmai btn btn-primary'>Thêm</button></p>
-                <form class="form-inline mb-10" action="/admin/khuyenmai" method="GET">
+                <form class="col-sm-12 mb-4" action="/admin/khuyenmai" method="GET">
 
-                    <input class="form-control-sm" type="search" name="keyword" placeholder="Search">
+                    <input class="form-control-sm" type="search" name="keyword" maxlength="255" placeholder="Search">
                     Ngày: <input type="date" id="datepicker" class="form-control-sm" name="tu_ngay" value="{{ $selectedDays }}">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
 
@@ -60,13 +60,13 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Tên khuyến mãi</th>
-                                <th scope="col">Ngay bat dau</th>
-                                <th scope="col">Ngay ket thuc</th>
-                                <th>📄</th>
-                                <th>📄</th>
+                                <th scope="col">Ngày bắt đầu</th>
+                                <th scope="col">Ngày kết thúc</th>
                                 <th>📄</th>
                                 <th>🗑️</th>
                                 <th>✏️</th>
+                                <th>📝</th>
+                               
                             </tr>
                         </thead>
                         @foreach($khuyenmai as $item)
@@ -88,9 +88,9 @@
                                         <input type="submit" value="xóa" class="btn btn-danger">
                                     </form>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <button class='editkhuyenmai btn btn-success' data-id='{{$item->idkhuyenmai}}'>Sửa Ajax</button>
-                                </td>
+                                </td> -->
                                 <td>
                                     <a class='btn btn-warning' href='/admin/khuyenmai/editform/{{$item->idkhuyenmai}}'>Sửa</button>
                                 </td>
@@ -102,9 +102,9 @@
                                 <td>
                                     <button disabled class="btn btn-danger">Xóa</button>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <button disabled class="btn btn-success">Sửa Ajax</button>
-                                </td>
+                                </td> -->
                                 <td>
                                     <button disabled class="btn btn-warning"> Sửa </a>
                                 </td>
@@ -148,19 +148,19 @@
                         <div class="form-floating mb-3">
 
                             <input type="text" name='tenkhuyenmai' id="tenkhuyenmai" class='form-control mt-3'>
-                            <label for="floatingInput">Tên khuyenmai</label>
+                            <label for="floatingInput">Tên khuyến mãi</label>
                             <span class="text-danger error-text tenkhuyenmai_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="date" name='ngaybatdau' id="ngaybatdau" class='form-control mt-3'>
-                            <label for="floatingInput">Slug</label>
+                            <input type="date" name='ngaybatdau' id="ngaybatdau" class='form-control mt-3' required>
+                            <label for="floatingInput">Ngày bắt đầu</label>
                             <span class="text-danger error-text ngaybatdau_err"></span>
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="date" name='ngayketthuc' id="ngayketthuc" class='form-control mt-3'>
-                            <label for="floatingInput">Slug</label>
+                            <input type="date" name='ngayketthuc' id="ngayketthuc" class='form-control mt-3' required>
+                            <label for="floatingInput">Ngày kết thúc</label>
                             <span class="text-danger error-text ngayketthuc_err"></span>
                         </div>
 
