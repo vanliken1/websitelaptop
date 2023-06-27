@@ -36,7 +36,7 @@ class UserController extends Controller
                     ->orWhere('tennguoidung', 'LIKE', "%" . $r->keyword2 . "%")
                     ->orWhere('email', 'LIKE', "%" . $r->keyword2 . "%");
             });
-        }   
+        }
 
         $adminql = $query->where('level', '!=', 0)
             ->where('level', '!=', 1)->paginate(5);
@@ -54,8 +54,8 @@ class UserController extends Controller
                 'tennguoidung' => 'required|min:3|max:255',
                 'email' => 'required|unique:nguoidung|max:255|email',
                 'password' => 'required|max:50|min:2',
-                'sdt'=>'required|digits:10',
-                'diachi'=>'required|max:255',
+                'sdt' => 'required|digits:10',
+                'diachi' => 'required|max:255',
                 'level' => 'required'
             ],
             [
@@ -69,13 +69,13 @@ class UserController extends Controller
                 'password.required' => 'Vui lòng nhập mật khẩu',
                 'password.max' => 'Mật khẩu quá dài',
                 'password.min' => 'Mật khẩu quá ngắn',
-                'sdt.required'=>'Vui lòng nhập sđt',
-                'sdt.digits'=>'SĐT không hợp lệ',
-                'diachi.required'=>'Vui lòng nhập địa chỉ',
-                'diachi.max'=>'Địa chỉ quá dài',
-                'level.required'=>'Vui lòng chọn cấp độ',
+                'sdt.required' => 'Vui lòng nhập sđt',
+                'sdt.digits' => 'SĐT không hợp lệ',
+                'diachi.required' => 'Vui lòng nhập địa chỉ',
+                'diachi.max' => 'Địa chỉ quá dài',
+                'level.required' => 'Vui lòng chọn cấp độ',
 
-                
+
 
             ]
         );
@@ -150,13 +150,49 @@ class UserController extends Controller
     function updateadmin(Request $request)
     {
         // dd($request->email);
+        $request->validate(
+            [
+                'tennguoidung' => 'required|min:3|max:255',
+                'sdt' => 'required|digits:10',
+                'diachi' => 'required|max:255',
+            ],
+            [
+                'tennguoidung.required' => 'Vui lòng nhập tên',
+                'tennguoidung.min' => 'Tên tối thiểu 3 ký tự',
+                'tennguoidung.max' => 'Tên quá dài',
+                'sdt.required' => 'Vui lòng nhập sđt',
+                'sdt.digits' => 'SĐT không hợp lệ',
+                'diachi.required' => 'Vui lòng nhập địa chỉ',
+                'diachi.max' => 'Địa chỉ quá dài',
 
+
+
+            ]
+        );
         $c = User::findOrFail(auth()->user()->idnguoidung);
 
         $c->email = $request->email;
         $c->tennguoidung = $request->tennguoidung;
         $c->sdt = $request->sdt;
         $c->diachi = $request->diachi;
+        if ($request->changePassword == "on") {
+            $request->validate(
+                [
+
+
+                    'password2' => 'same:password',
+
+
+                ],
+                [
+
+
+                    'password2.same' => 'Không trùng khớp',
+
+                ]
+            );
+            $c->password = Hash::make($request->password);
+        }
 
         $c->save();
         session()->flash("mess", "Cập nhật thành công");

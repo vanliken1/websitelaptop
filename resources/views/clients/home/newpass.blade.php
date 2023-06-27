@@ -12,7 +12,7 @@
                             <li aria-current="page" class="breadcrumb-item active">Page not found</li>
                         </ol>
                     </nav>
-                    <div  class="row">
+                    <div class="row">
                         <div class="col-md-6 mx-auto">
                             <div class="box text-center py-5">
 
@@ -22,7 +22,7 @@
                                     {{ session()->get('thongbao') }}
                                 </div>
                                 @endif
-                              
+
                                 @if(session()->has('error'))
                                 <div class="alert alert-danger">
                                     {{ session()->get('error') }}
@@ -43,13 +43,17 @@
                                     <div class="form-group">
                                         <label class="float-left">Mật khẩu mới</label>
                                         <input type="password" name='new_password' id="new_password" class='form-control' placeholder="Nhập mật khẩu mới" required>
-
+                                        @error('new_password')
+                                        <span style="color: red;">{{$message}}</span>
+                                        @enderror
 
                                     </div>
                                     <div class="form-group">
                                         <label class="float-left">Xác nhận mật khẩu</label>
                                         <input type="password" name='new_password_confirm' id="new_password_confirm" class='form-control' placeholder="Xác nhận mật khẩu" required>
-
+                                        @error('new_password_confirm')
+                                        <span style="color: red;">{{$message}}</span>
+                                        @enderror
 
                                     </div>
 

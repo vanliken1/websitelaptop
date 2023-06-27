@@ -450,20 +450,39 @@ class PagesController extends Controller
     function updateuser(Request $request)
     {
         // dd($request->email);
+        $request->validate(
+            [
+                'tennguoidung' => 'required|min:3|max:255',
+                'sdt' => 'required|digits:10',
+                'diachi' => 'required|max:255',
+            ],
+            [
+                'tennguoidung.required' => 'Vui lòng nhập tên',
+                'tennguoidung.min' => 'Tên tối thiểu 3 ký tự',
+                'tennguoidung.max' => 'Tên quá dài',
+                'sdt.required' => 'Vui lòng nhập sđt',
+                'sdt.digits' => 'SĐT không hợp lệ',
+                'diachi.required' => 'Vui lòng nhập địa chỉ',
+                'diachi.max' => 'Địa chỉ quá dài',
 
+
+
+            ]
+        );
         $c = User::findOrFail(auth()->user()->idnguoidung);
         if ($request->changePassword == "on") {
             $request->validate(
                 [
 
-
+                    'password'=>'min:2|max:255',
                     'password2' => 'same:password',
 
 
                 ],
                 [
 
-
+                    'password.min'=>'Mật khẩu quá ngắn',
+                    'password.max'=>'Mật khẩu quá dài',
                     'password2.same' => 'Không trùng khớp',
 
                 ]

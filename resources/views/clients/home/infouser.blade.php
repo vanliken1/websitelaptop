@@ -10,7 +10,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li aria-current="page" class="breadcrumb-item active">My account</li>
+                            <li aria-current="page" class="breadcrumb-item active">Thông tin tài khoản</li>
                         </ol>
                     </nav>
                 </div>
@@ -25,10 +25,13 @@
                         </div>
                         <div class="card-body">
                             <ul class="nav nav-pills flex-column">
-                                <a href="/history" class="nav-link"><i class="fa fa-list"></i> My orders</a>
-                                <a href="customer-wishlist.html" class="nav-link"><i class="fa fa-heart"></i> My wishlist</a>
-                                <a href="customer-account.html" class="nav-link active"><i class="fa fa-user"></i> My account</a>
-                                <a href="index.html" class="nav-link"><i class="fa fa-sign-out"></i> Logout</a>
+                                <a href="/history" class="nav-link active"><i class="fa fa-list"></i>Lịch sử đơn hàng</a>
+                                <a href="/info" class="nav-link"><i class="fa fa-user"></i> Chi tiết tài khoản</a>
+                                <form action="/dangxuat" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-link"  class="nav-link"><i class="fa fa-sign-out"></i>Đăng xuất</a>
+                                </form>
+                          
                             </ul>
                         </div>
                     </div>
@@ -37,10 +40,10 @@
                 </div>
                 <div class="col-lg-9">
                     <div class="box">
-                        <h1>My account</h1>
-                        <p class="lead">Change your personal details or your password here.</p>
-                        <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-                        <h3 class="mt-5">Personal details</h3>
+                        <h1>Thông tin tài khoản </h1>
+                        <p class="lead">Xin chào, {{auth()->user()->tennguoidung}}</p>
+                        <p class="text-muted">Ở đây bạn có thể thay đổi thông tin cá nhân của mình.</p>
+                        <h3 class="mt-5">Thông tin tài khoản cá nhân</h3>
                         @if(session()->has('mess'))
                         <p class="alert alert-success sm-4">
                             {{session('mess')}}
@@ -59,36 +62,51 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tennguoidung">Tên người dùng</label>
-                                        <input id="tennguoidung" name="tennguoidung" type="text" value="{{$nguoidung->tennguoidung}}" class="form-control">
+                                        <input id="tennguoidung" name="tennguoidung" type="text" value="{{old('tennguoidung') ?? $nguoidung->tennguoidung}}" class="form-control" required>
+                                        @error('tennguoidung')
+                                        <span style="color: red;">{{$message}}</span>
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="sdt">Số điện thoại</label>
-                                        <input id="sdt" name="sdt" type="text" class="form-control" value="{{$nguoidung->sdt}}">
+                                        <input id="sdt" name="sdt" type="text" class="form-control" value="{{old('sdt') ??$nguoidung->sdt}}" required>
+                                        @error('sdt')
+                                        <span style="color: red;">{{$message}}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="diachi">Địa chỉ</label>
-                                        <input id="diachi" name="diachi" type="text" class="form-control" value="{{$nguoidung->diachi}}">
+                                        <input id="diachi" name="diachi" type="text" class="form-control" value="{{old('diachi') ??$nguoidung->diachi}}" required>
+                                        @error('diachi')
+                                        <span style="color: red;">{{$message}}</span>
+                                        @enderror
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-6">
-                                
+
                                     <div class="form-group">
                                         <input type="checkbox" name="changePassword" id="changePassword">
 
                                         <label for="password">Mật khẩu mới</label>
                                         <input id="password" name="password" type="password" class="form-control password" disabled='disable' required>
+                                        @error('password')
+                                        <span style="color: red;">{{$message}}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="password2">Xác nhận mật khẩu</label>
                                         <input id="password2" name="password2" type="password" class="form-control password" disabled='disable' required>
+                                        @error('password2')
+                                        <span style="color: red;">{{$message}}</span>
+                                        @enderror
 
                                     </div>
                                 </div>
@@ -110,12 +128,11 @@
 @section('script')
 <script>
     $(document).ready(function() {
-        $("#changePassword").change(function(){
-            if($(this).is(":checked"))
-            {
+        $("#changePassword").change(function() {
+            if ($(this).is(":checked")) {
                 $(".password").removeAttr('disabled');
-            }else{
-                $(".password").attr('disabled','');
+            } else {
+                $(".password").attr('disabled', '');
             }
         });
 

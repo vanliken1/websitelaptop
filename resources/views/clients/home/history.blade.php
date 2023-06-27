@@ -25,10 +25,12 @@
             </div>
             <div class="card-body">
               <ul class="nav nav-pills flex-column">
-                <a href="/history" class="nav-link active"><i class="fa fa-list"></i> My orders</a>
-                <a href="customer-wishlist.html" class="nav-link"><i class="fa fa-heart"></i> My wishlist</a>
-                <a href="/info" class="nav-link"><i class="fa fa-user"></i> My account</a>
-                <a href="index.html" class="nav-link"><i class="fa fa-sign-out"></i> Logout</a>
+                <a href="/history" class="nav-link active"><i class="fa fa-list"></i>Lịch sử đơn hàng</a>
+                <a href="/info" class="nav-link"><i class="fa fa-user"></i> Chi tiết tài khoản</a>
+                <form action="/dangxuat" method="post">
+                  @csrf
+                  <button type="submit" class="btn btn-link" class="nav-link"><i class="fa fa-sign-out"></i>Đăng xuất</a>
+                </form>
               </ul>
             </div>
           </div>
@@ -37,9 +39,9 @@
         </div>
         <div id="customer-orders" class="col-lg-9">
           <div class="box">
-            <h1>My orders</h1>
-            <p class="lead">Your orders on one place.</p>
-            <p class="text-muted">If you have any questions, please feel free to <a href="contact.html">contact us</a>, our customer service center is working for you 24/7.</p>
+            <h1>Lịch sử đơn hàng</h1>
+            <p class="lead">Xin chào, {{auth()->user()->tennguoidung}}</p>
+            <p class="text-muted">Ở đây bạn có thể xem đơn hàng , tình trạng đơn</p>
             <hr>
             <div class="table-responsive">
               <table class="table table-hover">
@@ -78,12 +80,12 @@
                 @endforeach
               </table>
               <div class="pages">
-                        <nav aria-label="Page navigation example" class="d-flex justify-content-center">
-                            <ul class="pagination">
-                                <li>{{$donhang->links()}}</li>
-                            </ul>
-                        </nav>
-                    </div>
+                <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+                  <ul class="pagination">
+                    <li>{{$donhang->links()}}</li>
+                  </ul>
+                </nav>
+              </div>
             </div>
           </div>
         </div>

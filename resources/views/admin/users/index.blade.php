@@ -249,7 +249,6 @@
                         <div class="form-floating mb-3">
 
                             <select type="number" name='level' id="level" class='form-select mt-3' required>
-                                <option value="">--Chọn cấp độ--</option>
                                 <option value="2">Quản lý danh mục</option>
                                 <option value="3">Quản lý sản phẩm</option>
                                 <option value="4">Quản lý Banner</option>
@@ -258,7 +257,7 @@
                                 <option value="7">Quản lý đơn hàng</option>
                             </select>
                             <label for="floatingInput">Cấp độ</label>
-                            <span class="text-danger error-text level_err"></span>
+                            <!-- <span class="text-danger error-text level_err"></span> -->
                         </div>
                         <div class="form-floating mb-3">
 
@@ -269,7 +268,7 @@
 
                             </select>
                             <label for="floatingInput">Trạng thái</label>
-                            <span class="text-danger error-text trangthai_err"></span>
+                            <!-- <span class="text-danger error-text trangthai_err"></span> -->
                         </div>
                     </form>
                 </div>

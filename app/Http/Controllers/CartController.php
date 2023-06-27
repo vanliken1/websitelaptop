@@ -280,23 +280,22 @@ class CartController extends Controller
     }
     function save_thanhtoan(Request $r)
     {
-        // $r->validate(
-        //     [
-        //         'tennguoinhan' => 'required|min:3',
-        //         'diachinguoinhan' => "required|max:45",
-        //         'sdtnguoinhan' => 'required|digits:10',
+        $r->validate(
+            [
+               
+                'tennguoinhan' => 'min:3|max:255',
+                'sdtnguoinhan' => 'digits:10',
+                'diachinguoinhan' => 'max:255',
 
 
-        //     ],
-        //     [
-        //         'tennguoinhan.required' => 'Chua nhập tên người nhận',
-        //         'tennguoinhan.min' => "Ten người nhận tối thiểu 3 ký tự",
-        //         'diachinguoinhan.required' => "Chưa điền địa chỉ người nhận",
-        //         'diachinguoinhan.max' => "Địa chỉ ko vượt quá 45 ký tự",
-        //         'sdtnguoinhan.required' => "Chưa điền sđt",
-        //         'sdtnguoinhan.digits' => 'SĐT ko hợp lệ',
-        //     ]
-        // );
+            ],
+            [
+                'tennguoinhan.min' => 'Tên tối thiểu 3 ký tự',
+                'tennguoinhan.max' => 'Tên quá dài',
+                'sdtnguoinhan.digits' => 'SĐT không hợp lệ',
+                'diachinguoinhan.max' => 'Địa chỉ quá dài',
+            ]
+        );
         $data2 = $r->all();
         // dd($data2);
         // dd($data['tongmomo']);

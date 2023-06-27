@@ -20,7 +20,9 @@
               -->
                     <form action="/laptop/{{$slugdanhmuc}}" method="get">
                         <div class="card sidebar-menu mb-4">
-
+                        <div class="card-header">
+                                <h3 class="h4 card-title"><a href="/laptop/{{$slugdanhmuc}}">Làm mới <i class="fa fa-undo"></i></a></h3>
+                            </div>
                             <div class="card-header">
                                 <h3 class="h4 card-title">Thương hiệu</h3>
                             </div>

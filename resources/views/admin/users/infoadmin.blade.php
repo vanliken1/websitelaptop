@@ -16,36 +16,56 @@
 
                     <div class="form-floating mb-3">
 
-                        <input type="text" name='tennguoidung' id="tennguoidung" value="{{$nguoidung->tennguoidung}}" class='form-control mt-3'>
+                        <input type="text" name='tennguoidung' id="tennguoidung" value="{{old('tennguoidung') ??$nguoidung->tennguoidung}}" class='form-control mt-3'>
                         <label for="floatingInput">Tên người dùng</label>
                         @error('tennguoidung')
-                        <p class="alert alert-danger">{{$message}}</p>
+                        <span style="color: red;">{{$message}}</span>
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
 
                         <input type="text" name='email' id="email" value="{{$nguoidung->email}}" class='form-control mt-3' readonly>
                         <label for="floatingInput">Email</label>
-                        @error('tennguoidung')
-                        <p class="alert alert-danger">{{$message}}</p>
-                        @enderror
+
                     </div>
 
                     <div class="form-floating mb-3">
 
-                        <input type="text" name='sdt' id="sdt" value="{{$nguoidung->sdt}}" class='form-control mt-3'>
+                        <input type="text" name='sdt' id="sdt" value="{{old('sdt') ?? $nguoidung->sdt}}" class='form-control mt-3'>
                         <label for="floatingInput">SĐT</label>
                         @error('sdt')
-                        <p class="alert alert-danger">{{$message}}</p>
+                        <span style="color: red;">{{$message}}</span>
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="text" name='diachi' id="diachi" value="{{$nguoidung->diachi}}" class='form-control mt-3'>
+                        <input type="text" name='diachi' id="diachi" value="{{old('diachi') ?? $nguoidung->diachi}}" class='form-control mt-3'>
                         <label for="floatingInput">Địa chỉ</label>
                         @error('diachi')
-                        <p class="alert alert-danger">{{$message}}</p>
+                        <span style="color: red;">{{$message}}</span>
                         @enderror
+                    </div>
+                    <input type="checkbox" name="changePassword" id="changePassword">
+
+                    <label for="exampleInput1" class="form-label">Đổi mật khẩu</label>
+                    <div class="form-floating mb-3">
+
+                        <input type="password" class="form-control password" name="password" disabled='disable' required>
+                        <label class="form-label">Mật khẩu mới</label>
+                        @error('password')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
+
+                    </div>
+                    <div class="form-floating mb-3">
+
+                        <input type="password" class="form-control password" name="password2" disabled='disable' required>
+                        <label for="exampleInput1" class="form-label">Xác nhận mật khẩu</label>
+
+                        @error('password2')
+                        <span style="color: red;">{{$message}}</span>
+                        @enderror
+
                     </div>
 
 
@@ -62,4 +82,19 @@
         </div>
     </div>
 </div>
+@stop
+@section('script')
+<script>
+    $(document).ready(function() {
+        $("#changePassword").change(function(){
+            if($(this).is(":checked"))
+            {
+                $(".password").removeAttr('disabled');
+            }else{
+                $(".password").attr('disabled','');
+            }
+        });
+
+    });
+</script>
 @stop

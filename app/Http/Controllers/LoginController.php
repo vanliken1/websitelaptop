@@ -35,6 +35,7 @@ class LoginController extends Controller
     }
     function login(Request $r)
     {
+   
         $credentials = $r->only('email', 'password');
 
         if (auth()->attempt($credentials)) {
@@ -62,11 +63,11 @@ class LoginController extends Controller
         $r->validate(
             [
 
-                'tennguoidung' => 'min:3',
-                'email' => 'unique:nguoidung|min:3|max:45|email',
-                'diachi' => 'max:45',
+                'tennguoidung' => 'min:3|max:255',
+                'email' => 'unique:nguoidung|max:255',
+                'password' => 'required|max:50|min:2',
                 'sdt' => 'digits:10',
-                'password' => 'max:50|min:2',
+                'diachi' => 'required|max:255',
 
 
 
@@ -74,16 +75,15 @@ class LoginController extends Controller
 
             ],
             [
-
-                'tennguoidung.min' => 'Họ tên phải tối thiểu 3 ký tự',
-                'email.unique' => 'email đã tồn tại',
-                'email.min' => 'Email phai tối thiểu 3 ký tự',
-                'email.max' => 'Email không vượt quá 45 ký tự',
-                'diachi.max' => 'Địa chỉ không vượt quá 100 ký tự',
-                'sdt.digits' => 'SĐT ko hợp lệ',
-                'email.email' => 'Trường này phải là email',
-                'password.min' => 'Mat khau toi thieu 2 ky tu',
-                'password.max' => 'Mat khau qua 50 ky tu',
+                'tennguoidung.min' => 'Tên tối thiểu 3 ký tự',
+                'tennguoidung.max' => 'Tên quá dài',
+                'email.unique' => 'Email đã tồn tại',
+                'email.max' => 'Email không hợp lệ',
+                'password.max' => 'Mật khẩu quá dài',
+                'password.min' => 'Mật khẩu quá ngắn',
+                'sdt.digits' => 'SĐT không hợp lệ',
+                'diachi.max' => 'Địa chỉ quá dài',
+                
 
 
             ]
@@ -237,8 +237,28 @@ class LoginController extends Controller
     function updatematkhaumoi(Request $r)
     {
         // dd($r->all());  
+        
+        $r->validate(
+            [
+
+                'new_password'=>'min:2|max:255',
+                'new_password_confirm' => 'same:new_password',
+
+
+
+            ],
+            [
+                'new_password.min'=>'Mật khẩu quá ngắn',
+                'new_password.max'=>'Mật khẩu quá dài',
+                'new_password_confirm.same' => 'Không trùng khớp',
+                
+
+
+            ]
+        );
         $data=$r->all();
         // dd($data);
+
        $token_random=Str::random(20);
         $user=User::where('email',$data['email_account'])->where('token',$data['token'])->get();
         if($user->count()>0){

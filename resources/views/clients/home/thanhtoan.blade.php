@@ -33,7 +33,10 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tennguoinhan">Tên người nhận</label>
-                                            <input id="tennguoinhan" name="tennguoinhan" type="text" class="form-control">
+                                            <input id="tennguoinhan" name="tennguoinhan" type="text" class="form-control" value="{{old('tennguoinhan') ??auth()->user()->tennguoidung}}" required>
+                                            @error('tennguoinhan')
+                                            <span style="color: red;">{{$message}}</span>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -41,13 +44,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="diachinguoinhan">Địa chỉ người nhận</label>
-                                            <input id="diachinguoinhan" name="diachinguoinhan" type="text" class="form-control">
+                                            <input id="diachinguoinhan" name="diachinguoinhan" type="text" class="form-control" value="{{old('diachinguoinhan') ??auth()->user()->diachi}}" required>
+                                            @error('diachinguoinhan')
+                                            <span style="color: red;">{{$message}}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="sdtnguoinhan">Số điện thoại người nhận</label>
-                                            <input id="sdtnguoinhan" name="sdtnguoinhan" type="text" class="form-control">
+                                            <input id="sdtnguoinhan" name="sdtnguoinhan" type="text" class="form-control" value="{{old('sdtnguoinhan') ??auth()->user()->sdt}}" required>
+                                            @error('sdtnguoinhan')
+                                            <span style="color: red;">{{$message}}</span>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -106,7 +115,7 @@
                                 $tong_con = $tong;
                                 }
                                 }
-                                
+
                                 @endphp
                                 <input type="hidden" name="tongmomo" value="{{$tong_con}}">
                                 <!-- <input type="submit" class="btn btn-primary" name="payUrl" value="Thanh toán" /> -->

@@ -27,37 +27,37 @@
                             @csrf
                             <div class="form-group">
                                 <label for="name">Họ tên</label>
-                                <input id="tennguoidung" name="tennguoidung" type="text" class="form-control" required>
+                                <input id="tennguoidung" name="tennguoidung" type="text" value="{{old('tennguoidung')}}" class="form-control" required>
                                 @error('tennguoidung')
-                                <div class=" alert alert-danger">{{ $message }}</div>
+                                <span style="color: red;">{{$message}}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input  type="text" name="email" class="form-control" required>
+                                <input type="email" name="email"  value="{{old('email')}}" class="form-control" required>
                                 @error('email')
-                                <div class=" alert alert-danger">{{ $message }}</div>
+                                <span style="color: red;">{{$message}}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="sdt">Số điện thoại</label>
-                                <input id="sdt" type="text" name="sdt" class="form-control" required>
+                                <input id="sdt" type="text" name="sdt" value="{{old('sdt')}}" class="form-control" required>
                                 @error('sdt')
-                                <div class=" alert alert-danger">{{ $message }}</div>
+                                <span style="color: red;">{{$message}}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="diachi">Địa chỉ</label>
-                                <input id="diachi" name="diachi" type="text" class="form-control" required>
+                                <input id="diachi" name="diachi" type="text" value="{{old('diachi')}}" class="form-control" required>
                                 @error('diachi')
-                                <div class=" alert alert-danger">{{ $message }}</div>
+                                <span style="color: red;">{{$message}}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input  name="password" type="password" class="form-control" required>
+                                <input name="password" type="password"  class="form-control" required>
                                 @error('password')
-                                <div class=" alert alert-danger">{{ $message }}</div>
+                                <span style="color: red;">{{$message}}</span>
                                 @enderror
                             </div>
                             <div class="text-center">
@@ -85,14 +85,14 @@
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input id="email" name="email"  type="text" class="form-control">
+                                <input id="email" name="email" type="email" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input id="password" type="password"  name="password" class="form-control">
+                                <input id="password" type="password" name="password" class="form-control" required>
                             </div>
                             <span>
-                                <a href="/quenmatkhau" >Quên mật khẩu ?</a>
+                                <a href="/quenmatkhau">Quên mật khẩu ?</a>
                             </span>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i>Đăng nhập</button>
