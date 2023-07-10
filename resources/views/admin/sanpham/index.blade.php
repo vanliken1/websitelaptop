@@ -89,9 +89,46 @@
                 </div>
 
                 @if(session()->has('mess'))
-                <p class="alert alert-primary sm-4">
+                <!-- <p class="alert alert-primary sm-4">
                     {{session('mess')}}
-                </p>
+                </p> -->
+                <script>
+                    // Lấy giá trị từ session message
+                    var message = "{{ session('mess') }}";
+
+                    // Hiển thị thông báo bằng SweetAlert
+                    Swal.fire({
+                        title: "Thông báo",
+                        text: message,
+                        icon: "success",
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true,
+                        timerProgressBar: true
+                    })
+                </script>
+                @endif
+                @if(session()->has('error'))
+                <!-- <div class="alert alert-primary sm-4">
+                    {{session('mess')}}
+                </div> -->
+                <script>
+                    // Lấy giá trị từ session message
+                    var message = "{{ session('error') }}";
+
+                    // Hiển thị thông báo bằng SweetAlert
+                    Swal.fire({
+                        title: "Thông báo",
+                        text: message,
+                        icon: "error",
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true,
+                        timerProgressBar: true
+                    })
+                </script>
                 @endif
                 <div class="table-responsive">
                     <table class="table">
@@ -133,16 +170,16 @@
                                 <td>{{$item->ngaytao}}</td>
                                 <td>
                                     @if($item->trangthai==0)
-                                    {{'Ẩn'}}
+                                    <span style="color: red;">Đã khóa</span>
                                     @else
-                                    {{'Hiện'}}
+                                    <span style="color: green;">Đang hoạt động</span>
                                     @endif
                                 </td>
                                 <td>
                                     <form action="/admin/product/destroy/{{$item->idsanpham}}" method="POST">
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">
-                                        <input type="submit" value="xóa" class="btn btn-danger">
+                                        <input type="submit" value="xóa" onclick="confirmXoa(event)" class="btn btn-danger">
                                     </form>
                                 </td>
                                 <td>
@@ -559,6 +596,25 @@
         }
 
     });
+    function confirmXoa(event) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của sự kiện onchange
+
+        Swal.fire({
+            title: "Xác nhận xóa",
+            text: "Bạn có chắc chắn muốn xóa?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Hành động xóa khi người dùng xác nhận
+                event.target.form.submit();
+            }
+        });
+    }
     $(document).ready(
         function() {
             $('.selectbrand').select2({

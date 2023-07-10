@@ -9,10 +9,31 @@
                 <!-- <p><button class='addkm btn btn-primary'>Thêm</button></p> -->
                 <form class="col-sm-12 mb-4" action="/admin/khuyenmai/chitiet/{{$id}}" method="GET">
 
-                    <input class="form-control-sm" type="search" name="keyword" maxlength="255" placeholder="Search" >
+                    <input class="form-control-sm" type="search" name="keyword" maxlength="255" placeholder="Search">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
 
                 </form>
+                @if(session()->has('mess'))
+                <!-- <p class="alert alert-primary sm-4">
+                    {{session('mess')}}
+                </p> -->
+                <script>
+                    // Lấy giá trị từ session message
+                    var message = "{{ session('mess') }}";
+
+                    // Hiển thị thông báo bằng SweetAlert
+                    Swal.fire({
+                        title: "Thông báo",
+                        text: message,
+                        icon: "success",
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true,
+                        timerProgressBar: true
+                    })
+                </script>
+                @endif
                 @if(session()->has('loi'))
                 <?php
                 $mess = session()->get('loi');
@@ -104,9 +125,9 @@
                                 <td>{{$item->phantramkhuyenmai}}</td>
                                 <td>
                                     @if($item->trangthaictkm==0)
-                                    {{'Hết hạn'}}
+                                    <span style="color: red;">Hết hạn</span>
                                     @elseif($item->trangthaictkm==1)
-                                    {{'Đang hoạt động'}}
+                                    <span style="color: green;">Đang hoạt động</span>
                                     @else
                                     {{'Sắp hoạt động'}}
                                     @endif
@@ -118,7 +139,7 @@
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">
                                         <input type="hidden" name="vanngu" value="{{$item->idkhuyenmai}}">
-                                        <input type="submit" value="xóa" class="btn btn-danger">
+                                        <input type="submit" value="xóa" onclick="confirmXoa(event)" class="btn btn-danger">
                                     </form>
                                 </td>
                                 <td>
@@ -152,10 +173,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Sửa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title">Sửa chi tiết khuyến mãi</h5>
+
             </div>
 
             <div class="modal-body">
@@ -208,6 +227,25 @@
         }
 
     });
+    function confirmXoa(event) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của sự kiện onchange
+
+        Swal.fire({
+            title: "Xác nhận xóa",
+            text: "Bạn có chắc chắn muốn xóa?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Hành động xóa khi người dùng xác nhận
+                event.target.form.submit();
+            }
+        });
+    }
     $(document).ready(
         function() {
 
@@ -311,9 +349,18 @@
                     success: function(s) {
                         console.log(s);
                         if ($.isEmptyObject(s.error)) {
-                            alert("Sua thanh cong");
-                            location.reload();
-                            $('#modelId1').modal('hide');
+                            Swal.fire({
+                                title: "Sửa thành công",
+                                icon: "success",
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true,
+                                timerProgressBar: true,
+                            }).then(function() {
+                                location.reload();
+                                $('#modelId1').modal('hide');
+                            });
                         } else {
                             printErrorMsg(s.error);
                             // $.each( s.error , function(k,v){

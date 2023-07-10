@@ -143,7 +143,7 @@
                         </tbody>
                         @endforeach
                     </table>
-                    <div class="" style="float: right;"> {{$adminql->appends(Request::all())->links()}}</div>
+                    <div class="" style="float: right;"> {{$adminql->appends(Request::except('adminql_page'))->links()}}</div>
                 </div>
             </div>
 
@@ -155,10 +155,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Thêm</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title">Thêm người dùng</h5>
+
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -171,7 +169,7 @@
                         </div>
                         <div class="form-floating mb-3">
 
-                            <input type="text" name='tennguoidung' id="tennguoidung" class='form-control mt-3' >
+                            <input type="text" name='tennguoidung' id="tennguoidung" class='form-control mt-3'>
                             <label for="floatingInput">Tên người dùng</label>
                             <span class="text-danger error-text tennguoidung_err"></span>
                         </div>
@@ -231,9 +229,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Cấp quyền</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
 
             <div class="modal-body">
@@ -331,7 +326,7 @@
                         </tbody>
                         @endforeach
                     </table>
-                    <div class="" style="float: right;"> {{$users->appends(Request::all())->links()}}</div>
+                    <div class="" style="float: right;"> {{$users->appends(Request::except('user_page'))->links()}}</div>
 
                 </div>
             </div>
@@ -385,9 +380,22 @@
                     success: function(s) {
                         console.log(s);
                         if ($.isEmptyObject(s.error)) {
-                            alert("Thêm thành công");
-                            location.reload();
-                            $('#modelId').modal('hide');
+                            // alert("Thêm thành công");
+                            // location.reload();
+                            // $('#modelId').modal('hide');
+                            Swal.fire({
+                                title: "Thêm thành công",
+                                icon: "success",
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true,
+                                timerProgressBar: true,
+                            }).then(function() {
+                                location.reload();
+                                $('#modelId').modal('hide');
+                            });
+
                         } else {
                             printErrorMsg(s.error);
                             // $.each( s.error , function(k,v){
@@ -453,9 +461,18 @@
                     success: function(s) {
                         console.log(s);
                         if ($.isEmptyObject(s.error)) {
-                            alert("Sua thanh cong");
-                            location.reload();
-                            $('#modelId1').modal('hide');
+                            Swal.fire({
+                                title: "Cập nhật thành công",
+                                icon: "success",
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true,
+                                timerProgressBar: true,
+                            }).then(function() {
+                                location.reload();
+                                $('#modelId1').modal('hide');
+                            });
                         } else {
                             printErrorMsg(s.error);
                             // $.each( s.error , function(k,v){

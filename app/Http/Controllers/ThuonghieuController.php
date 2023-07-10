@@ -38,7 +38,7 @@ class ThuonghieuController extends Controller
                 'tenthuonghieu.required' => 'Vui lòng nhập tên',
                 'tenthuonghieu.max' => 'Tên quá dài',
                 'tenthuonghieu.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_thuonghieu.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_thuonghieu.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_thuonghieu.max' => 'Đường dẫn SEO quá dài',
                 'motathuonghieu.required' => 'Vui lòng nhập mô tả',
                 'motathuonghieu.max' => 'Mô tả quá dài',
@@ -78,7 +78,7 @@ class ThuonghieuController extends Controller
 
 
                 'tenthuonghieu.required' => 'Vui lòng nhập tên',
-                'slug_thuonghieu.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_thuonghieu.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_thuonghieu.max' => 'Đường dẫn SEO quá dài',
                 'motathuonghieu.required' => 'Vui lòng nhập mô tả',
                 'motathuonghieu.max' => 'Mô tả quá dài',
@@ -106,7 +106,7 @@ class ThuonghieuController extends Controller
             Thuonghieu::destroy($id);
             session()->flash('mess', 'đã xóa');
         } else {
-            session()->flash('mess', 'không thể xóa vì có sản phẩm');
+            session()->flash('error', 'không thể xóa vì có sản phẩm');
         }
         return redirect('/admin/brand');
     }

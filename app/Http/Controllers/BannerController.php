@@ -16,7 +16,7 @@ class BannerController extends Controller
                     ->orWhere('tenbanner', 'LIKE', "%" . $r->keyword . "%");
             });
         }
-        $banner = $query->where('trangthai', 1)->orderBy('idbanner','DESC')->paginate(5);
+        $banner = $query->orderBy('idbanner','DESC')->paginate(5);
         return view('admin.banner.index',['banner'=>$banner]); 
     }
     public function store(Request $r)
@@ -26,7 +26,7 @@ class BannerController extends Controller
             $r->all(),
             [
                 'tenbanner' => 'required|max:255|min:3',
-                'img' => 'required|mimes:jpeg,png,svg',
+                'img' => 'required|image',
                 'motabanner' => 'required|max:255',
                 
       
@@ -37,7 +37,7 @@ class BannerController extends Controller
                 'tenbanner.max' => 'Tên quá dài',
                 'tenbanner.min' => 'Tên tối thiểu 3 ký tự',
                 'img.required' => 'Vui lòng nhập hình',
-                'img.mimes' => 'Định dạng hình không hợp lệ',
+                'img.image' => 'Định dạng hình không hợp lệ',
                 'motabanner.required' => 'Vui lòng nhập mô tả',
                 'motabanner.max' => 'Mô tả quá dài',
             ]
@@ -73,7 +73,7 @@ class BannerController extends Controller
                 
                
                 'tenbanner' => 'required|max:255|min:3',
-                'img' => 'required|mimes:jpeg,png,svg',
+                'img' => 'image',
                 'motabanner' => 'required|max:255',
         
             ],
@@ -83,8 +83,9 @@ class BannerController extends Controller
                 'tenbanner.required' => 'Vui lòng nhập tên',
                 'tenbanner.max' => 'Tên quá dài',
                 'tenbanner.min' => 'Tên tối thiểu 3 ký tự',
-                'img.required' => 'Vui lòng nhập hình',
-                'img.mimes' => 'Định dạng hình không hợp lệ',
+               
+                'img.image' => 'Định dạng hình không hợp lệ',
+             
                 'motabanner.required' => 'Vui lòng nhập mô tả',
                 'motabanner.max' => 'Mô tả quá dài',
                 

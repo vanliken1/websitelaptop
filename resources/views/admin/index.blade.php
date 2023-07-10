@@ -53,28 +53,37 @@
     <div class="bg-light text-center rounded p-4">
         <div class="row ">
             <p>Thống kê doanh thu đơn hàng</p>
-            <form class="d-flex">
+            <form class="d-flex" >
                 @csrf
                 <div class="col-md-2 mx-2">
                     <p>Từ ngày:<input type="text" id="datepicker" class="form-control"></p>
-                    <input type="button" id="btn-date-filter" class="btn btn-primary btn-sm" value="Lọc">
                 </div>
                 <div class="col-md-2 mx-2">
                     <p>Đến ngày:<input type="text" id="datepicker2" class="form-control"></p>
+
                 </div>
-                <div class="col-md-2 mx-2">
-                    <p>Lọc theo:
-                        <select class="filter-date2 form-control">
-                            <option>--Chọn--</option>
-                            <option value="7ngay">7 ngày qua</option>
-                            <option value="thangtruoc">Tháng trước</option>
-                            <option value="thangnay">Tháng này</option>
-                            <option value="1nam">1 Năm qua</option>
-                        </select>
-                    </p>
+                
+                <div class="col-md-1 mb-2">
+                    
+                    <input type="button" id="btn-date-filter" class="btn btn-primary mt-4"  value="Lọc">
                 </div>
 
+                
+               
+
+
             </form>
+            <div class="col-md-2 mx-2">
+                <p>Lọc theo:
+                    <select class="filter-date2 form-control">
+                        <option>--Chọn--</option>
+                        <option value="7ngay">7 ngày qua</option>
+                        <option value="thangtruoc">Tháng trước</option>
+                        <option value="thangnay">Tháng này</option>
+                        <option value="1nam">1 Năm qua</option>
+                    </select>
+                </p>
+            </div>
             <div class="col-md-12">
                 <div id="firstchart" style="height: 250px;"></div>
             </div>
@@ -89,7 +98,7 @@
     <div class="bg-light text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h6 class="mb-0">Đơn hàng gần đây</h6>
-            
+
         </div>
 
         <div class="table-responsive">
@@ -102,7 +111,7 @@
 
                         <th>Trạng thái</th>
                         <th>📄</th>
-                        
+
                     </tr>
                 </thead>
                 @foreach($donhangganday as $item)

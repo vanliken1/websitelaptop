@@ -10,7 +10,7 @@
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li aria-current="page" class="breadcrumb-item active">My orders</li>
+              <li aria-current="page" class="breadcrumb-item active">Lịch sử đơn hàng</li>
             </ol>
           </nav>
         </div>

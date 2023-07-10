@@ -15,9 +15,28 @@
 
                 </form>
                 @if(session()->has('mess'))
-                <p class="alert alert-primary sm-4">
+                <!-- <p class="alert alert-primary sm-4">
                     {{session('mess')}}
-                </p>
+                </p> -->
+                <script>
+                    // Lấy giá trị từ session message
+                    var message = "{{ session('mess') }}";
+
+                    // Hiển thị thông báo bằng SweetAlert
+                    Swal.fire({
+                        title: "Thông báo",
+                        text: message,
+                        icon: "success",
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true,
+                        timerProgressBar: true
+                    }).then(function() {
+                        // Tải lại trang sau khi thông báo biến mất
+                        location.reload();
+                    });
+                </script>
                 @endif
                 <div class="table-responsive">
                     <table class="table">
@@ -41,16 +60,16 @@
                                 <td>{{$item->motabanner}}</td>
                                 <td>
                                     @if($item->trangthai==0)
-                                    {{'Ẩn'}}
+                                    <span style="color: red;">Đã khóa</span>
                                     @else
-                                    {{'Hiện'}}
+                                    <span style="color: green;">Đang hoạt động</span>
                                     @endif
                                 </td>
                                 <td>
                                     <form action="/admin/banner/destroy/{{$item->idbanner}}" method="POST">
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">
-                                        <input type="submit" value="xóa" class="btn btn-danger">
+                                        <input type="submit" value="xóa"  onclick="confirmXoa(event)" class="btn btn-danger">
                                     </form>
                                 </td>
                                 <td>
@@ -75,9 +94,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Thêm Banner</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -110,8 +126,8 @@
                         <div class="form-floating mb-3">
 
                             <select type="number" name='trangthai' class='form-select mt-3'>
-                                <option value="0">Ẩn</option>
-                                <option value="1" selected>Hiện</option>
+                                <option value="0">Đã khóa</option>
+                                <option value="1" selected>Kích hoạt</option>
                             </select>
                             <label for="floatingInput">Trạng thái</label>
                             <span class="text-danger error-text trangthai_err"></span>
@@ -132,10 +148,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Sửa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title">Sửa Banner</h5>
             </div>
 
             <div class="modal-body">
@@ -171,8 +184,8 @@
                         <div class="form-floating mb-3">
 
                             <select type="number" name='trangthai' id="trangthai" class='form-select mt-3'>
-                                <option value="0">Ẩn</option>
-                                <option value="1">Hiện</option>
+                                <option value="0">Đã khóa</option>
+                                <option value="1">Kích hoạt</option>
                             </select>
                             <label for="floatingInput">Trạng thái</label>
                             <span class="text-danger error-text trangthai_err"></span>
@@ -203,6 +216,25 @@
         }
 
     });
+    function confirmXoa(event) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của sự kiện onchange
+
+        Swal.fire({
+            title: "Xác nhận xóa",
+            text: "Bạn có chắc chắn muốn xóa?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Hành động xóa khi người dùng xác nhận
+                event.target.form.submit();
+            }
+        });
+    }
     $(document).ready(
         function() {
 
@@ -235,9 +267,18 @@
                     success: function(s) {
                         console.log(s);
                         if ($.isEmptyObject(s.error)) {
-                            alert("Thêm thành công");
-                            location.reload();
-                            $('#modelId').modal('hide');
+                            Swal.fire({
+                                title: "Thêm thành công",
+                                icon: "success",
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true,
+                                timerProgressBar: true,
+                            }).then(function() {
+                                location.reload();
+                                $('#modelId').modal('hide');
+                            });
                         } else {
                             printErrorMsg(s.error);
                             // $.each( s.error , function(k,v){
@@ -304,9 +345,18 @@
                     success: function(s) {
                         console.log(s);
                         if ($.isEmptyObject(s.error)) {
-                            alert("Sua thanh cong");
-                            location.reload();
-                            $('#modelId1').modal('hide');
+                            Swal.fire({
+                                title: "Cập nhật thành công",
+                                icon: "success",
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true,
+                                timerProgressBar: true,
+                            }).then(function() {
+                                location.reload();
+                                $('#modelId1').modal('hide');
+                            });
                         } else {
                             printErrorMsg(s.error);
                             // $.each( s.error , function(k,v){

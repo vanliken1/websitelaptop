@@ -9,14 +9,14 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li aria-current="page" class="breadcrumb-item active">Shopping cart</li>
+                            <li aria-current="page" class="breadcrumb-item active">Giỏ hàng</li>
                         </ol>
                     </nav>
                 </div>
                 <div id="basket" class="col-lg-9">
                     <div class="box">
 
-                        <h1>Shopping cart</h1>
+                        <h1>Giỏ hàng của bạn</h1>
                         @if(isset($mess))
                         <div>{{ $mess }}</div>
                         @else
@@ -28,6 +28,7 @@
                         <p class="alert alert-danger sm-4">
                             {{session('error')}}
                         </p>
+                        
                         @endif
                         <div class="table-responsive">
                             <table class="table" id='cart'>
@@ -52,11 +53,11 @@
                                         <td>{{$item->id}}</td>
                                         <td>
                                             @if($item->options->soluongkho)
-                                                <span style="color: green;">Còn hàng</span>
-                                           
+                                            <span style="color: green;">Còn hàng</span>
+
 
                                             @endif
-                                           
+
                                         </td>
                                         <td>
                                             <input type="number" value="{{$item->qty}}" style="width: 60px;" class="form-control" data-id='{{$item->rowId}}'>
@@ -91,10 +92,10 @@
                         @endif
                         <!-- /.table-responsive-->
                         <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
-                            <div class="left"><a href="category.html" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i> Continue shopping</a></div>
+                            <div class="left"><a href="/" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i>Tiếp tục mua hàng</a></div>
                             @if(Cart::count()>0)
                             <div class="right">
-                                <a href="/thanhtoan" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i></a>
+                                <a href="/thanhtoan" class="btn btn-primary">Đặt hàng <i class="fa fa-chevron-right"></i></a>
                             </div>
                             @endif
                         </div>
@@ -108,6 +109,7 @@
                 <div class="col-lg-3">
                     <div id="order-summary" class="box">
                         <div class="table-responsive">
+                            <h3>Tổng hóa đơn</h3>
                             <table class="table">
 
                                 <tbody>
@@ -157,9 +159,9 @@
                     <div class="box">
                         @if(Cart::count()>0)
                         <div class="box-header">
-                            <h4 class="mb-0">Coupon code</h4>
+                            <h4 class="mb-0">Áp dụng mã giảm giá</h4>
                         </div>
-                        <p class="text-muted">If you have a coupon code, please enter it in the box below.</p>
+                        <p class="text-muted">Nếu bạn có mã giảm giá hãy nhập vào đây.</p>
                         <form action="/checkcoupon" method="POST">
                             @csrf
                             <div class="input-group">
@@ -199,7 +201,7 @@
                 // alert( $(this).data('id') );
                 var quantity = $(this).val();
                 var rowId = $(this).data('id');
-               
+
 
                 if (quantity <= 0) {
                     $(this).val(1);
@@ -208,7 +210,17 @@
                 if (quantity > 5) {
                     $(this).val(5);
                     quantity = 5;
-                    alert('Số lượng sản phẩm tối đa là 5.');
+                    Swal.fire({
+                        title: "Số lượng sản phẩm tối đa là 5",
+                        icon: "error",
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true,
+                        timerProgressBar: true,
+                    });
+                    return;
+                    // alert('Số lượng sản phẩm tối đa là 5')
                 }
 
                 $.ajax({
@@ -217,14 +229,14 @@
                     data: {
                         rowId: $(this).data('id'),
                         qty: $(this).val(),
-                       
+
                         _token: $('input[name=_token]').val()
                     },
                     dataType: 'json',
                     success: function(dataReturn) {
                         console.log(dataReturn);
                         $('#qty').html(dataReturn.n);
-                        
+
                         location.reload();
                     }
                 });

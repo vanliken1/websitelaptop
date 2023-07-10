@@ -4,7 +4,7 @@
     <div class="row g-4 d-flex justify-content-center">
         <div class="col-sm-12 col-xl-6">
             <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Thêm sản phẩm</h6>
+                <h6 class="mb-4">Sửa sản phẩm</h6>
                 <form action="/admin/product/update" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="_method" value="put">
@@ -154,7 +154,7 @@
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="number" min="1" step="1" name='gia' value="{{old('gia') ?? $sanpham->gia}}" class='form-control mt-3' required>
+                        <input type="number" min="1" step="1" name='gia' value="{{old('gia') ?? $sanpham->gia}}" class='form-control mt-3'>
                         <label for="floatingInput">Giá</label>
                         @error('gia')
                         <span style="color: red;">{{$message}}</span>
@@ -162,7 +162,7 @@
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="number" min="1" step="1" name='soluong' value="{{old('soluong') ??$sanpham->soluong}}" class='form-control mt-3' required>
+                        <input type="number" min="1" step="1" name='soluong' value="{{old('soluong') ??$sanpham->soluong}}" class='form-control mt-3'>
                         <label for="floatingInput">Số lượng</label>
                         @error('soluong')
                         <span style="color: red;">{{$message}}</span>
@@ -194,9 +194,9 @@
                     <div class="form-floating mb-3">
 
                         <select type="number" name='trangthai' class='form-select mt-3'>
-                            <option value="0" <?php echo $sanpham->trangthai == 0 ? 'selected' : ''; ?>>Ẩn
+                            <option value="0" <?php echo $sanpham->trangthai == 0 ? 'selected' : ''; ?>>Đã khóa
                             </option>
-                            <option value="1" <?php echo $sanpham->trangthai == 1 ? 'selected' : ''; ?>>Hiện</option>
+                            <option value="1" <?php echo $sanpham->trangthai == 1 ? 'selected' : ''; ?>>Kích hoạt</option>
                         </select>
                         <label for="floatingInput">Trạng thái</label>
 

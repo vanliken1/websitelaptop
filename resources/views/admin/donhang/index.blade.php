@@ -10,6 +10,13 @@
                     <div class="form-group">
                         Từ ngày:<input class="form-control-sm" type="date" name="tungay">
                         Đến ngày:<input class="form-control-sm" type="date" name="denngay">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+
+                </form>
+                <form class="col-sm-20 mb-4" action="/admin/donhang" method="GET">
+                    <div class="form-group">
+                        Lọc theo:
                         <select class="form-control-sm " id="trangthailoc" name="trangthailoc" style="text-align: center;" onchange="this.form.submit()">
                             <option value="" selected disabled>--Chọn tình trạng--</option>
                             <option value="all">--Tất cả--</option>
@@ -21,7 +28,6 @@
                             <option value="dagiao" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'dagiao') echo 'selected'; ?>>Đã giao</option>
 
                         </select>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                     </div>
 
                 </form>

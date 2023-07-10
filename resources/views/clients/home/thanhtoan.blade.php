@@ -9,7 +9,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li aria-current="page" class="breadcrumb-item active">Checkout - Address</li>
+                            <li aria-current="page" class="breadcrumb-item active">Đặt hàng-Thanh toán</li>
                         </ol>
                     </nav>
                 </div>
@@ -22,7 +22,7 @@
                         </p>
                         @endif
 
-                        <h1>Checkout - Address</h1>
+                        <h1>Đặt hàng-Thanh toán</h1>
                         <div class="nav flex-column flex-md-row nav-pills text-center"><a href="checkout1.html" class="nav-link flex-sm-fill text-sm-center active"> <i class="fa fa-credit-card"> </i>Thanh toán</a></div>
                         <form action="/savethanhtoan" method="post">
                             @csrf
@@ -120,7 +120,7 @@
                                 <input type="hidden" name="tongmomo" value="{{$tong_con}}">
                                 <!-- <input type="submit" class="btn btn-primary" name="payUrl" value="Thanh toán" /> -->
                             </div>
-                            <input type="submit" class="btn btn-primary" name="payUrl" value="Thanh toán" />
+                            <input type="submit" class="btn btn-primary" name="payUrl" value="Đặt hàng" />
 
                             <!-- <input type="submit" class="btn btn-primary" value="Thanh toán" /> -->
                         </form>
@@ -131,14 +131,11 @@
                 </div>
                 <div class="col-lg-3">
                     <div id="order-summary" class="card">
-                        <div class="card-header">
-                            <h3 class="mt-4 mb-4">Thong tin don hang</h3>
-                        </div>
-                        <div class="card-body">
-                            <p class="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
-                            <div class="table-responsive">
-                                <table class="table">
 
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <h3>Thông tin hóa đơn</h3>
+                                <table class="table">
                                     <tbody>
                                         <tr>
                                             <td>Tổng thành tiền</td>
@@ -191,26 +188,39 @@
                 </div>
                 <!-- /.col-lg-9-->
                 <div class="col-lg-9">
-                    <div id="order-summary" class="card">
-                        <div class="card-header">
-                            <h3 class="mt-4 mb-4">Thong tin don hang</h3>
-                        </div>
-                        <div class="card-body">
-                            <p class="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
-                            <div class="table-responsive">
-                                <table class="table">
+                    <div class="box">
+                        <div id="order-summary" class="card">
+                            <div class="card-header">
+                                <h3 class="mt-4 mb-4">Thong tin đơn hàng</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Sản phẩm</th>
+                                                <th>Mã sản phẩm</th>
+                                                <th>Số lượng</th>
+                                                <th>Giá</th>
+                                                <th>Giá khuyến mãi</th>
 
-                                    @foreach(Cart::content() as $item)
-                                    <tbody>
-                                        <tr>
-                                            <td><img src="{{asset('storage/img/'.$item->options->img)}}" style="width:100px" alt=""></td>
-                                            <th>{{$item->name}}</th>
-                                            <th>So luong: {{$item->qty}}</th>
-                                            <th>{{number_format($item->price, 0, ',', '.')}}đ</th>
-                                        </tr>
-                                    </tbody>
-                                    @endforeach
-                                </table>
+                                            </tr>
+                                        </thead>
+
+                                        @foreach(Cart::content() as $item)
+                                        <tbody>
+                                            <tr>
+                                                <td><img src="{{asset('storage/img/'.$item->options->img)}}" style="width:100px" alt=""> </td>
+                                                <td>{{$item->name}} </td>
+                                                <td>{{$item->id}}</td>
+                                                <td>{{$item->qty}}</td>
+                                                <td>{{number_format($item->options->giagoc, 0, ',', '.')}}đ </td>
+                                                <td>{{number_format($item->price, 0, ',', '.')}}đ</td>
+                                            </tr>
+                                        </tbody>
+                                        @endforeach
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

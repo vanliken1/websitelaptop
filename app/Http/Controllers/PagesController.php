@@ -315,7 +315,7 @@ class PagesController extends Controller
             $meta_title = $nhucau->tenloai . '- ' . $nhucau->tenloai . ' giá rẻ';
             $url_canonical = $r->url();
             $sptheonhucau = $query->where('soluong', '>', 0)
-
+                ->where('trangthai', 1)
                 ->where('idloaisanpham', $nhucau->idloaisanpham)
 
                 ->paginate(12);
@@ -474,15 +474,15 @@ class PagesController extends Controller
             $request->validate(
                 [
 
-                    'password'=>'min:2|max:255',
+                    'password' => 'min:2|max:255',
                     'password2' => 'same:password',
 
 
                 ],
                 [
 
-                    'password.min'=>'Mật khẩu quá ngắn',
-                    'password.max'=>'Mật khẩu quá dài',
+                    'password.min' => 'Mật khẩu quá ngắn',
+                    'password.max' => 'Mật khẩu quá dài',
                     'password2.same' => 'Không trùng khớp',
 
                 ]

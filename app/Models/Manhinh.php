@@ -22,6 +22,6 @@ class Manhinh extends Model
         'trangthai'
     ];
     public function products(){
-        return $this->hasMany(Product::class,'idmanhinh','idmanhinh');
+        return $this->hasMany(Sanpham::class,'idmanhinh','idmanhinh');
     }
 }

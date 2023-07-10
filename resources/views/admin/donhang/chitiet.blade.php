@@ -258,7 +258,7 @@
                         @endphp
                         @endif
                         Thanh toán:{{number_format($tong_coupon,0,',','.')}} đ
-                        <input type="text" class="tongthanhtoan" value="{{$tong_coupon}}">
+                        <input type="hidden" class="tongthanhtoan" value="{{$tong_coupon}}">
                     </div>
                 </div>
             </div>
@@ -306,8 +306,17 @@
 
                     success: function(data) {
 
-                        alert("Thay doi tinh trang thành công");
-                        location.reload();
+                        Swal.fire({
+                            title: "Thay đổi trạng thái thành công",
+                            icon: "success",
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 1500,
+                            toast: true,
+                            timerProgressBar: true,
+                        }).then(function() {
+                            location.reload();
+                        });
                     },
                 });
             }
@@ -338,9 +347,17 @@
                 if (parseInt(soluongid) > parseInt(soluongkho) && trangthaidh == 2) {
                     dem = dem + 1;
                     if (dem == 1) {
-                        alert('Số lượng trong kho không đủ');
-                        location.reload();
-
+                        Swal.fire({
+                            title: "Số lượng kho không đủ",
+                            icon: "error",
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 1500,
+                            toast: true,
+                            timerProgressBar: true,
+                        }).then(function() {
+                            location.reload();
+                        });
                     }
                 }
                 if (parseInt(soluongid) > parseInt(soluongkho) && trangthaidh == 3) {
@@ -362,12 +379,21 @@
                         iddonhang: iddonhang,
                         quantity: quantity,
                         order_product_id: order_product_id,
-                        tongthanhtoan:tongthanhtoan
+                        tongthanhtoan: tongthanhtoan
 
                     },
                     success: function(data) {
-                        alert("Cập nhật trạng thái đơn hàng thành công");
-                        location.reload();
+                        Swal.fire({
+                            title: "Thay đổi trạng thái thành công",
+                            icon: "success",
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 1500,
+                            toast: true,
+                            timerProgressBar: true,
+                        }).then(function() {
+                            location.reload();
+                        });
                     },
                 });
 

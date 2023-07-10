@@ -35,7 +35,7 @@ class DohoaController extends Controller
                 'tendohoa.required' => 'Vui lòng nhập tên',
                 'tendohoa.max' => 'Tên quá dài',
                 'tendohoa.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_dohoa.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_dohoa.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_dohoa.max' => 'Đường dẫn SEO quá dài',
                 'motadohoa.required' => 'Vui lòng nhập mô tả',
                 'motadohoa.max' => 'Mô tả quá dài',
@@ -78,7 +78,7 @@ class DohoaController extends Controller
                 'tendohoa.required' => 'Vui lòng nhập tên',
                 'tendohoa.max' => 'Tên quá dài',
                 'tendohoa.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_dohoa.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_dohoa.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_dohoa.max' => 'Đường dẫn SEO quá dài',
                 'motadohoa.required' => 'Vui lòng nhập mô tả',
                 'motadohoa.max' => 'Mô tả quá dài',
@@ -106,7 +106,7 @@ class DohoaController extends Controller
             Dohoa::destroy($id);
             session()->flash('mess', 'đã xóa');
         }else{
-            session()->flash('mess', 'không thể xóa vì có sản phẩm');
+            session()->flash('error', 'không thể xóa vì có sản phẩm');
         }
         return redirect('/admin/dohoa');
     }

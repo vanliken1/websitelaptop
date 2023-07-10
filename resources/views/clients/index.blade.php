@@ -107,8 +107,8 @@
                 </div>
                 @endif
                 <p class="buttons">
-                  <a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a>
-                  <a class="btn btn-primary add-to-cart" data-id="{{$item->idsanpham}}"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+    
+                  <a class="btn btn-primary add-to-cart" data-id="{{$item->idsanpham}}"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
                 </p>
               </div>
               <!-- /.text-->
@@ -182,8 +182,7 @@
                 </div>
                 @endif
                 <p class="buttons">
-                  <a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a>
-                  <a class="btn btn-primary add-to-cart" data-id="{{$item->idsanpham}}"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                  <a class="btn btn-primary add-to-cart" data-id="{{$item->idsanpham}}"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
                 </p>
               </div>
               <!-- /.text-->

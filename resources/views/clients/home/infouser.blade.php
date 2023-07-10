@@ -21,12 +21,12 @@
               -->
                     <div class="card sidebar-menu">
                         <div class="card-header">
-                            <h3 class="h4 card-title">Customer section</h3>
+                            <h3 class="h4 card-title">Thông tin khách hàng</h3>
                         </div>
                         <div class="card-body">
                             <ul class="nav nav-pills flex-column">
-                                <a href="/history" class="nav-link active"><i class="fa fa-list"></i>Lịch sử đơn hàng</a>
-                                <a href="/info" class="nav-link"><i class="fa fa-user"></i> Chi tiết tài khoản</a>
+                                <a href="/history" class="nav-link "><i class="fa fa-list"></i>Lịch sử đơn hàng</a>
+                                <a href="/info" class="nav-link active"><i class="fa fa-user"></i> Chi tiết tài khoản</a>
                                 <form action="/dangxuat" method="post">
                                     @csrf
                                     <button type="submit" class="btn btn-link"  class="nav-link"><i class="fa fa-sign-out"></i>Đăng xuất</a>

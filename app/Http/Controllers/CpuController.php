@@ -36,7 +36,7 @@ class CpuController extends Controller
                 'tenCPU.required' => 'Vui lòng nhập tên',
                 'tenCPU.max' => 'Tên quá dài',
                 'tenCPU.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_CPU.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_CPU.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_CPU.max' => 'Đường dẫn SEO quá dài',
                 'mota_CPU.required' => 'Vui lòng nhập mô tả',
                 'mota_CPU.max' => 'Mô tả quá dài',
@@ -80,7 +80,7 @@ class CpuController extends Controller
                 'tenCPU.required' => 'Vui lòng nhập tên',
                 'tenCPU.max' => 'Tên quá dài',
                 'tenCPU.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_CPU.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_CPU.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_CPU.max' => 'Đường dẫn SEO quá dài',
                 'mota_CPU.required' => 'Vui lòng nhập mô tả',
                 'mota_CPU.max' => 'Mô tả quá dài',
@@ -108,7 +108,7 @@ class CpuController extends Controller
             CPU::destroy($id);
             session()->flash('mess', 'đã xóa');
         }else{
-            session()->flash('mess', 'không thể xóa vì có sản phẩm');
+            session()->flash('error', 'không thể xóa vì có sản phẩm');
         }
         return redirect('/admin/cpu');
     }

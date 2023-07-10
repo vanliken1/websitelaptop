@@ -384,7 +384,7 @@ class KhuyenmaiController extends Controller
             Khuyenmai::destroy($id);
             session()->flash('mess', 'đã xóa');
         } else {
-            session()->flash('mess', 'Vui lòng xóa khuyến mãi trên sản phẩm');
+            session()->flash('error', 'Vui lòng xóa khuyến mãi trên sản phẩm');
         }
         return redirect('/admin/khuyenmai');
     }

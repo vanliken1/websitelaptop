@@ -39,8 +39,8 @@ class UserController extends Controller
         }
 
         $adminql = $query->where('level', '!=', 0)
-            ->where('level', '!=', 1)->paginate(5);
-        $users = $query2->where('level', 0)->paginate(5);
+            ->where('level', '!=', 1)->paginate(5, ['*'], 'adminql_page');
+        $users = $query2->where('level', 0)->paginate(5, ['*'], 'user_page');
 
 
 

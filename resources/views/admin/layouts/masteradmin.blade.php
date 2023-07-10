@@ -39,6 +39,22 @@
     <script src="/asset/admin/ckeditor/ckeditor.js"></script>
     <script src="/asset/admin/ckfinder/ckfinder.js"></script>
     <!-- <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <style>
+        .swal-popup {
+            width: 200px;
+            padding: 10px;
+        }
+
+        .swal-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .swal-content {
+            font-size: 14px;
+        }
+    </style> -->
 </head>
 
 <body>

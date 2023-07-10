@@ -35,7 +35,7 @@ class LuutruController extends Controller
                 'tenluutru.required' => 'Vui lòng nhập tên',
                 'tenluutru.max' => 'Tên quá dài',
                 'tenluutru.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_luutru.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_luutru.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_luutru.max' => 'Đường dẫn SEO quá dài',
                 'motaluutru.required' => 'Vui lòng nhập mô tả',
                 'motaluutru.max' => 'Mô tả quá dài',
@@ -78,7 +78,7 @@ class LuutruController extends Controller
                 'tenluutru.required' => 'Vui lòng nhập tên',
                 'tenluutru.max' => 'Tên quá dài',
                 'tenluutru.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_luutru.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_luutru.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_luutru.max' => 'Đường dẫn SEO quá dài',
                 'motaluutru.required' => 'Vui lòng nhập mô tả',
                 'motaluutru.max' => 'Mô tả quá dài',
@@ -106,7 +106,7 @@ class LuutruController extends Controller
             Luutru::destroy($id);
             session()->flash('mess', 'đã xóa');
         }else{
-            session()->flash('mess', 'không thể xóa vì có sản phẩm');
+            session()->flash('error', 'không thể xóa vì có sản phẩm');
         }
         return redirect('/admin/luutru');
     }

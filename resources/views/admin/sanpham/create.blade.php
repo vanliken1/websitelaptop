@@ -169,7 +169,7 @@
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="number" min="1" step="1" value="{{old('gia')}}"  name='gia' class='form-control mt-3' required>
+                        <input type="number" min="1" step="1" value="{{old('gia')}}"  name='gia' class='form-control mt-3'>
                         <label for="floatingInput">Giá</label>
                         @error('gia')
                         <span style="color: red;">{{$message}}</span>
@@ -205,8 +205,8 @@
                     <div class="form-floating mb-3">
 
                         <select type="number" name='trangthai' class='form-select mt-3'>
-                            <option value="0">Ẩn</option>
-                            <option value="1" selected>Hiện</option>
+                            <option value="0">Đã khóa</option>
+                            <option value="1" selected>Kích hoạt</option>
                         </select>
                         <label for="floatingInput">Trạng thái</label>
                         <span class="text-danger error-text trangthai_err"></span>

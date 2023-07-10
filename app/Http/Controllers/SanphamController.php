@@ -192,11 +192,11 @@ class SanphamController extends Controller
                 'idluutru'=>'required',
                 'idmanhinh'=>'required',
                 'idloaisanpham'=>'required',
-                'img' => 'required|mimes:jpeg,png,svg',
+                'img' => 'required|image',
                 'motasanpham' => 'required|max:255',
                 'noidung' => 'required',
-                'gia'=>'numeric|min:10000',
-                'soluong'=>'numeric|min:1',
+                'gia'=>'required|numeric|min:10000',
+                'soluong'=>'required|numeric|min:1',
             ],
             [
                 'idsanpham.required' => 'Vui lòng nhập mã',
@@ -206,7 +206,7 @@ class SanphamController extends Controller
                 'tensanpham.required'=>'Vui lòng nhập tên sản phẩm',
                 'tensanpham.min'=>'Tên tối thiểu 3 ký tự',
                 'tensanpham.max'=>'Tên quá dài',
-                'slug_sanpham.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_sanpham.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_sanpham.max' => 'Đường dẫn SEO quá dài',
                 'idthuonghieu.required'=>'Vui lòng chọn thương hiệu',
                 'idCPU.required'=>'Vui lòng chọn CPU',
@@ -216,11 +216,13 @@ class SanphamController extends Controller
                 'idmanhinh.required'=>'Vui lòng chọn kích thước',
                 'idloaisanpham.required'=>'Vui lòng chọn nhu cầu sử dụng',
                 'img.required'=>'Vui lòng chọn hình ảnh',
-                'img.mimes'=>'Định dạng hình không hợp lệ',
+                'img.image'=>'Định dạng hình không hợp lệ',
                 'motasanpham.required' => 'Vui lòng nhập mô tả',
                 'motasanpham.max' => 'Mô tả quá dài',
                 'noidung.required' => 'Vui lòng nhập nội dung',
+                'gia.required'=>'Vui lòng nhập giá',
                 'gia.min'=>'Giá tối thiểu là 10000đ',
+                'soluong.required'=>'Vui lòng nhập số lượng',
                 'soluong.min' => 'Số lượng tối thiểu là 1',
 
 
@@ -341,23 +343,25 @@ class SanphamController extends Controller
             [
                 'tensanpham'=>'required|min:3|max:255',
                 'slug_sanpham' => 'required|max:255',
-                'img' => 'mimes:jpeg,png,svg',
+                'img' => 'image',
                 'motasanpham' => 'required|max:255',
                 'noidung' => 'required',
-                'gia'=>'numeric|min:10000',
-                'soluong'=>'numeric|min:1',
+                'gia'=>'required|numeric|min:10000',
+                'soluong'=>'required|numeric|min:1',
             ],
             [
                 'tensanpham.required'=>'Vui lòng nhập tên sản phẩm',
                 'tensanpham.min'=>'Tên tối thiểu 3 ký tự',
                 'tensanpham.max'=>'Tên quá dài',
-                'slug_sanpham.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_sanpham.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_sanpham.max' => 'Đường dẫn SEO quá dài',
-                'img.mimes'=>'Định dạng hình không hợp lệ',
+                'img.image'=>'Định dạng hình không hợp lệ',
                 'motasanpham.required' => 'Vui lòng nhập mô tả',
                 'motasanpham.max' => 'Mô tả quá dài',
                 'noidung.required' => 'Vui lòng nhập nội dung',
+                'gia.required'=>'Vui lòng nhập giá',
                 'gia.min'=>'Giá tối thiểu là 10000đ',
+                'soluong.required'=>'Vui lòng nhập số lượng',
                 'soluong.min' => 'Số lượng tối thiểu là 1',
 
 
@@ -430,7 +434,7 @@ class SanphamController extends Controller
             Sanpham::destroy($id);
             session()->flash('mess', 'đã xóa');
         } else {
-            session()->flash('mess', 'Vui lòng xóa khuyến mãi trên sản phẩm trước');
+            session()->flash('error', 'Vui lòng xóa khuyến mãi trên sản phẩm trước');
         }
         return redirect('/admin/product');
     }

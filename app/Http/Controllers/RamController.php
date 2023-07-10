@@ -59,7 +59,7 @@ class RamController extends Controller
                 'tenram.required' => 'Vui lòng nhập tên',
                 'tenram.max' => 'Tên quá dài',
                 'tenram.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_ram.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_ram.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_ram.max' => 'Đường dẫn SEO quá dài',
                 'motaram.required' => 'Vui lòng nhập mô tả',
                 'motaram.max' => 'Mô tả quá dài',
@@ -101,7 +101,7 @@ class RamController extends Controller
                 'tenram.required' => 'Vui lòng nhập tên',
                 'tenram.max' => 'Tên quá dài',
                 'tenram.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_ram.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_ram.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_ram.max' => 'Đường dẫn SEO quá dài',
                 'motaram.required' => 'Vui lòng nhập mô tả',
                 'motaram.max' => 'Mô tả quá dài',
@@ -130,7 +130,7 @@ class RamController extends Controller
             Ram::destroy($id);
             session()->flash('mess', 'đã xóa');
         }else{
-            session()->flash('mess', 'không thể xóa vì có sản phẩm');
+            session()->flash('error', 'không thể xóa vì có sản phẩm');
         }
         return redirect('/admin/ram');
     }

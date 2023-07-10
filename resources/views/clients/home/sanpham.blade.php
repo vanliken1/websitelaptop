@@ -8,8 +8,8 @@
                     <!-- breadcrumb-->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li aria-current="page" class="breadcrumb-item active">Ladies</li>
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li aria-current="page" class="breadcrumb-item active">Laptops</li>
                         </ol>
                     </nav>
                 </div>
@@ -273,8 +273,8 @@
                                     </div>
                                     @endif
                                     <p class="buttons">
-                                        <a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a>
-                                        <a class="btn btn-primary add-to-cart" data-id="{{$item->idsanpham}}"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        <a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">Thông tin</a>
+                                        <a class="btn btn-primary add-to-cart" data-id="{{$item->idsanpham}}"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a>
                                     </p>
                                 </div>
                                 <!-- /.text-->
@@ -339,31 +339,60 @@
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
+
+                        // Swal.fire({
+                        //     title: "Thêm vào giỏ hàng thành công",
+                        //     icon: "success",
+                        //     position: "top-end",
+                        //     showConfirmButton: false,
+                        //     timer: 4000,
+                        //     toast: true,
+                        //     timerProgressBar: true,
+                        // }).then(function() {
+                        //     location.reload();
+                        // });
                         Swal.fire({
-                            icon: 'success',
-                            title: 'Thêm vào giỏ hàng thành công',
-                            showConfirmButton: false,
-
-                            timer: 4000,
-
-
+                            title: "Thêm vào giỏ hàng thành công",
+                            text: "Bạn có muốn xem tiếp sản phẩm hoặc chuyển đến giỏ hàng?",
+                            icon: "success",
+                            position: "top-center",
+                            showCancelButton: true,
+                            confirmButtonText: "Xem tiếp",
+                            cancelButtonText: "Chuyển đến giỏ hàng",
+                            confirmButtonColor: "#4fbfa8",
+                            cancelButtonColor: "#FFD700",
+                            reverseButtons: true,
+                        }).then((result) => {
+                            if (result.value) {
+                                // Người dùng đã nhấp vào "Xem tiếp"
+                                // Thực hiện hành động xem tiếp sản phẩm tại đây
+                                location.reload();
+                            } else {
+                                // Người dùng đã nhấp vào "Chuyển đến giỏ hàng"
+                                // Thực hiện hành động chuyển đến đường dẫn giỏ hàng tại đây
+                                window.location.href = "/cart";
+                            }
                         });
 
                     } else {
                         Swal.fire({
-                            icon: 'error',
-                            title: 'Sản phẩm đã tồn tại trong giỏ hàng',
+                            title: "Sản phẩm đã tồn tại trong giỏ hàng",
+                            icon: "error",
+                            position: "top-end",
                             showConfirmButton: false,
+                            timer: 1500,
+                            toast: true,
+                            timerProgressBar: true,
 
-                            timer: 4000,
 
-
+                        }).then(function() {
+                            location.reload();
                         });
 
                     }
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);
+                    // setTimeout(function() {
+                    //     location.reload();
+                    // }, 2000);
 
                 },
                 // error: function(xhr, status, error) {

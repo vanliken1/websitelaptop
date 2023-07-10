@@ -76,7 +76,7 @@ class CartController extends Controller
 
         if ($existingItem->isNotEmpty()) {
             // Hiển thị thông báo sản phẩm đã có trong giỏ hàng
-            return redirect()->back()->with('alert', 'Sản phẩm đã có trong giỏ hàng.');
+            return redirect()->back()->with('alert', 'Sản phẩm đã tồn tại trong giỏ');
         }
         $cart = [
             'id' => $sanpham->idsanpham,
@@ -251,7 +251,7 @@ class CartController extends Controller
         $coupon = Session::get('coupon');
         if ($coupon) {
             Session::forget('coupon');
-            session()->flash('message', 'Xoa ma thanh cong');
+            session()->flash('message', 'Xóa mã thành công');
             return redirect('/cart');
         }
     }
@@ -398,7 +398,6 @@ class CartController extends Controller
                     'soluong' => $item->qty,
                     'giagoc' => $item->options->giagoc,
                     'gia' => $item->price,
-                    'trangthai' => 1,
                     'codegiamgia' => $r->coupon_donhang,
                 ];
                 $ct = Chitietdonhang::create($data3);
@@ -470,7 +469,6 @@ class CartController extends Controller
                 'soluong' => $item->qty,
                 'giagoc' => $item->options->giagoc,
                 'gia' => $item->price,
-                'trangthai' => 1,
                 'codegiamgia' => $r->coupon_donhang,
             ];
             $ct = Chitietdonhang::create($data3);

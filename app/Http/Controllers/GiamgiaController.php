@@ -67,8 +67,8 @@ class GiamgiaController extends Controller
                 'tengiamgia' => 'required|max:255|min:3',
                 'codegiamgia' => 'required|max:255|min:3',
                 'ngayketthuc' => 'required|after:today',
-                'soluong'=>'numeric|min:1',
-                'sotiengiam' => 'numeric|' . ($r->input('tinhnangma') == 0 ? 'max:90|min:1' : 'min:10000'),
+                'soluong'=>'required|numeric|min:1',
+                'sotiengiam' => 'required|numeric|' . ($r->input('tinhnangma') == 0 ? 'max:90|min:1' : 'min:10000'),
 
             ],
             [
@@ -81,7 +81,9 @@ class GiamgiaController extends Controller
                 'codegiamgia.min' => 'Tên code giảm giá tối thiểu 3 ký tự',
                 'ngayketthuc.required' => 'Vui lòng nhập hạn kết thúc',
                 'ngayketthuc.after' => 'Hạn kết thúc không hợp lệ',
-              
+                'soluong.required' => 'Vui lòng nhập số lượng',
+                'sotiengiam.required' =>'Vui lòng nhập số tiền giảm',
+
                 'soluong.min' => 'Số lượng tối thiểu là 1',
                 'sotiengiam.min' => 'Số tiền giảm tối thiểu là :min',
                 'sotiengiam.max' => 'Số tiền giảm tối đa là :max',
@@ -117,8 +119,8 @@ class GiamgiaController extends Controller
                 'tengiamgia' => 'required|max:255|min:3',
                 'codegiamgia' => 'required|max:255|min:3',
                 'ngayketthuc' => 'required|after:today',
-                'soluong'=>'numeric|min:1',
-                'sotiengiam' => 'numeric|' . ($r->input('tinhnangma') == 0 ? 'max:90|min:1' : 'min:10000'),
+                'soluong'=>'required|numeric|min:1',
+                'sotiengiam' => 'required|numeric|' . ($r->input('tinhnangma') == 0 ? 'max:90|min:1' : 'min:10000'),
 
             ],
             [
@@ -133,7 +135,8 @@ class GiamgiaController extends Controller
                 'codegiamgia.min' => 'Tên code giảm giá tối thiểu 3 ký tự',
                 'ngayketthuc.required' => 'Vui lòng nhập hạn kết thúc',
                 'ngayketthuc.after' => 'Hạn kết thúc không hợp lệ',
-              
+                'soluong.required' => 'Vui lòng nhập số lượng',
+                'sotiengiam.required' =>'Vui lòng nhập số tiền giảm',
                 'soluong.min' => 'Số lượng tối thiểu là 1',
                 'sotiengiam.min' => 'Số tiền giảm tối thiểu là :min',
                 'sotiengiam.max' => 'Số tiền giảm tối đa là :max',

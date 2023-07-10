@@ -9,7 +9,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li aria-current="page" class="breadcrumb-item active">Ladies</li>
+                            <li aria-current="page" class="breadcrumb-item active">Laptop {{$sptheocpu[0]->cpus->tenCPU}}</li>
                         </ol>
                     </nav>
                 </div>
@@ -232,12 +232,15 @@
 
                                     </p>
                                     @endif
-                                    @if($item->soluong)
+                                    @if($item->soluong>0)
                                     <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
                                         Còn hàng
                                     </div>
                                     @endif
-                                    <p class="buttons"><a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
+                                    <p class="buttons">
+                                        <a href="/chitiet/{{$item->slug_sanpham}}" class="btn btn-outline-secondary">Thông tin</a>
+                                        <a class="btn btn-primary add-to-cart" data-id="{{$item->idsanpham}}"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+                                    </p>
 
                                 </div>
 
@@ -282,4 +285,92 @@
     </div>
 </div>
 
+@stop
+@section('script')
+<script>
+    $.ajaxSetup({
+
+        headers: {
+
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        }
+
+    });
+    $(document).ready(function() {
+        $('.add-to-cart').click(function(e) {
+            e.preventDefault();
+            var productId = $(this).data('id');
+            var url = "/cart/add/" + productId;
+            // alert('hehe')
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+
+                        // Swal.fire({
+                        //     title: "Thêm vào giỏ hàng thành công",
+                        //     icon: "success",
+                        //     position: "top-end",
+                        //     showConfirmButton: false,
+                        //     timer: 4000,
+                        //     toast: true,
+                        //     timerProgressBar: true,
+                        // }).then(function() {
+                        //     location.reload();
+                        // });
+                        Swal.fire({
+                            title: "Thêm vào giỏ hàng thành công",
+                            text: "Bạn có muốn xem tiếp sản phẩm hoặc chuyển đến giỏ hàng?",
+                            icon: "success",
+                            position: "top-center",
+                            showCancelButton: true,
+                            confirmButtonText: "Xem tiếp",
+                            cancelButtonText: "Chuyển đến giỏ hàng",
+                            confirmButtonColor: "#4fbfa8",
+                            cancelButtonColor: "#FFD700",
+                            reverseButtons: true,
+                        }).then((result) => {
+                            if (result.value) {
+                                // Người dùng đã nhấp vào "Xem tiếp"
+                                // Thực hiện hành động xem tiếp sản phẩm tại đây
+                                location.reload();
+                            } else {
+                                // Người dùng đã nhấp vào "Chuyển đến giỏ hàng"
+                                // Thực hiện hành động chuyển đến đường dẫn giỏ hàng tại đây
+                                window.location.href = "/cart";
+                            }
+                        });
+
+                    } else {
+                        Swal.fire({
+                            title: "Sản phẩm đã tồn tại trong giỏ hàng",
+                            icon: "error",
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 1500,
+                            toast: true,
+                            timerProgressBar: true,
+
+
+                        }).then(function() {
+                            location.reload();
+                        });
+
+                    }
+                    // setTimeout(function() {
+                    //     location.reload();
+                    // }, 2000);
+
+                },
+                // error: function(xhr, status, error) {
+                //     alert('An error occurred while adding the product to the cart.');
+                // }
+            });
+        });
+
+    });
+</script>
 @stop

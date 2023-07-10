@@ -35,7 +35,7 @@ class ManhinhController extends Controller
                 'tenmanhinh.required' => 'Vui lòng nhập tên',
                 'tenmanhinh.max' => 'Tên quá dài',
                 'tenmanhinh.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_manhinh.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_manhinh.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_manhinh.max' => 'Đường dẫn SEO quá dài',
                 'motamanhinh.required' => 'Vui lòng nhập mô tả',
                 'motamanhinh.max' => 'Mô tả quá dài',
@@ -78,7 +78,7 @@ class ManhinhController extends Controller
                 'tenmanhinh.required' => 'Vui lòng nhập tên',
                 'tenmanhinh.max' => 'Tên quá dài',
                 'tenmanhinh.min' => 'Tên tối thiểu 3 ký tự',
-                'slug_manhinh.required' => 'Vui lòng nhập đường dẫn slug',
+                'slug_manhinh.required' => 'Vui lòng nhập đường dẫn SEO',
                 'slug_manhinh.max' => 'Đường dẫn SEO quá dài',
                 'motamanhinh.required' => 'Vui lòng nhập mô tả',
                 'motamanhinh.max' => 'Mô tả quá dài',
@@ -106,7 +106,7 @@ class ManhinhController extends Controller
             Manhinh::destroy($id);
             session()->flash('mess', 'đã xóa');
         }else{
-            session()->flash('mess', 'không thể xóa vì có sản phẩm');
+            session()->flash('error', 'không thể xóa vì có sản phẩm');
         }
         return redirect('/admin/manhinh');
     }

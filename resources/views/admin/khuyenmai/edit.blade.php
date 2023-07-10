@@ -4,7 +4,7 @@
     <div class="row g-4 d-flex justify-content-center">
         <div class="col-sm-12 col-xl-6">
             <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Cập nhật loại tin</h6>
+                <h6 class="mb-4">Cập nhật khuyến mãi</h6>
                 <form action="/admin/khuyenmai/updateform" method="POST">
                     @csrf
                     <input type="hidden" name="_method" value="put">

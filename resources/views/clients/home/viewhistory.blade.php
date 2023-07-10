@@ -9,13 +9,11 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li aria-current="page" class="breadcrumb-item active">My orders</li>
+                            <li aria-current="page" class="breadcrumb-item active">Chi tiết đơn hàng</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="col-lg-3">
-
-                    _________________________________________________________
 
                     <div class="card sidebar-menu">
                         <div class="card-header">
@@ -24,9 +22,11 @@
                         <div class="card-body">
                             <ul class="nav nav-pills flex-column">
                                 <a href="/history" class="nav-link active"><i class="fa fa-list"></i> My orders</a>
-                                <a href="customer-wishlist.html" class="nav-link"><i class="fa fa-heart"></i> My wishlist</a>
                                 <a href="/info" class="nav-link"><i class="fa fa-user"></i> My account</a>
-                                <a href="index.html" class="nav-link"><i class="fa fa-sign-out"></i> Logout</a>
+                                <form action="/dangxuat" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-link" class="nav-link"><i class="fa fa-sign-out"></i>Đăng xuất</a>
+                                </form>
                             </ul>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
                                     @endphp
                                     @endif
                                     Thanh toán:{{number_format($tong_coupon,0,',','.')}} đ
-                                    
+
                                 </div>
 
                             </div>

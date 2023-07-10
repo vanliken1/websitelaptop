@@ -10,33 +10,54 @@
                 <form class="col-sm-12 mb-4" action="/admin/giamgia" method="GET">
 
                     <input class="form-control-sm" type="search" name="keyword" maxlength="255" placeholder="Search">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+
+                </form>
+                <form class="col-sm-12 mb-4" action="/admin/giamgia" method="GET">
+                    Loc theo:
                     <select class="form-control-sm " id="dieukiengiamgia" name="dieukiengiamgia" style="text-align: center;" onchange="this.form.submit()">
                         <option value="" selected disabled>--Chọn điều kiện giảm giá--</option>
-                        <option value="all"  >--Tất cả--</option>
+                        <option value="all">--Tất cả--</option>
                         <option value="phantram" <?php if (isset($_GET['dieukiengiamgia']) && $_GET['dieukiengiamgia'] === 'phantram') echo 'selected'; ?>>Giảm theo phần trăm</option>
                         <option value="tien" <?php if (isset($_GET['dieukiengiamgia']) && $_GET['dieukiengiamgia'] === 'tien') echo 'selected'; ?>>Giảm theo tiền</option>
                     </select>
                     <select class="form-control-sm " id="tinhtrang" name="tinhtrang" style="text-align: center;" onchange="this.form.submit()">
                         <option value="" selected disabled>--Chọn tình trạng--</option>
-                        <option value="all"  >--Tất cả--</option>
+                        <option value="all">--Tất cả--</option>
                         <option value="hethan" <?php if (isset($_GET['tinhtrang']) && $_GET['tinhtrang'] === 'hethan') echo 'selected'; ?>>Hết hạn</option>
                         <option value="conhan" <?php if (isset($_GET['tinhtrang']) && $_GET['tinhtrang'] === 'conhan') echo 'selected'; ?>>Còn hạn</option>
                     </select>
                     <select class="form-control-sm " id="trangthailoc" name="trangthailoc" style="text-align: center;" onchange="this.form.submit()">
                         <option value="" selected disabled>--Chọn trạng thái--</option>
-                        <option value="all"  >--Tất cả--</option>
+                        <option value="all">--Tất cả--</option>
                         <option value="kichhoat" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'kichhoat') echo 'selected'; ?>>Kích hoạt</option>
                         <option value="khoa" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'khoa') echo 'selected'; ?>>Khóa</option>
                     </select>
 
+
                     
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
 
                 </form>
                 @if(session()->has('mess'))
-                <p class="alert alert-primary sm-4">
+                <!-- <p class="alert alert-primary sm-4">
                     {{session('mess')}}
-                </p>
+                </p> -->
+                <script>
+                    // Lấy giá trị từ session message
+                    var message = "{{ session('mess') }}";
+
+                    // Hiển thị thông báo bằng SweetAlert
+                    Swal.fire({
+                        title: "Thông báo",
+                        text: message,
+                        icon: "success",
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true,
+                        timerProgressBar: true
+                    })
+                </script>
                 @endif
                 <div class="table-responsive">
                     <table class="table">
@@ -77,7 +98,7 @@
                                     {{'Giảm ' .$item->sotiengiam. 'đ'}}
                                     @endif
                                 </td>
-                            
+
                                 <td>
                                     @if($item->ngayketthuc>=$today)
                                     <span style="color: green;">Còn hạn</span>
@@ -98,7 +119,7 @@
                                     <form action="/admin/giamgia/destroy/{{$item->idgiamgia}}" method="POST">
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">
-                                        <input onclick="return confirm('Ban thuc su muon xoa ?')" type="submit" value="xóa" class="btn btn-danger">
+                                        <input onclick="confirmXoa(event)" type="submit" value="xóa" class="btn btn-danger">
                                     </form>
                                 </td>
                                 <td>
@@ -122,10 +143,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Thêm </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title">Thêm giảm giá</h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -202,10 +220,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Sửa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title">Sửa giảm giá</h5>
             </div>
 
             <div class="modal-body">
@@ -293,6 +308,25 @@
         }
 
     });
+    function confirmXoa(event) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của sự kiện onchange
+
+        Swal.fire({
+            title: "Xác nhận xóa",
+            text: "Bạn có chắc chắn muốn xóa?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Hành động xóa khi người dùng xác nhận
+                event.target.form.submit();
+            }
+        });
+    }
     $(document).ready(
         function() {
 
@@ -326,9 +360,18 @@
                     success: function(s) {
                         console.log(s);
                         if ($.isEmptyObject(s.error)) {
-                            alert("Thêm thành công");
-                            location.reload();
-                            $('#modelId').modal('hide');
+                            Swal.fire({
+                                title: "Thêm thành công",
+                                icon: "success",
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true,
+                                timerProgressBar: true,
+                            }).then(function() {
+                                location.reload();
+                                $('#modelId').modal('hide');
+                            });
                         } else {
                             printErrorMsg(s.error);
                             // $.each( s.error , function(k,v){
@@ -398,9 +441,18 @@
                     success: function(s) {
                         console.log(s);
                         if ($.isEmptyObject(s.error)) {
-                            alert("Sua thanh cong");
-                            location.reload();
-                            $('#modelId1').modal('hide');
+                            Swal.fire({
+                                title: "Cập nhật thành công",
+                                icon: "success",
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true,
+                                timerProgressBar: true,
+                            }).then(function() {
+                                location.reload();
+                                $('#modelId1').modal('hide');
+                            });
                         } else {
                             printErrorMsg(s.error);
                             // $.each( s.error , function(k,v){

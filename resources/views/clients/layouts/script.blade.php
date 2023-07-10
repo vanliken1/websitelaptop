@@ -45,7 +45,17 @@
   window.onload = function() {
     var alertMessage = "{{ session('alert') }}";
     if (alertMessage) {
-      alert(alertMessage);
+      // alert(alertMessage);
+      Swal.fire({
+        title: "Thông báo",
+        text: alertMessage,
+        icon: "error",
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1500,
+        toast: true,
+        timerProgressBar: true
+      })
     }
   }
 </script>
