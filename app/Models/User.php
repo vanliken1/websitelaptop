@@ -21,7 +21,7 @@ class User extends Authenticatable
     protected $table ='nguoidung';
     protected $primaryKey ='idnguoidung';
     protected $keyType ='string';
-    public $incrementing = false;
+    // public $incrementing = false;
     public $timestamps = false;
 
  
@@ -32,6 +32,7 @@ class User extends Authenticatable
         'password',
         'sdt',
         'diachi',
+        'token',
         'level',
         'trangthai'
     ];

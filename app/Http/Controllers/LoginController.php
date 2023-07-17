@@ -141,6 +141,7 @@ class LoginController extends Controller
                     'trangthai' => 1
                 ]);
             }
+            // dd($orang->idnguoidung);
             //dong thời tạo bên bảng Social một tài khoản mới 
             $taikhoanmoi = new Social([
                 'idnguoidungxahoi' => $users->id,
