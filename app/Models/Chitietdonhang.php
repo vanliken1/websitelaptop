@@ -42,7 +42,7 @@ class Chitietdonhang extends Model
         'giagoc',
         'gia',
         'codegiamgia',
-        
+        'makhuyenmai',
     ];
        public function products(){
         return $this->belongsTo(Sanpham::class,'idsanpham','idsanpham');

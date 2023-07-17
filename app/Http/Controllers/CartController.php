@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Mail\testmail;
 use App\Models\Chitietdonhang;
+use App\Models\Chitietkhuyenmai;
 use Illuminate\Http\Request;
 use App\Models\Thuonghieu;
 use App\Models\CPU;
 use App\Models\Donhang;
 use App\Models\Giamgia;
-
+use App\Models\Khuyenmai;
 use App\Models\Loaisp;
 use App\Models\Sanpham;
 use Carbon\Carbon;
@@ -36,10 +37,12 @@ class CartController extends Controller
         if ($cartItems->isEmpty()) {
             $mess = "Giỏ hàng của bạn đang trống";
             Session::forget('coupon');
-            return view('clients.home.cart', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'mess' => $mess, 'meta_desc' => $meta_desc,
-            'meta_keyword' => $meta_keyword,
-            'meta_title' =>  $meta_title,
-            'url_canonical' => $url_canonical]);
+            return view('clients.home.cart', [
+                'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'mess' => $mess, 'meta_desc' => $meta_desc,
+                'meta_keyword' => $meta_keyword,
+                'meta_title' =>  $meta_title,
+                'url_canonical' => $url_canonical
+            ]);
         }
         // Kiểm tra xem sản phẩm trong giỏ hàng có tồn tại trong cơ sở dữ liệu hay không
         foreach ($cartItems as $item) {
@@ -59,10 +62,12 @@ class CartController extends Controller
                 ]);
             }
         }
-        return view('clients.home.cart', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'meta_desc' => $meta_desc,
-        'meta_keyword' => $meta_keyword,
-        'meta_title' =>  $meta_title,
-        'url_canonical' => $url_canonical]);
+        return view('clients.home.cart', [
+            'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical
+        ]);
     }
     function add($id)
     {
@@ -70,14 +75,15 @@ class CartController extends Controller
         //dd($product);
         // Cart::add('1','sp1',1,9.99 ,10);
         // Kiểm tra xem sản phẩm đã có trong giỏ hàng hay chưa
+
         $existingItem = Cart::search(function ($cartItem, $rowId) use ($id) {
             return $cartItem->id == $id;
         });
-
         if ($existingItem->isNotEmpty()) {
             // Hiển thị thông báo sản phẩm đã có trong giỏ hàng
             return redirect()->back()->with('alert', 'Sản phẩm đã tồn tại trong giỏ');
         }
+
         $cart = [
             'id' => $sanpham->idsanpham,
             'name' => $sanpham->tensanpham,
@@ -90,7 +96,7 @@ class CartController extends Controller
         Cart::add($cart);
 
 
-        //dd(Cart::content());
+        // dd(Cart::content());
         return redirect('/cart');
     }
     function addajax($id, Request $r)
@@ -114,6 +120,7 @@ class CartController extends Controller
         // Add the item to the cart
         Cart::add($cart);
         // Return a JSON response indicating successful addition to the cart
+        // dd(Cart::content());
         return response()->json(['success' => true]);
     }
     function remove($rowId)
@@ -139,11 +146,13 @@ class CartController extends Controller
         $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
         $url_canonical = $r->url();
 
-        return view('clients.home.thanhtoan', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,
-         'meta_desc' => $meta_desc,
-        'meta_keyword' => $meta_keyword,
-        'meta_title' =>  $meta_title,
-        'url_canonical' => $url_canonical]);
+        return view('clients.home.thanhtoan', [
+            'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,
+            'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical
+        ]);
     }
 
     function check_coupon(Request $r)
@@ -282,7 +291,7 @@ class CartController extends Controller
     {
         $r->validate(
             [
-               
+
                 'tennguoinhan' => 'min:3|max:255',
                 'sdtnguoinhan' => 'digits:10',
                 'diachinguoinhan' => 'max:255',
@@ -306,7 +315,7 @@ class CartController extends Controller
             ->whereDate('ngaydat', $today)
             ->count();
 
-        if ($donHangDaDatTrongHomNay >= 3) {
+        if ($donHangDaDatTrongHomNay >= 10) {
             session()->flash('error', 'Bạn đã đạt số lượng đơn hàng tối đa trong ngày hôm nay.Mai quay lại bạn nhé!');
             return redirect('/thanhtoan');
         }
@@ -361,7 +370,7 @@ class CartController extends Controller
             //    dd($jsonResult);
 
             // Giao dịch bị hủy bỏ, không thực hiện các dòng code sau
-            
+
             $coupon1 = Giamgia::where('codegiamgia', $data2['coupon_donhang'])
                 ->where('trangthai', 1)
                 ->first();
@@ -392,14 +401,33 @@ class CartController extends Controller
             // dd($o);
             $idorder = $o->iddonhang;
             foreach (Cart::content() as $item) {
-                $data3 = [
-                    'iddonhang' => $idorder,
-                    'idsanpham' => $item->id,
-                    'soluong' => $item->qty,
-                    'giagoc' => $item->options->giagoc,
-                    'gia' => $item->price,
-                    'codegiamgia' => $r->coupon_donhang,
-                ];
+                $spkm = Chitietkhuyenmai::where('idsanpham', $item->id)
+                    ->where('trangthaictkm', 1)
+                    ->first();
+
+                if ($spkm != null) {
+                    $tenkhuyenmai = Khuyenmai::where('idkhuyenmai', $spkm->idkhuyenmai)->first();
+
+                    $data3 = [
+                        'iddonhang' => $idorder,
+                        'idsanpham' => $item->id,
+                        'soluong' => $item->qty,
+                        'giagoc' => $item->options->giagoc,
+                        'gia' => $item->price,
+                        'codegiamgia' => $r->coupon_donhang,
+                        'makhuyenmai' => $tenkhuyenmai->tenkhuyenmai
+                    ];
+                } else {
+                    $data3 = [
+                        'iddonhang' => $idorder,
+                        'idsanpham' => $item->id,
+                        'soluong' => $item->qty,
+                        'giagoc' => $item->options->giagoc,
+                        'gia' => $item->price,
+                        'codegiamgia' => $r->coupon_donhang,
+
+                    ];
+                }
                 $ct = Chitietdonhang::create($data3);
             }
             $dataEmail = [
@@ -421,7 +449,7 @@ class CartController extends Controller
             //----xoa all gio hang------
             Cart::destroy();
             Session::forget('coupon');
-            
+
 
             return redirect()->to($jsonResult['payUrl']);
 
@@ -436,7 +464,6 @@ class CartController extends Controller
         $coupon1 = Giamgia::where('codegiamgia', $data2['coupon_donhang'])
             ->where('trangthai', 1)
             ->first();
-
         if ($coupon1) {
             if ($coupon1->soluong > 0) {
                 $coupon1->soluong = $coupon1->soluong - 1;
@@ -454,7 +481,6 @@ class CartController extends Controller
 
         $data2['ngaydat'] = date('y-m-d h:i:s');
         $data2['ngaytinhdoanhthu'] = date('y-m-d');
-        $data2['iddonhang'] = time();
         $data2['trangthai'] = 1;
         $data2['idnguoidung'] = auth()->user()->idnguoidung;
         //dd($data['idusers'] = session('users')['idusers']);
@@ -462,17 +488,39 @@ class CartController extends Controller
         $o = Donhang::create($data2);
         // dd($o);
         $idorder = $o->iddonhang;
+        // dd($idorder);
+
         foreach (Cart::content() as $item) {
-            $data3 = [
-                'iddonhang' => $idorder,
-                'idsanpham' => $item->id,
-                'soluong' => $item->qty,
-                'giagoc' => $item->options->giagoc,
-                'gia' => $item->price,
-                'codegiamgia' => $r->coupon_donhang,
-            ];
+            $spkm = Chitietkhuyenmai::where('idsanpham', $item->id)
+                ->where('trangthaictkm', 1)
+                ->first();
+
+            if ($spkm != null) {
+                $tenkhuyenmai = Khuyenmai::where('idkhuyenmai', $spkm->idkhuyenmai)->first();
+
+                $data3 = [
+                    'iddonhang' => $idorder,
+                    'idsanpham' => $item->id,
+                    'soluong' => $item->qty,
+                    'giagoc' => $item->options->giagoc,
+                    'gia' => $item->price,
+                    'codegiamgia' => $r->coupon_donhang,
+                    'makhuyenmai' => $tenkhuyenmai->tenkhuyenmai
+                ];
+            } else {
+                $data3 = [
+                    'iddonhang' => $idorder,
+                    'idsanpham' => $item->id,
+                    'soluong' => $item->qty,
+                    'giagoc' => $item->options->giagoc,
+                    'gia' => $item->price,
+                    'codegiamgia' => $r->coupon_donhang,
+
+                ];
+            }
             $ct = Chitietdonhang::create($data3);
         }
+
         $dataEmail = [
             'madonhang' => $o->iddonhang,
             'magiamgia' => $ct->codegiamgia,

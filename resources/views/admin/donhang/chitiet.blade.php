@@ -101,6 +101,7 @@
                                 <th>Giá </th>
                                 <th>Giá khuyến mãi</th>
                                 <th>Mã coupon</th>
+                                <th>Mã khuyến mãi</th>
                                 <th>Số lượng</th>
                                 <th>Tổng tiền</th>
 
@@ -124,6 +125,13 @@
                                     {{$item->codegiamgia}}
                                     @else
                                     Không mã
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->makhuyenmai != null)
+                                    {{$item->makhuyenmai}}
+                                    @else
+                                    {{'Không mã'}}
                                     @endif
                                 </td>
                                 <td>
