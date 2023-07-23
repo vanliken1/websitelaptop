@@ -25,6 +25,7 @@
                     <h4 style="color: #000;text-transform:uppercase">Thông tin đơn hàng</h4>
                     <p>Mã đơn hàng:<strong style="text-transform:uppercase;color:#fff">{{$dataEmail['madonhang']}}</strong></p>
                     <p>Mã giảm giá áp dụng:<strong style="text-transform:uppercase;color:#fff">@if($dataEmail['magiamgia']!='no'){{$dataEmail['magiamgia']}}@else{{'Không có'}}@endif</strong></p>
+
                     <h4 style="color:#000;text-transform:uppercase;">Thông tin người nhận</h4>
                     <p>
                         Họ tên người nhận:{{ $dataEmail['tennguoigui'] }}
@@ -42,8 +43,12 @@
                         Hình thức thanh toán:
                         @if($dataEmail['hinhthucthanhtoan']==0)
                         {{'Tiền mặt'}}
-                        @else
+                        @elseif($dataEmail['hinhthucthanhtoan']==1)
                         {{'Chuyển khoản'}}
+                        @elseif($dataEmail['hinhthucthanhtoan']==2)
+                        {{'Thanh toán MOMO'}}
+                        @else
+                        {{'Thanh toán VNPAY'}}
                         @endif
                     </p>
                     <p>Nếu thông tin người dùng không đúng có thể liên hệ với người đặt hàng để trao đổi thông tin về đơn hàng này</p>
@@ -52,6 +57,7 @@
                         <thead>
                             <tr>
                                 <th>Sản phẩm</th>
+                                <th>Giá gốc</th>
                                 <th>Giá tiền</th>
                                 <th>Số lượng đặt</th>
                                 <th>Thành tiền</th>
@@ -63,6 +69,7 @@
                             <?php $tong += $item->qty * $item->price; ?>
                             <tr>
                                 <td>{{$item->name}}</td>
+                                <td>{{number_format($item->options->giagoc, 0, ',', '.')}}đ</td>
                                 <td>{{number_format($item->price, 0, ',', '.')}}đ</td>
                                 <td>{{$item->qty}}</td>
                                 <td>{{number_format($item->qty * $item->price, 0, ',', '.')}}đ</td>

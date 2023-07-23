@@ -211,7 +211,7 @@
 
                                     <h3><a href="detail.html">{{$item->tensanpham}}</a></h3>
                                     <?php $phantram = (($item->gia - $item->giakhuyenmai) / $item->gia) * 100 ?>
-                                    @if($phantram!=0)
+                                    @if($phantram!=0&&$item->giakhuyenmai!=null)
                                     <p class="price">
 
                                         <del>{{ number_format($item->gia, 0, ',', '.') }} đ</del>

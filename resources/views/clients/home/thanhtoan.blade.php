@@ -67,6 +67,7 @@
                                                 <option value="0">Thanh toán tiền mặt</option>
                                                 <option value="1">Thanh toán chuyển khoản</option>
                                                 <option value="2">Thanh toán MoMo</option>
+                                                <option value="3">Thanh toán VNPAY</option>
                                             </select>
                                         </div>
                                     </div>

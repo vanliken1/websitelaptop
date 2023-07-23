@@ -21,9 +21,9 @@
                             <option value="" selected disabled>--Chọn tình trạng--</option>
                             <option value="all">--Tất cả--</option>
                             <option value="chuaxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'chuaxuly') echo 'selected'; ?>>Chưa xử lý</option>
-                            <option value="daxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'daxuly') echo 'selected'; ?>>Đã xử lý</option>
-                            <option value="huytruocxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'huytruocxuly') echo 'selected'; ?>>Hủy trước xử lý</option>
-                            <option value="huysauxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'huysauxuly') echo 'selected'; ?>>Hủy sau xử lý</option>
+                            <option value="daxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'daxuly') echo 'selected'; ?>>Đã xác nhận</option>
+                            <option value="huytruocxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'huytruocxuly') echo 'selected'; ?>>Hủy trước xác nhận</option>
+                            <option value="huysauxuly" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'huysauxuly') echo 'selected'; ?>>Hủy sau xác nhận</option>
                             <option value="danggiao" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'danggiao') echo 'selected'; ?>>Đang giao</option>
                             <option value="dagiao" <?php if (isset($_GET['trangthailoc']) && $_GET['trangthailoc'] === 'dagiao') echo 'selected'; ?>>Đã giao</option>
 
@@ -59,15 +59,15 @@
                                     @if($item->trangthai==1)
                                     <span style="color: green;">Đơn hàng mới</span>
                                     @elseif($item->trangthai==2)
-                                    <span style="color: blue;">Đã xử lý</span>
+                                    <span style="color: blue;">Đã xác nhận</span>
                                     @elseif($item->trangthai==3)
-                                    <span style="color: red;">Hủy-sau xử lý</span>
+                                    <span style="color: red;">Hủy-sau xác nhận</span>
                                     @elseif($item->trangthai==4)
                                     <span style="color: SkyBlue;">Đang giao</span>
                                     @elseif($item->trangthai==5)
                                     <span style="color: cyan;">Đã giao</span>
                                     @else
-                                    <span style="color: red;">Hủy-trước xử lý</span>
+                                    <span style="color: red;">Hủy-trước xác nhận</span>
                                     @endif
 
                                 </td>

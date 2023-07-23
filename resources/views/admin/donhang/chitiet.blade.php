@@ -67,8 +67,10 @@
                                     {{'Thanh toán tiền mặt'}}
                                     @elseif($item->hinhthuc==1)
                                     {{'Thanh toán chuyển khoản'}}
-                                    @else
+                                    @elseif($item->hinhthuc==2)
                                     {{'Thanh toán MoMo'}}
+                                    @else
+                                    {{'Thanh toán VNPAY'}}
                                     @endif
                                 </td>
                                 <td>{{$item->ngaydat}}</td>
@@ -101,6 +103,7 @@
                                 <th>Giá </th>
                                 <th>Giá khuyến mãi</th>
                                 <th>Mã coupon</th>
+                                <th>Mã khuyến mãi</th>
                                 <th>Số lượng</th>
                                 <th>Tổng tiền</th>
 
@@ -124,6 +127,13 @@
                                     {{$item->codegiamgia}}
                                     @else
                                     Không mã
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->makhuyenmai != null)
+                                    {{$item->makhuyenmai}}
+                                    @else
+                                    {{'Không mã'}}
                                     @endif
                                 </td>
                                 <td>
@@ -155,11 +165,11 @@
                                         <select class="form-control trangthaidh">
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" selected value="1">Chưa xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy-sau xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" value="2">Đã xác nhận</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy-sau xác nhận</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="4">Đang giao</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="5">Đã giao</option>
-                                            <option id="{{$dh->iddonhang}}" value="6">Hủy-trước xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" value="6">Hủy-trước xác nhận</option>
 
                                         </select>
                                     </form>
@@ -169,11 +179,11 @@
                                         <select class="form-control trangthaidh">
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="1">Chưa xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" selected value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" value="3">Hủy-sau xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" selected value="2">Đã xác nhận</option>
+                                            <option id="{{$dh->iddonhang}}" value="3">Hủy-sau xác nhận</option>
                                             <option id="{{$dh->iddonhang}}" value="4">Đang giao</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="5">Đã giao</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xác nhận</option>
 
                                         </select>
                                     </form>
@@ -183,11 +193,11 @@
                                         <select class="form-control trangthaidh">
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="1">Chưa xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" selected value="3">Hủy-sau xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xác nhận</option>
+                                            <option id="{{$dh->iddonhang}}" selected value="3">Hủy-sau xác nhận</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="4">Đang giao</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="5">Đã giao</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xác nhận</option>
                                         </select>
                                     </form>
                                     @elseif($dh->trangthai==4)
@@ -196,11 +206,11 @@
                                         <select class="form-control trangthaidh">
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="1">Chưa xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" value="3">Hủy-sau xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xác nhận</option>
+                                            <option id="{{$dh->iddonhang}}" value="3">Hủy-sau xác nhận</option>
                                             <option id="{{$dh->iddonhang}}" selected value="4">Đang giao</option>
                                             <option id="{{$dh->iddonhang}}" value="5">Đã giao</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xác nhận</option>
 
                                         </select>
                                     </form>
@@ -210,11 +220,11 @@
                                         <select class="form-control trangthaidh">
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="1">Chưa xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy-sau xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xác nhận</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy-sau xác nhận</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="4">Đang giao</option>
                                             <option id="{{$dh->iddonhang}}" selected value="5">Đã giao</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="6">Hủy-trước xác nhận</option>
 
                                         </select>
                                     </form>
@@ -224,11 +234,11 @@
                                         <select class="form-control trangthaidh">
                                             <option value="">--Chọn phương thức xử lý--</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="1">Chưa xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xử lý</option>
-                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy-sau xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="2">Đã xác nhận</option>
+                                            <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="3">Hủy-sau xác nhận</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="4">Đang giao</option>
                                             <option id="{{$dh->iddonhang}}" disabled style="display: none;" value="5">Đã giao</option>
-                                            <option id="{{$dh->iddonhang}}" selected value="6">Hủy-trước xử lý</option>
+                                            <option id="{{$dh->iddonhang}}" selected value="6">Hủy-trước xác nhận</option>
 
                                         </select>
                                     </form>

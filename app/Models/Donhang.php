@@ -11,7 +11,7 @@ class Donhang extends Model
     protected $table ='donhang';
     protected $primaryKey ='iddonhang';
     protected $keyType ='string';
-    public $incrementing = false;
+    // public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [

@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Mail\testmail;
 use App\Models\Chitietdonhang;
+use App\Models\Chitietkhuyenmai;
 use Illuminate\Http\Request;
 use App\Models\Thuonghieu;
 use App\Models\CPU;
 use App\Models\Donhang;
 use App\Models\Giamgia;
-
+use App\Models\Khuyenmai;
 use App\Models\Loaisp;
 use App\Models\Sanpham;
 use Carbon\Carbon;
@@ -36,10 +37,12 @@ class CartController extends Controller
         if ($cartItems->isEmpty()) {
             $mess = "Giỏ hàng của bạn đang trống";
             Session::forget('coupon');
-            return view('clients.home.cart', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'mess' => $mess, 'meta_desc' => $meta_desc,
-            'meta_keyword' => $meta_keyword,
-            'meta_title' =>  $meta_title,
-            'url_canonical' => $url_canonical]);
+            return view('clients.home.cart', [
+                'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'mess' => $mess, 'meta_desc' => $meta_desc,
+                'meta_keyword' => $meta_keyword,
+                'meta_title' =>  $meta_title,
+                'url_canonical' => $url_canonical
+            ]);
         }
         // Kiểm tra xem sản phẩm trong giỏ hàng có tồn tại trong cơ sở dữ liệu hay không
         foreach ($cartItems as $item) {
@@ -59,10 +62,12 @@ class CartController extends Controller
                 ]);
             }
         }
-        return view('clients.home.cart', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'meta_desc' => $meta_desc,
-        'meta_keyword' => $meta_keyword,
-        'meta_title' =>  $meta_title,
-        'url_canonical' => $url_canonical]);
+        return view('clients.home.cart', [
+            'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical
+        ]);
     }
     function add($id)
     {
@@ -139,11 +144,13 @@ class CartController extends Controller
         $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
         $url_canonical = $r->url();
 
-        return view('clients.home.thanhtoan', ['thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,
-         'meta_desc' => $meta_desc,
-        'meta_keyword' => $meta_keyword,
-        'meta_title' =>  $meta_title,
-        'url_canonical' => $url_canonical]);
+        return view('clients.home.thanhtoan', [
+            'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp,
+            'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical
+        ]);
     }
 
     function check_coupon(Request $r)
@@ -282,7 +289,7 @@ class CartController extends Controller
     {
         $r->validate(
             [
-               
+
                 'tennguoinhan' => 'min:3|max:255',
                 'sdtnguoinhan' => 'digits:10',
                 'diachinguoinhan' => 'max:255',
@@ -306,7 +313,7 @@ class CartController extends Controller
             ->whereDate('ngaydat', $today)
             ->count();
 
-        if ($donHangDaDatTrongHomNay >= 3) {
+        if ($donHangDaDatTrongHomNay >= 5) {
             session()->flash('error', 'Bạn đã đạt số lượng đơn hàng tối đa trong ngày hôm nay.Mai quay lại bạn nhé!');
             return redirect('/thanhtoan');
         }
@@ -326,7 +333,7 @@ class CartController extends Controller
             $amount = $_POST['tongmomo'];
             // dd($amount);
             $orderId = time() . "";
-            $returnUrl = "http://127.0.0.1:8000/";
+            $returnUrl = "http://127.0.0.1:8000/finish";
             $notifyurl = "http://127.0.0.1:8000/";
             // Lưu ý: link notifyUrl không phải là dạng localhost
             $extraData = "merchantName=MoMo Partner";
@@ -358,10 +365,6 @@ class CartController extends Controller
             $result = $this->execPostRequest($endpoint, json_encode($data));
             // dd($result);
             $jsonResult = json_decode($result, true);  // decode json
-            //    dd($jsonResult);
-
-            // Giao dịch bị hủy bỏ, không thực hiện các dòng code sau
-            
             $coupon1 = Giamgia::where('codegiamgia', $data2['coupon_donhang'])
                 ->where('trangthai', 1)
                 ->first();
@@ -383,7 +386,6 @@ class CartController extends Controller
 
             $data2['ngaydat'] = date('y-m-d h:i:s');
             $data2['ngaytinhdoanhthu'] = date('y-m-d');
-            $data2['iddonhang'] = time();
             $data2['trangthai'] = 1;
             $data2['idnguoidung'] = auth()->user()->idnguoidung;
             //dd($data['idusers'] = session('users')['idusers']);
@@ -392,14 +394,33 @@ class CartController extends Controller
             // dd($o);
             $idorder = $o->iddonhang;
             foreach (Cart::content() as $item) {
-                $data3 = [
-                    'iddonhang' => $idorder,
-                    'idsanpham' => $item->id,
-                    'soluong' => $item->qty,
-                    'giagoc' => $item->options->giagoc,
-                    'gia' => $item->price,
-                    'codegiamgia' => $r->coupon_donhang,
-                ];
+                $spkm = Chitietkhuyenmai::where('idsanpham', $item->id)
+                    ->where('trangthaictkm', 1)
+                    ->first();
+
+                if ($spkm != null) {
+                    $tenkhuyenmai = Khuyenmai::where('idkhuyenmai', $spkm->idkhuyenmai)->first();
+
+                    $data3 = [
+                        'iddonhang' => $idorder,
+                        'idsanpham' => $item->id,
+                        'soluong' => $item->qty,
+                        'giagoc' => $item->options->giagoc,
+                        'gia' => $item->price,
+                        'codegiamgia' => $r->coupon_donhang,
+                        'makhuyenmai' => $tenkhuyenmai->tenkhuyenmai
+                    ];
+                } else {
+                    $data3 = [
+                        'iddonhang' => $idorder,
+                        'idsanpham' => $item->id,
+                        'soluong' => $item->qty,
+                        'giagoc' => $item->options->giagoc,
+                        'gia' => $item->price,
+                        'codegiamgia' => $r->coupon_donhang,
+
+                    ];
+                }
                 $ct = Chitietdonhang::create($data3);
             }
             $dataEmail = [
@@ -414,6 +435,7 @@ class CartController extends Controller
                 'cart' => Cart::content(),
                 'session_coupon' => Session::get('coupon'),
 
+
             ];
             //-----gui mail ne---------
             $email['email'] = auth()->user()->email;
@@ -421,7 +443,8 @@ class CartController extends Controller
             //----xoa all gio hang------
             Cart::destroy();
             Session::forget('coupon');
-            
+
+
 
             return redirect()->to($jsonResult['payUrl']);
 
@@ -432,7 +455,82 @@ class CartController extends Controller
         }
         // $haongu=Session::get('coupon');  
         // dd($haongu[0]['codegiamgia']); 
+        if ($data2['hinhthuc'] == 3) {
 
+
+
+            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+            $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+            $vnp_Returnurl = "http://127.0.0.1:8000/returnVNP";
+            $vnp_TmnCode = "HL35N690"; //Mã website tại VNPAY 
+            $vnp_HashSecret = "RCWVJPLFZOUCZOOSVJZCXZRBWGGINITG"; //Chuỗi bí mật
+
+            $vnp_TxnRef = uniqid(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+            $vnp_OrderInfo = 'Thanh toan hoa don';
+            $vnp_OrderType = 'bill';
+            $vnp_Amount = $_POST['tongmomo'] * 100;
+            $vnp_Locale = 'vn';
+            $vnp_BankCode = 'NCB';
+            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+            //Add Params of 2.0.1 Version
+
+            $inputData = array(
+                "vnp_Version" => "2.1.0",
+                "vnp_TmnCode" => $vnp_TmnCode,
+                "vnp_Amount" => $vnp_Amount,
+                "vnp_Command" => "pay",
+                "vnp_CreateDate" => date('YmdHis'),
+                "vnp_CurrCode" => "VND",
+                "vnp_IpAddr" => $vnp_IpAddr,
+                "vnp_Locale" => $vnp_Locale,
+                "vnp_OrderInfo" => $vnp_OrderInfo,
+                "vnp_OrderType" => $vnp_OrderType,
+                "vnp_ReturnUrl" => $vnp_Returnurl,
+                "vnp_TxnRef" => $vnp_TxnRef,
+
+            );
+
+            if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+                $inputData['vnp_BankCode'] = $vnp_BankCode;
+            }
+            if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
+                $inputData['vnp_Bill_State'] = $vnp_Bill_State;
+            }
+
+            //var_dump($inputData);
+            ksort($inputData);
+            $query = "";
+            $i = 0;
+            $hashdata = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
+
+            $vnp_Url = $vnp_Url . "?" . $query;
+            if (isset($vnp_HashSecret)) {
+                $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+                $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+            }
+            $returnData = array(
+                'code' => '00', 'message' => 'success', 'data' => $vnp_Url
+            );
+            session()->put('donhang', $r->toArray());
+            return redirect($vnp_Url);
+            // vui lòng tham khảo thêm tại code demo
+
+
+
+
+
+        }
         $coupon1 = Giamgia::where('codegiamgia', $data2['coupon_donhang'])
             ->where('trangthai', 1)
             ->first();
@@ -454,7 +552,6 @@ class CartController extends Controller
 
         $data2['ngaydat'] = date('y-m-d h:i:s');
         $data2['ngaytinhdoanhthu'] = date('y-m-d');
-        $data2['iddonhang'] = time();
         $data2['trangthai'] = 1;
         $data2['idnguoidung'] = auth()->user()->idnguoidung;
         //dd($data['idusers'] = session('users')['idusers']);
@@ -463,14 +560,33 @@ class CartController extends Controller
         // dd($o);
         $idorder = $o->iddonhang;
         foreach (Cart::content() as $item) {
-            $data3 = [
-                'iddonhang' => $idorder,
-                'idsanpham' => $item->id,
-                'soluong' => $item->qty,
-                'giagoc' => $item->options->giagoc,
-                'gia' => $item->price,
-                'codegiamgia' => $r->coupon_donhang,
-            ];
+            $spkm = Chitietkhuyenmai::where('idsanpham', $item->id)
+                ->where('trangthaictkm', 1)
+                ->first();
+
+            if ($spkm != null) {
+                $tenkhuyenmai = Khuyenmai::where('idkhuyenmai', $spkm->idkhuyenmai)->first();
+
+                $data3 = [
+                    'iddonhang' => $idorder,
+                    'idsanpham' => $item->id,
+                    'soluong' => $item->qty,
+                    'giagoc' => $item->options->giagoc,
+                    'gia' => $item->price,
+                    'codegiamgia' => $r->coupon_donhang,
+                    'makhuyenmai' => $tenkhuyenmai->tenkhuyenmai
+                ];
+            } else {
+                $data3 = [
+                    'iddonhang' => $idorder,
+                    'idsanpham' => $item->id,
+                    'soluong' => $item->qty,
+                    'giagoc' => $item->options->giagoc,
+                    'gia' => $item->price,
+                    'codegiamgia' => $r->coupon_donhang,
+
+                ];
+            }
             $ct = Chitietdonhang::create($data3);
         }
         $dataEmail = [
@@ -485,6 +601,7 @@ class CartController extends Controller
             'cart' => Cart::content(),
             'session_coupon' => Session::get('coupon'),
 
+
         ];
         //-----gui mail ne---------
         $email['email'] = auth()->user()->email;
@@ -492,6 +609,126 @@ class CartController extends Controller
         //----xoa all gio hang------
         Cart::destroy();
         Session::forget('coupon');
-        return redirect('/');
+        return redirect('/finish');
+    }
+
+    function finish(Request $r)
+    {
+
+        $thuonghieusp = Thuonghieu::all();
+        $cpu = CPU::all();
+        $loaisp = Loaisp::all();
+        $meta_desc = 'Hoàn thành đơn hàng';
+        $meta_keyword = '';
+        $meta_title = 'CÔNG TY LAPTOPHAOVAN chuyên bán laptop chuyên nghiệp';
+        $url_canonical = $r->url();
+        return view('clients.home.finish', [
+            'thuonghieu' => $thuonghieusp, 'cpu' => $cpu, 'loaisp' => $loaisp, 'meta_desc' => $meta_desc,
+            'meta_keyword' => $meta_keyword,
+            'meta_title' =>  $meta_title,
+            'url_canonical' => $url_canonical
+        ]);
+    }
+    function returnVNPAY(Request $r)
+    {
+        // dd($r->all());
+        $data4 = $r->all();
+        // dd($data2);
+        //thanh cong
+        if ($r['vnp_TransactionStatus'] == "00") {
+            $data2 = session()->get('donhang');
+            // dd($data2);
+            $coupon1 = Giamgia::where('codegiamgia', $data2['coupon_donhang'])
+                ->where('trangthai', 1)
+                ->first();
+
+            if ($coupon1) {
+                if ($coupon1->soluong > 0) {
+                    $coupon1->soluong = $coupon1->soluong - 1;
+                    $coupon1->save();
+                } else {
+                    Session::forget('coupon');
+                    session()->flash('error', 'Mã giảm giá đã hết số lượng');
+                    return redirect('/cart');
+                }
+                $coupon1->dasudung = $coupon1->dasudung . ',' . auth()->user()->idnguoidung;
+                $coupon1->save();
+            }
+
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+            $data2['ngaydat'] = date('y-m-d h:i:s');
+            $data2['ngaytinhdoanhthu'] = date('y-m-d');
+            $data2['trangthai'] = 1;
+            $data2['idnguoidung'] = auth()->user()->idnguoidung;
+            //dd($data['idusers'] = session('users')['idusers']);
+            //$data = Users::where('idusers', '1')->first();
+            $o = Donhang::create($data2);
+            // dd($o);
+            $idorder = $o->iddonhang;
+            foreach (Cart::content() as $item) {
+                $spkm = Chitietkhuyenmai::where('idsanpham', $item->id)
+                    ->where('trangthaictkm', 1)
+                    ->first();
+
+                if ($spkm != null) {
+                    $tenkhuyenmai = Khuyenmai::where('idkhuyenmai', $spkm->idkhuyenmai)->first();
+
+                    $data3 = [
+                        'iddonhang' => $idorder,
+                        'idsanpham' => $item->id,
+                        'soluong' => $item->qty,
+                        'giagoc' => $item->options->giagoc,
+                        'gia' => $item->price,
+                        'codegiamgia' => $data2['coupon_donhang'],
+                        'makhuyenmai' => $tenkhuyenmai->tenkhuyenmai
+                    ];
+                } else {
+                    $data3 = [
+                        'iddonhang' => $idorder,
+                        'idsanpham' => $item->id,
+                        'soluong' => $item->qty,
+                        'giagoc' => $item->options->giagoc,
+                        'gia' => $item->price,
+                        'codegiamgia' => $data2['coupon_donhang'],
+
+                    ];
+                }
+                $ct = Chitietdonhang::create($data3);
+            }
+            $dataEmail = [
+                'madonhang' => $o->iddonhang,
+                'magiamgia' => $ct->codegiamgia,
+                'diachinguoinhan' => $o->diachinguoinhan,
+                'tennguoinhan' => $o->tennguoinhan,
+                'tennguoigui' => auth()->user()->tennguoidung,
+                'sdtnguoinhan' => $o->sdtnguoinhan,
+                'ghichu' => $o->note,
+                'hinhthucthanhtoan' => $o->hinhthuc,
+                'cart' => Cart::content(),
+                'session_coupon' => Session::get('coupon'),
+
+            ];
+            //-----gui mail ne---------
+            $email['email'] = auth()->user()->email;
+            Mail::to($email)->send(new testmail($dataEmail));
+            //----xoa all gio hang------
+            Cart::destroy();
+            Session::forget('coupon');
+            session::forget('donhang');
+            return redirect('/finish');
+        }
+        // loi
+        elseif ($r['vnp_TransactionStatus'] == "01") {
+            
+            return redirect("/thanhtoan");
+        }
+        //tu choi
+        elseif ($r['vnp_TransactionStatus'] == "02") {
+
+            // dd(Cart::content());
+
+            return redirect("/thanhtoan");
+        }
     }
 }

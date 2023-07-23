@@ -233,7 +233,7 @@
 
                                     </p>
                                     @endif
-                                    @if($item->soluong>0)
+                                    @if($item->soluong>0&&$item->giakhuyenmai!=null)
                                     <div style="text-align: center; font-size: 1.125rem; font-weight: 300; color: #4fbfa8">
                                         Còn hàng
                                     </div>

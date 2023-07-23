@@ -89,8 +89,13 @@
                                         <td>
                                             @if($item->hinhthuc==0)
                                             {{'Thanh toán tiền mặt'}}
+                                            @elseif($item->hinhthuc==1)
+                                            {{'Thanh toán chuyển khoản'}}
+                                            @elseif($item->hinhthuc==2)
+                                            {{'Thanh toán MoMo'}}
                                             @else
-                                            {{'Thanh toán ví điện tử'}}
+                                            {{'Thanh toán VNPAY'}}
+
                                             @endif
                                         </td>
                                         <td>{{$item->ngaydat}}</td>
@@ -116,6 +121,7 @@
                                             <th>Giá gốc</th>
                                             <th>Giá bán</th>
                                             <th>Mã coupon</th>
+                                            <th>Mã khuyến mãi</th>
                                             <th>Số lượng</th>
                                             <th>Tổng tiền</th>
 
@@ -138,6 +144,13 @@
                                                 {{$item->codegiamgia}}
                                                 @else
                                                 Không mã
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($item->makhuyenmai != null)
+                                                {{$item->makhuyenmai}}
+                                                @else
+                                                {{'Không mã'}}
                                                 @endif
                                             </td>
                                             <td>

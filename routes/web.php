@@ -189,7 +189,8 @@ route::get('/users/google/callback', [LoginController::class, 'callbackgg']);
 //Thanh toán
 route::get('/thanhtoan', [CartController::class, 'trangthanhtoan'])->middleware('ktUser');
 route::post('/savethanhtoan', [CartController::class, 'save_thanhtoan']);
-
+route::get('/returnVNP', [CartController::class, 'returnVNPAY']);
+route::get('/finish', [CartController::class, 'finish'])->middleware('ktUser');
 //Coupon
 route::post('/checkcoupon', [CartController::class, 'check_coupon'])->middleware('ktUser');
 route::get('/xoama', [CartController::class, 'unsetcoupon']);

@@ -63,15 +63,15 @@
                     <td> @if($item->trangthai==1)
                       <span style="color: green;">Đơn hàng mới</span>
                       @elseif($item->trangthai==2)
-                      <span style="color: blue;">Đã xử lý</span>
+                      <span style="color: blue;">Đã xác nhận</span>
                       @elseif($item->trangthai==3)
-                      <span style="color: red;">Hủy-sau xử lý</span>
+                      <span style="color: red;">Hủy-sau xác nhận</span>
                       @elseif($item->trangthai==4)
                       <span style="color: SkyBlue;">Đang giao</span>
                       @elseif($item->trangthai==5)
                       <span style="color: cyan;">Đã giao</span>
                       @else
-                      <span style="color: red;">Hủy-trước xử lý</span>
+                      <span style="color: red;">Hủy-trước xác nhận</span>
                       @endif
                     </td>
                     <td><a href="/history-details/{{$item->iddonhang}}" class="btn btn-primary btn-sm">View</a></td>
