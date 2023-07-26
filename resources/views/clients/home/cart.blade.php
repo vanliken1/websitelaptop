@@ -28,7 +28,7 @@
                         <p class="alert alert-danger sm-4">
                             {{session('error')}}
                         </p>
-                        
+
                         @endif
                         <div class="table-responsive">
                             <table class="table" id='cart'>
@@ -60,7 +60,8 @@
 
                                         </td>
                                         <td>
-                                            <input type="number" value="{{$item->qty}}" style="width: 60px;" class="form-control" data-id='{{$item->rowId}}'>
+                                            <input type="number" value="{{$item->qty}}" style="width: 60px;" class="form-control" data-id='{{$item->rowId}}' onkeydown="return false;" onpaste="return false;">
+
                                             <input type="hidden" class="soluongton_{{$item->rowId}}" value="{{$item->options->soluongkho}}">
 
                                         </td>
@@ -75,11 +76,11 @@
                                 @endforeach
                                 <tfoot>
                                     <tr>
-                                        <th colspan="5">Tổng thành tiền</th>
+                                        <th colspan="6">Tổng thành tiền</th>
                                         <th colspan="2">{{ number_format(intval(str_replace(',', '', Cart::subtotal())), 0, '', '.') }}đ</th>
                                     </tr>
                                     <tr>
-                                        <th colspan="5"></th>
+                                        <th colspan="6"></th>
                                         <th colspan="2">
                                             @if(Session::has('coupon'))
                                             <a class="btn btn-primary checkcoupon" href="/xoama">Xóa mã giảm Giá</a>
@@ -92,8 +93,18 @@
                         @endif
                         <!-- /.table-responsive-->
                         <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
-                            <div class="left"><a href="/" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i>Tiếp tục mua hàng</a></div>
                             @if(Cart::count()>0)
+                            <div class="left">
+                                <form action="/cart/xoaAll" method="POST">
+                                    @csrf
+                                    <a href="/" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i>Tiếp tục mua hàng</a>
+
+
+                                    <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-trash-o"></i>Xóa tất cả</button>
+                                </form>
+                            </div>
+
+
                             <div class="right">
                                 <a href="/thanhtoan" class="btn btn-primary">Đặt hàng <i class="fa fa-chevron-right"></i></a>
                             </div>
@@ -155,9 +166,9 @@
                             </table>
                         </div>
                     </div>
-
+                    @if(Cart::count()>0)
                     <div class="box">
-                        @if(Cart::count()>0)
+                        
                         <div class="box-header">
                             <h4 class="mb-0">Áp dụng mã giảm giá</h4>
                         </div>
@@ -171,8 +182,9 @@
 
                             <!-- /input-group-->
                         </form>
-                        @endif
+                        
                     </div>
+                    @endif
 
                 </div>
 

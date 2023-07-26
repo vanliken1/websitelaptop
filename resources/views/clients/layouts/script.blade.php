@@ -19,6 +19,14 @@
   $(function() {
     var fiveSecond = 60000;
     var oneMinute = 1000 * 60;
+    $.ajax({
+      url: "/admin/khuyenmai/capnhatajax",
+      type: "POST",
+      success: function(data) {
+        console.log('da chay');
+
+      },
+    });
     setInterval(function() {
       // var date = new Date();
       // var current_date = date.getHours()+"-"+date.getMinutes();

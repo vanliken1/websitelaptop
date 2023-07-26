@@ -126,6 +126,12 @@ class CartController extends Controller
         Cart::remove($rowId);
         return redirect('/cart');
     }
+    function xoatatca(Request $r)
+    {
+        // dd($r->all());
+        Cart::destroy();
+        return redirect('/cart');
+    }
     function edit(Request $r)
     {
 

@@ -14,4 +14,38 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
+<script>
+    $(function() {
+        var fiveSecond = 60000;
+        var oneMinute = 1000 * 60;
+        $.ajax({
+                url: "/admin/khuyenmai/capnhatajax",
+                type: "POST",
+                success: function(data) {
+                    console.log('da chay');
 
+                },
+            });
+        setInterval(function() {
+            // var date = new Date();
+            // var current_date = date.getHours()+"-"+date.getMinutes();
+            // if(current_date == "0-0"){
+            //     $.ajax({
+            //         url: "/auto",
+            //         type: "GET",
+            //         success: function (data) {
+            //             console.log(data)
+            //         },
+            //     });
+            // }
+            $.ajax({
+                url: "/admin/khuyenmai/capnhatajax",
+                type: "POST",
+                success: function(data) {
+                    console.log('da chay');
+
+                },
+            });
+        }, fiveSecond);
+    })
+</script>

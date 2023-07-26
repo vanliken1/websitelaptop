@@ -172,6 +172,8 @@ route::get('/cart/add/{id}', [CartController::class, 'add']);
 route::post('/cart/add/{id}', [CartController::class, 'addajax']);
 route::get('/cart/remove/{id}', [CartController::class, 'remove']);
 route::post('/cart/edit', [CartController::class, 'edit']);
+route::post('/cart/xoaAll', [CartController::class, 'xoatatca']);
+
 
 //Dang nhap dang ky user
 route::get('/dangnhap', [LoginController::class, 'loginview']);

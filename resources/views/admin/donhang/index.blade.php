@@ -83,6 +83,7 @@
                         @endforeach
 
                     </table>
+                    <div class="" style="float: right;"> {{$donhang->appends(Request::all())->links()}}</div>
                 </div>
             </div>
         </div>
